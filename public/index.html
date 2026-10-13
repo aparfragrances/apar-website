@@ -716,7 +716,7 @@ class Component extends DCLogic {
       showConsent: !s.consent, consentBottom: isMobile ? '74px' : '24px', consentAll: () => this.setState({ consent: 'all' }), consentEssential: () => this.setState({ consent: 'essential' }),
       spinner: React.createElement('span', { style: { width: 36, height: 36, borderRadius: '50%', border: '3px solid #e0d3b8', borderTopColor: '#0f3b2e', animation: 'aparSpin .8s linear infinite' } }),
       pin: s.pin, pinMsg: s.pinMsg, loggedIn: !!s.user, loggedOut: !s.user,
-      checkPin: e => { e.preventDefault(); const pin = String(new FormData(e.target).get('pin')).trim(), z = D.zone(pin); this.setState({ pin, pinMsg: z ? `Delivers to ${pin} in ${z.days} business days · ${z.cod ? 'COD available' : 'Prepaid only'} · Free delivery above ₹499` : 'Enter a valid 6-digit PIN code.' }); },
+      checkPin: e => { e.preventDefault(); const pin = String(new FormData(e.target).get('pin')).trim(), z = D.quote(pin), fr = (D.SHIP || {}).free != null ? D.SHIP.free : 499; this.setState({ pin, pinMsg: z ? `Delivers to ${pin} in ${z.days} business days · ${z.cod ? 'COD available' : 'Prepaid only'} · Free delivery above ₹${fr}` : 'Enter a valid 6-digit PIN code.' }); },
       footCols: [
         { title: 'Shop', links: D.CATS.map(c => ({ label: c.name, href: '#/shop/' + c.slug })) },
         { title: 'Help', links: [['FAQs', '#/faq'], ['Track Order', '#/track'], ['My Account', '#/account'], ['Shipping Policy', '#/policy/shipping'], ['Return Policy', '#/policy/returns'], ['Refund Policy', '#/policy/refund'], ['Cancellation Policy', '#/policy/cancellation']].map(([label, href]) => ({ label, href })) },
@@ -759,7 +759,7 @@ class Component extends DCLogic {
         remove: () => this.setState(st => ({ cart: st.cart.filter((x, i) => i !== idx) })) }));
       out.summary = [{ k: 'Subtotal', v: inr(T.sub), color: '#1c2420' }, ...(T.disc ? [{ k: 'Coupon ' + s.coupon, v: '−' + inr(T.disc), color: '#1f7a45' }] : []), { k: 'Shipping', v: T.ship ? inr(T.ship) : 'Free', color: '#1c2420' }];
       out.totalText = inr(T.total);
-      const gap = 499 - (T.sub - T.disc); out.freeGap = gap > 0; out.freeMsg = 'Add ' + inr(gap) + ' more for free delivery'; out.freePct = Math.min(100, Math.round((T.sub - T.disc) / 499 * 100)) + '%';
+      const gap = T.free - (T.sub - T.disc); out.freeGap = gap > 0; out.freeMsg = 'Add ' + inr(gap) + ' more for free delivery'; out.freePct = Math.min(100, Math.round((T.sub - T.disc) / (T.free || 1) * 100)) + '%';
       const apply = code => { code = (code || '').trim().toUpperCase(); const k = s.coupons.find(x => x.code === code && x.active); if (!k) return this.setState({ couponMsg: 'That code is not valid.', couponOk: false }); if (k.min && T.sub < k.min) return this.setState({ couponMsg: code + ' needs a subtotal of ' + inr(k.min) + '.', couponOk: false }); this.setState({ coupon: code, couponMsg: code + ' applied', couponOk: true }); };
       out.applyCoupon = e => { e.preventDefault(); apply(new FormData(e.target).get('code')); };
       out.couponHints = s.coupons.filter(k => k.active).map(k => ({ code: k.code, desc: k.type === 'pct' ? k.value + '% off' : '₹' + k.value + ' off' + (k.min ? ' above ' + inr(k.min) : ''), use: () => apply(k.code) }));

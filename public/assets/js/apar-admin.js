@@ -131,8 +131,16 @@
           SEL(l.status || 'New', ['New', 'Contacted', 'Quoted', 'Won', 'Lost'], e => upd(i, 'status', e.target.value)), IN(l.follow, e => upd(i, 'follow', e.target.value), 'date', '140px'), IN(l.owner, e => upd(i, 'owner', e.target.value), 'text', '110px', 'Sales rep')] })) });
     }
     if (tab === 'shipping') {
-      tables.push({ title: 'Shipping zones (proposed rules)', cols: ['Zone', 'PIN codes', 'Delivery', 'Charge below ₹499', 'COD'],
-        rows: [['A · Rajasthan', '30xxxx', '2–3 days', '₹39', 'Yes'], ['B · Metro', '11, 40, 41, 50, 56, 60, 70', '3–5 days', '₹49', 'Yes'], ['C · Rest of India', 'All other PIN codes', '4–7 days', '₹49', 'Yes'], ['D · Remote', '19xxxx, 79xxxx', '6–9 days', '₹79', 'No']].map(r => ({ cells: r.map((x, j) => T(x, '', { fw: j ? '400' : '600' })) })) });
+      const SH = D.SHIP || D.SHIP_DEFAULT, save = p => window.AparCloud.saveShipping(c, p);
+      tables.push({ title: 'Delivery rules (type a new value and click outside the box to save)', cols: ['Setting', 'Value', 'What it means'],
+        rows: [
+          { cells: [T('Free delivery above (₹)', '', { fw: '600' }), IN(SH.free, e => save({ free: e.target.value }), 'number', '110px'), T('Orders at or above this amount (after coupon) get free delivery.')] },
+          { cells: [T('Max. order value for COD (₹)', '', { fw: '600' }), IN(SH.codMax, e => save({ codMax: e.target.value }), 'number', '110px'), T('Cash on Delivery is hidden for orders above this amount.')] }
+        ] });
+      tables.push({ title: 'Delivery zones', cols: ['Zone', 'PIN codes', 'Delivery time', 'Charge below free limit (₹)', 'Cash on Delivery'],
+        rows: [['A', 'A · Rajasthan', '30xxxx', '2–3 days'], ['B', 'B · Metro cities', '11, 40, 41, 50, 56, 60, 70', '3–5 days'], ['C', 'C · Rest of India', 'All other PIN codes', '4–7 days'], ['D', 'D · Remote (J&K, North-East)', '19xxxx, 79xxxx', '6–9 days']].map(([k, name, pins, days]) => ({ cells: [T(name, '', { fw: '600' }), T(pins), T(days),
+          IN((SH.zones || {})[k], e => save({ zone: k, charge: e.target.value }), 'number', '90px'),
+          SEL((SH.cod || {})[k] ? 'Available' : 'Not available', ['Available', 'Not available'], e => save({ codZone: k, cod: e.target.value === 'Available' }))] })) });
       const toShip = s.orders.filter(o => o.si >= 1 && o.si <= 3);
       tables.push({ title: 'Shipments in progress', cols: ['Order', 'Destination', 'Status', 'Courier', 'Tracking no.'], empty: !toShip.length, emptyText: 'No shipments in progress.',
         rows: toShip.map(o => ({ cells: [T(o.id, '', { fw: '600' }), T(o.city, o.pin), T(D.STATUSES[o.si]), T(o.courier || '—'), T(o.tracking || 'Not assigned')] })) });

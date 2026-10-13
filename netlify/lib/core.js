@@ -51,7 +51,9 @@ async function readCatalog(tx) {
   const snap = tx ? await tx.get(ref) : await ref.get();
   const d = snap.exists ? snap.data() : {};
   const products = Array.isArray(d.products) && d.products.length ? d.products.map(fromDb) : D.PRODUCTS;
-  return { ref, px: d.px || {}, coupons: Array.isArray(d.coupons) ? d.coupons : D.COUPONS, products };
+  const sh = d.shipping || {};
+  const shipping = Object.assign({}, D.SHIP_DEFAULT, sh, { zones: Object.assign({}, D.SHIP_DEFAULT.zones, sh.zones || {}), cod: Object.assign({}, D.SHIP_DEFAULT.cod, sh.cod || {}) });
+  return { ref, px: d.px || {}, coupons: Array.isArray(d.coupons) ? d.coupons : D.COUPONS, products, shipping };
 }
 
 const clean = (v, max) => String(v == null ? '' : v).replace(/[<>]/g, '').trim().slice(0, max);
@@ -95,11 +97,13 @@ function priceCart(cat, items, couponCode, pin, opts) {
   const k = code && cat.coupons.find(x => x.code === code && x.active);
   let disc = 0;
   if (k && sub >= (k.min || 0)) disc = k.type === 'pct' ? Math.round(sub * k.value / 100) : Math.min(k.value, sub);
-  const z = D.zone(pin);
+  const sh = cat.shipping || D.SHIP_DEFAULT;
+  const z = D.quote(pin, sh);
   if (!z) throw httpErr(400, 'Please enter a valid 6-digit PIN code.');
-  const after = sub - disc, ship = after >= 499 ? 0 : z.ship, total = after + ship;
+  const free = Number(sh.free != null ? sh.free : 499), codMax = Number(sh.codMax != null ? sh.codMax : 5000);
+  const after = sub - disc, ship = after >= free ? 0 : z.ship, total = after + ship;
   return {
-    lines, sub, disc, ship, total, z, coupon: disc ? code : '', codOk: z.cod && total <= 5000,
+    lines, sub, disc, ship, total, z, coupon: disc ? code : '', codOk: z.cod && total <= codMax,
     items: lines.map(({ p, v, qty }) => ({ pid: p.id, vi: v.i, sku: v.sku, name: p.name, size: v.size, qty, price: v.price }))
   };
 }

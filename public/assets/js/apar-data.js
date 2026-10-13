@@ -72,7 +72,15 @@
     { id: 'APR204171', date: d(4), name: 'Sample · Cake Studio', phone: '9800000002', email: '', city: 'Delhi', address: 'Sample address', pin: '110017', items: [{ pid: 'bakers-trio', sku: 'APR-CB-BT-3X500G', name: "Baker's Trio", size: '3 × 500 g', qty: 2, price: 599 }], sub: 1198, disc: 0, ship: 0, total: 1198, pay: 'Card', payStatus: 'Paid', txn: 'pay_SAMPLE02', si: 2, tracking: 'SR1029384801', courier: 'Sample Courier', refund: '', ret: '', sample: true, events: [] },
     { id: 'APR204203', date: d(1), name: 'Sample · Arjun M.', phone: '9800000003', email: '', city: 'Mumbai', address: 'Sample address', pin: '400050', items: [{ pid: 'festive-box', sku: 'APR-CB-FB-BOX', name: 'APAR Festive Gift Box', size: 'Gift box · 5 products', qty: 1, price: 699 }], sub: 699, disc: 0, ship: 0, total: 699, pay: 'COD', payStatus: 'COD pending', txn: '', si: 0, tracking: '', courier: '', refund: '', ret: '', sample: true, events: [] }
   ];
-  root.APAR_DATA = { IM, TBC, CATS, PRODUCTS, STORY, STATUSES, COUPONS, zone, FAQ, POLICIES, SAMPLE_ORDERS, WA: '917851978274',
+  const SHIP_DEFAULT = { free: 499, codMax: 5000, zones: { A: 39, B: 49, C: 49, D: 79 }, cod: { A: true, B: true, C: true, D: false } };
+  // Delivery zone with the admin's saved delivery charges applied.
+  function quote(pin, sh) {
+    const z = zone(pin); if (!z) return null;
+    sh = sh || root.APAR_DATA.SHIP || SHIP_DEFAULT;
+    const zs = sh.zones || {}, cs = sh.cod || {};
+    return { ...z, ship: zs[z.z] != null && zs[z.z] !== '' ? Number(zs[z.z]) : z.ship, cod: cs[z.z] != null ? !!cs[z.z] : z.cod };
+  }
+  root.APAR_DATA = { SHIP_DEFAULT, SHIP: SHIP_DEFAULT, quote, IM, TBC, CATS, PRODUCTS, STORY, STATUSES, COUPONS, zone, FAQ, POLICIES, SAMPLE_ORDERS, WA: '917851978274',
     CONTACT: { phone: '78519 78274', email: 'aparfragrances@gmail.com', address: '0-33, Amber Towar, Sansar chand Road, Jaipur' } };
   if (typeof module !== 'undefined' && module.exports) module.exports = root.APAR_DATA;
 })(typeof window !== 'undefined' ? window : globalThis);

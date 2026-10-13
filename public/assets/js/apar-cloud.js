@@ -93,6 +93,7 @@
       if (Array.isArray(x.products) && x.products.length) D().ALL_PRODUCTS = x.products.map(fromDb);
       if (Array.isArray(x.cats) && x.cats.length) D().CATS.splice(0, D().CATS.length, ...x.cats);
       D().SITE = x.site || {};
+      D().SHIP = Object.assign({}, D().SHIP_DEFAULT, x.shipping || {}, { zones: Object.assign({}, D().SHIP_DEFAULT.zones, (x.shipping || {}).zones || {}), cod: Object.assign({}, D().SHIP_DEFAULT.cod, (x.shipping || {}).cod || {}) });
       setVisible();
       M.px = px; M.coupons = coupons;
       comp.setState({ px, coupons, site: D().SITE, catalogV: Date.now() });
@@ -350,6 +351,18 @@
     catRef().set({ products: all.map(toDb) }, { merge: true })
       .then(() => S().flash(c, hidden ? 'Product hidden from the store' : 'Product is visible on the store'))
       .catch(e => S().flash(c, 'Could not save: ' + e.message));
+  };
+
+  // Delivery charges: free-delivery limit, COD limit, charge and COD per zone.
+  C.saveShipping = function (c, patch) {
+    const cur = D().SHIP || D().SHIP_DEFAULT;
+    const next = { free: cur.free, codMax: cur.codMax, zones: Object.assign({}, cur.zones), cod: Object.assign({}, cur.cod) };
+    if (patch.free != null) next.free = Math.max(0, Number(patch.free) || 0);
+    if (patch.codMax != null) next.codMax = Math.max(0, Number(patch.codMax) || 0);
+    if (patch.zone) next.zones[patch.zone] = Math.max(0, Number(patch.charge) || 0);
+    if (patch.codZone) next.cod[patch.codZone] = !!patch.cod;
+    D().SHIP = next; c.setState({ catalogV: Date.now() });
+    catRef().set({ shipping: next }, { merge: true }).then(() => S().flash(c, 'Delivery settings saved')).catch(e => S().flash(c, 'Could not save: ' + e.message));
   };
 
   C.saveSite = function (c, site) {

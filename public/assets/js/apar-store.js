@@ -40,10 +40,11 @@
       const s = c.state;
       const lines = s.cart.map((l, idx) => { const p = S.find(l.pid); if (!p) return null; const v = S.vars(c, p)[l.vi]; return v ? { p, v, l, idx } : null; }).filter(Boolean);
       const sub = lines.reduce((a, x) => a + x.v.price * x.l.qty, 0), disc = S.couponCalc(c, s.coupon, sub);
-      const z = window.APAR_DATA.zone(pinOverride || s.pin), after = sub - disc;
-      const ship = sub === 0 || after >= 499 ? 0 : (z ? z.ship : 49);
+      const SH = window.APAR_DATA.SHIP || window.APAR_DATA.SHIP_DEFAULT, free = Number(SH.free != null ? SH.free : 499), codMax = Number(SH.codMax != null ? SH.codMax : 5000);
+      const z = window.APAR_DATA.quote(pinOverride || s.pin), after = sub - disc;
+      const ship = sub === 0 || after >= free ? 0 : (z ? z.ship : Number((SH.zones || {}).C || 49));
       const total = after + ship;
-      return { lines, sub, disc, ship, total, z, codOk: (!z || z.cod) && total <= 5000 };
+      return { lines, sub, disc, ship, total, z, codOk: (!z || z.cod) && total <= codMax, free };
     },
     invoice(o) {
       const rows = o.items.map(i => `<tr><td>${i.name}<br><small>${i.sku || ''} · ${i.size}</small></td><td>${i.qty}</td><td>${inr(i.price)}</td><td>${inr(i.price * i.qty)}</td></tr>`).join('');
