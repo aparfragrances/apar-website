@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email in ['aparfragrances@gmail.com']
+        && request.auth.token.email_verified == true;
+    }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    // Admin can read and manage everything (orders, leads, stock log, customers).
+    match /{document=**} { allow read, write: if isAdmin(); }
+
+    match /settings/{id} { allow read: if true; }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+    }
+
+    match /orders/{id} {
+      allow read: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    match /reviews/{id} {
+      allow read: if resource.data.approved == true;
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.approved == false
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5;
+    }
+  }
+}

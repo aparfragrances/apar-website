@@ -1,0 +1,1 @@
+window.APAR_IMG={"gulkand": "assets/img/gulkand.jpg", "cherry": "assets/img/cherry.jpg", "tutti": "assets/img/tutti.jpg", "lacha": "assets/img/lacha.jpg", "supari": "assets/img/supari.jpg", "lineup": "assets/img/lineup.jpg"};

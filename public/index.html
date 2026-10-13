@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"assets/js/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"assets/js/react-dom.production.min.js"};</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="assets/js/firebase-config.js"></script>
+<script src="assets/js/apar-cloud.js"></script>
+<script src="assets/js/dc-runtime.js"></script>
+<link rel="icon" href="assets/img/logo.webp">
+<title>APAR · Premium Indian Food Products</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="description" content="APAR premium Indian food products: Gulkand, Karonda Cherry, Tutti Frutti, Lacha Tutti Frutti, Lacha Supari, combos and gift boxes. Shop online or enquire for bulk supply.">
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("assets/fonts/f01.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("assets/fonts/f02.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("assets/fonts/f03.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f04.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f05.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f06.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/f07.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/f08.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/f09.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/f10.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/f11.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/f12.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* math */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f13.woff2") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f14.woff2") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f15.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f16.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* math */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f17.woff2") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f18.woff2") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f19.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/f20.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* math */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/f17.woff2") format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/f18.woff2") format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/f19.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/f20.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<script src="assets/js/apar-images.js"></script>
+<script src="assets/js/apar-data.js"></script>
+<script src="assets/js/apar-store.js"></script>
+<script src="assets/js/apar-admin.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"APAR","email":"aparfragrances@gmail.com","telephone":"+91-7851978274","address":{"@type":"PostalAddress","streetAddress":"0-33, Amber Towar, Sansar chand Road","addressLocality":"Jaipur","addressRegion":"Rajasthan","addressCountry":"IN"}}</script>
+<style>body{margin:0;background:#f7f2e8;-webkit-font-smoothing:antialiased}a{color:#0f3b2e;text-decoration:none}a:hover{color:#8a6d3b}::selection{background:#e7d6b4}input,textarea,select,button{font:inherit}input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #b08d57;outline-offset:2px}@keyframes aparSpin{to{transform:rotate(360deg)}}@keyframes aparIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}</style>
+
+</helmet>
+<div style="min-height:100vh;background:#f7f2e8;color:#1c2420;font-family:Barlow,system-ui,sans-serif;text-wrap:pretty;overflow-x:hidden">
+
+<div style="position:fixed;inset:0;z-index:200;background:#0a2a20;display:grid;place-items:center;transition:opacity .7s ease,visibility .7s;opacity:{{ bootOpacity }};visibility:{{ bootVis }}"><div style="display:flex;flex-direction:column;align-items:center;gap:18px"><span style="background:#f7f2e8;padding:8px 18px;border-radius:40px;display:flex"><img src="assets/img/logo.webp" alt="APAR" style="height:40px;mix-blend-mode:multiply"></span><span style="width:48px;height:1px;background:#b08d57"></span><span style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#e2c792">Traditional flavours</span></div></div>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;color:#f7f2e8;transition:background .5s ease,box-shadow .5s ease;background:{{ headerBg }};box-shadow:{{ headerShadow }}">
+<div style="background:#0a2a20;text-align:center;font-size:12px;letter-spacing:.06em;padding:8px 16px;color:#e2c792">Free delivery on orders above ₹499 · Code APAR10 for 10% off</div>
+<div style="max-width:1320px;margin:0 auto;padding:12px clamp(16px,4vw,48px);display:flex;align-items:center;gap:24px">
+<a href="#/" style="display:flex;align-items:center;background:#f7f2e8;padding:5px 12px;border-radius:40px;margin-right:auto"><img src="assets/img/logo.webp" alt="APAR home" style="height:28px;mix-blend-mode:multiply;display:block"></a>
+<sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><nav style="display:flex;gap:24px;font-size:13px;letter-spacing:.12em;text-transform:uppercase"><sc-for list="{{ nav }}" as="n" hint-placeholder-count="6"><a href="{{ n.href }}" style="color:#f7f2e8" style-hover="color:#e2c792">{{ n.label }}</a></sc-for></nav></sc-if>
+<div style="display:flex;align-items:center;gap:2px">
+<a href="#/shop" aria-label="Search products" style="width:42px;height:42px;display:grid;place-items:center;color:#f7f2e8;border-radius:50%" style-hover="background:rgba(247,242,232,.1);color:#f7f2e8"><svg width="19" height="19" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></a>
+<a href="#/wishlist" aria-label="Wishlist" style="position:relative;width:42px;height:42px;display:grid;place-items:center;color:#f7f2e8;border-radius:50%" style-hover="background:rgba(247,242,232,.1);color:#f7f2e8"><svg width="19" height="19" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><sc-if value="{{ hasWish }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:4px;right:2px;min-width:17px;height:17px;border-radius:9px;background:#e2c792;color:#0a2a20;font-size:10px;font-weight:600;display:grid;place-items:center">{{ wishCount }}</span></sc-if></a>
+<a href="#/account" aria-label="My account" style="width:42px;height:42px;display:grid;place-items:center;color:#f7f2e8;border-radius:50%" style-hover="background:rgba(247,242,232,.1);color:#f7f2e8"><svg width="19" height="19" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></a>
+<a href="#/cart" aria-label="Cart" style="position:relative;width:42px;height:42px;display:grid;place-items:center;color:#f7f2e8;border-radius:50%" style-hover="background:rgba(247,242,232,.1);color:#f7f2e8"><svg width="19" height="19" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8Z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg><sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:4px;right:2px;min-width:17px;height:17px;border-radius:9px;background:#e2c792;color:#0a2a20;font-size:10px;font-weight:600;display:grid;place-items:center">{{ cartCount }}</span></sc-if></a>
+<sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><button sc-camel-on-click="{{ toggleMenu }}" aria-label="Menu" style="width:42px;height:42px;display:grid;place-items:center;color:#f7f2e8;background:none;border:0;cursor:pointer"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button></sc-if>
+</div>
+</div>
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><div style="padding:4px 20px 24px;display:flex;flex-direction:column;border-top:1px solid rgba(247,242,232,.12);max-height:75vh;overflow:auto"><sc-for list="{{ navAll }}" as="n" hint-placeholder-count="0"><a href="{{ n.href }}" sc-camel-on-click="{{ closeMenu }}" style="color:#f7f2e8;font-family:'Bodoni Moda',serif;font-size:24px;padding:10px 0;border-bottom:1px solid rgba(247,242,232,.1)">{{ n.label }}</a></sc-for></div></sc-if>
+</header>
+
+<main style="padding-top:{{ mainPad }};opacity:{{ fadeOpacity }};transition:opacity .45s ease">
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<section style="position:relative;height:100vh;min-height:700px;overflow:hidden;background:#0a2a20;color:#f7f2e8">
+<img src="assets/img/hero.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%;display:block;transform:scale({{ heroScale }});transition:transform 9s cubic-bezier(.2,.6,.2,1)">
+<div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,34,26,.94) 0%,rgba(8,34,26,.78) 40%,rgba(8,34,26,.35) 75%,rgba(8,34,26,.2) 100%)"></div>
+<div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(8,34,26,.9) 0%,rgba(8,34,26,0) 35%)"></div>
+<div style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:110px clamp(16px,4vw,56px) 60px;box-sizing:border-box;display:grid;grid-template-columns:{{ heroGrid }};gap:clamp(32px,4vw,64px);align-items:center">
+<div style="animation:aparIn 1.2s cubic-bezier(.2,.6,.2,1) both">
+<div style="display:flex;align-items:center;gap:14px;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#e2c792"><span style="width:48px;height:1px;background:#b08d57"></span>The APAR Collection</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(48px,7.6vw,128px);line-height:.98;letter-spacing:-.02em;margin:28px 0 0">A Taste of Tradition, <em style="color:#e2c792">Made Remarkable.</em></h1>
+<p style="font-size:clamp(16px,1.4vw,21px);line-height:1.6;font-weight:300;max-width:44ch;margin:32px 0 0;color:#ebe2d0">Discover APAR's collection of thoughtfully crafted products, bringing timeless flavours to the modern table.</p>
+<div style="display:flex;gap:14px;margin-top:44px;flex-wrap:wrap"><a href="#/shop" style="padding:19px 40px;background:#b08d57;color:#0a2a20;font-size:13px;letter-spacing:.22em;text-transform:uppercase;border-radius:40px;font-weight:500" style-hover="background:#e2c792;color:#0a2a20">Explore Collection</a><a href="#/story" style="padding:19px 40px;border:1px solid rgba(247,242,232,.55);color:#f7f2e8;font-size:13px;letter-spacing:.22em;text-transform:uppercase;border-radius:40px" style-hover="border-color:#f7f2e8;color:#f7f2e8;background:rgba(247,242,232,.08)">Discover APAR</a></div>
+</div>
+<sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+<a href="#/product/gulkand" style="justify-self:end;width:min(100%,400px);color:#1c2420;animation:aparIn 1.4s .2s cubic-bezier(.2,.6,.2,1) both" style-hover="color:#1c2420">
+<div style="border-radius:14px;overflow:hidden;background:#f6ebe9;box-shadow:0 60px 120px -40px rgba(0,0,0,.85);border:1px solid rgba(226,199,146,.45)"><img src="assets/img/gulkand-jar.webp" alt="APAR Gulkand jar" style="width:100%;aspect-ratio:4/5;object-fit:cover;display:block"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;background:#f7f2e8;border-top:1px solid #e0d3b8"><div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b">Signature</span><span style="font-family:'Bodoni Moda',serif;font-size:21px;color:#0f3b2e">APAR Gulkand · 400 g</span></div><div style="text-align:right;font-size:15px"><strong style="font-size:19px">{{ heroPrice }}</strong><div style="text-decoration:line-through;color:#8b857a;font-size:13px">{{ heroMrp }}</div></div></div></div>
+</a>
+</sc-if>
+</div>
+<div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#ebe2d0;pointer-events:none">Scroll<span style="width:1px;height:40px;background:#b08d57"></span></div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(16px,4vw,48px) 0">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:32px"><h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(34px,4vw,56px);margin:0;color:#0f3b2e">Shop by <em>Category</em></h2><a href="#/shop" style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #b08d57;padding-bottom:5px">All products →</a></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:18px"><sc-for list="{{ cats }}" as="c" hint-placeholder-count="7"><a href="{{ c.href }}" style="display:flex;flex-direction:column;gap:12px;color:#1c2420" style-hover="color:#8a6d3b"><div style="aspect-ratio:1;border-radius:50%;overflow:hidden;background:#e9dfcb;border:1px solid #e0d3b8"><img src="{{ c.img }}" alt="{{ c.name }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:{{ c.pos }};display:block;transition:transform 1s" style-hover="transform:scale(1.07)"></div><div style="text-align:center;font-family:'Bodoni Moda',serif;font-size:18px">{{ c.name }}</div></a></sc-for></div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(64px,8vw,110px) clamp(16px,4vw,48px)">
+<div style="margin-bottom:36px"><div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#8a6d3b;margin-bottom:14px">Signature range</div><h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(34px,4vw,56px);margin:0;color:#0f3b2e">Our Signature <em>Products</em></h2></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(18px,2vw,28px)"><sc-for list="{{ signature }}" as="p" hint-placeholder-count="5"><dc-import name="AparCard" p="{{ p }}" hint-size="100%,480px"></dc-import></sc-for></div>
+</section>
+
+<section style="background:#efe7d6">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(64px,8vw,110px) clamp(16px,4vw,48px)">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px 64px;align-items:end;margin-bottom:36px"><h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(38px,4.8vw,72px);line-height:1;margin:0;color:#0f3b2e">The Art of <em style="color:#8a6d3b">Gulkand</em></h2><p style="font-size:17px;line-height:1.7;font-weight:300;color:#3d4238;margin:0">A timeless Indian favourite, thoughtfully crafted for today's generation. Enjoy it with milk, desserts, ice cream or paan.</p></div>
+<div style="border-radius:12px;overflow:hidden;background:#f6ebe2"><img src="assets/img/range-lineup.webp" alt="APAR range: Gulkand, Karonda Cherry, Tutti Frutti, Lacha Tutti Frutti, Lacha Supari" loading="lazy" style="width:100%;display:block"></div>
+<div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:16px;align-items:center"><span style="font-size:12px;color:#8a6d3b">Concept packaging. Final packaging will be shown after approval.</span><a href="#/product/gulkand" style="padding:15px 28px;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px" style-hover="background:#1a5541;color:#f7f2e8">Discover Gulkand</a></div>
+</div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(64px,8vw,110px) clamp(16px,4vw,48px)">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:36px"><div><div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#8a6d3b;margin-bottom:14px">Offers &amp; gifting</div><h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(34px,4vw,56px);margin:0;color:#0f3b2e">Combos &amp; <em>Gift Boxes</em></h2></div><a href="#/gifting" style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #b08d57;padding-bottom:5px">Festive &amp; corporate gifting →</a></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:clamp(18px,2vw,28px)"><sc-for list="{{ comboCards }}" as="p" hint-placeholder-count="3"><dc-import name="AparCard" p="{{ p }}" hint-size="100%,480px"></dc-import></sc-for></div>
+</section>
+
+<section style="background:#0f3b2e;color:#f7f2e8">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(64px,8vw,110px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(36px,5vw,80px);align-items:center">
+<div><div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#e2c792;margin-bottom:16px">Our Story</div><h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(36px,4.4vw,64px);line-height:1.04;margin:0">More Than Products. <em style="color:#e2c792">A Promise of Quality.</em></h2></div>
+<div><p style="font-size:17px;line-height:1.75;font-weight:300;color:#ebe2d0;margin:0">{{ story0 }} {{ story2 }}</p><a href="#/story" style="display:inline-block;margin-top:24px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#e2c792;border-bottom:1px solid #b08d57;padding-bottom:5px">Read our story →</a></div>
+</div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(64px,8vw,110px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:20px">
+<a href="#/b2b" style="position:relative;border-radius:10px;overflow:hidden;min-height:340px;display:flex;align-items:flex-end;color:#f7f2e8;background:#0f3b2e" style-hover="color:#f7f2e8"><img src="{{ imgBakery }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45"><div style="position:relative;padding:clamp(24px,3vw,40px)"><div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#e2c792">B2B · Bulk supply</div><div style="font-family:'Bodoni Moda',serif;font-size:clamp(30px,3.2vw,46px);line-height:1.05;margin-top:12px">Built for Business. Ready for Scale.</div><div style="margin-top:18px;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Request Bulk Enquiry →</div></div></a>
+<a href="#/b2b/distributor" style="position:relative;border-radius:10px;overflow:hidden;min-height:340px;display:flex;align-items:flex-end;color:#f7f2e8;background:#3e2c17" style-hover="color:#f7f2e8"><img src="{{ imgPetals }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45"><div style="position:relative;padding:clamp(24px,3vw,40px)"><div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#e2c792">Distributors &amp; dealers</div><div style="font-family:'Bodoni Moda',serif;font-size:clamp(30px,3.2vw,46px);line-height:1.05;margin-top:12px">Grow With APAR</div><div style="margin-top:18px;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Become a Distributor →</div></div></a>
+</section>
+</sc-if>
+
+<sc-if value="{{ isShop }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(16px,4vw,48px) clamp(64px,8vw,100px)">
+<div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#8a6d3b">Shop</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(40px,5vw,72px);margin:12px 0 28px;color:#0f3b2e">{{ shopTitle }}</h1>
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px"><input value="{{ q }}" sc-camel-on-change="{{ onQ }}" aria-label="Search products" placeholder="Search APAR products..." style="flex:1 1 280px;padding:14px 18px;border:1px solid #d8c7a4;border-radius:40px;background:#fff;font-size:15px;color:#1c2420;outline:none"><sc-raw-select value="{{ sort }}" sc-camel-on-change="{{ onSort }}" aria-label="Sort" style="padding:14px 16px;border:1px solid #d8c7a4;border-radius:40px;background:#fff;font-size:14px;color:#1c2420"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="off">Biggest discount</option></sc-raw-select></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px"><sc-for list="{{ catChips }}" as="c" hint-placeholder-count="8"><a href="{{ c.href }}" style="padding:9px 16px;border-radius:40px;font-size:13px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }}">{{ c.name }}</a></sc-for></div>
+<div style="font-size:13px;color:#6b6552;margin-bottom:20px">{{ shopCount }}</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(18px,2vw,28px)"><sc-for list="{{ shopList }}" as="p" hint-placeholder-count="6"><dc-import name="AparCard" p="{{ p }}" hint-size="100%,480px"></dc-import></sc-for></div>
+<sc-if value="{{ shopEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:60px 24px;text-align:center;border:1px dashed #d8c7a4;border-radius:10px"><div style="font-family:'Bodoni Moda',serif;font-size:28px;color:#0f3b2e">{{ emptyTitle }}</div><p style="color:#6b6552;margin:10px 0 0">{{ emptyBody }}</p></div></sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1320px;margin:0 auto;padding:clamp(28px,4vw,56px) clamp(16px,4vw,48px)">
+<div style="font-size:13px;color:#6b6552;margin-bottom:24px;display:flex;gap:8px;flex-wrap:wrap"><a href="#/shop">Shop</a><span>/</span><a href="{{ pv.catHref }}">{{ pv.cat }}</a><span>/</span><span>{{ pv.name }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(32px,5vw,72px);align-items:start">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#e9dfcb"><img src="{{ pv.mainImg }}" alt="{{ pv.name }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ pv.pos }};display:block"></div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px"><sc-for list="{{ pv.gallery }}" as="g" hint-placeholder-count="3"><button sc-camel-on-click="{{ g.pick }}" aria-label="View image" style="aspect-ratio:1;padding:0;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid {{ g.bd }};background:#e9dfcb"><img src="{{ g.src }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></button></sc-for></div>
+<div style="font-size:12px;color:#8a6d3b">Concept packaging shown. Final packaging after approval.</div>
+</div>
+<div>
+<div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8a6d3b">{{ pv.cat }} · SKU {{ pv.sku }}</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(38px,4.4vw,64px);line-height:1.02;margin:12px 0 0;color:#0f3b2e">{{ pv.name }}</h1>
+<div style="display:flex;gap:10px;align-items:center;margin-top:14px;font-size:14px;color:#6b6552"><span style="color:#b08d57;letter-spacing:2px">{{ pv.stars }}</span><span>{{ pv.ratingText }}</span></div>
+<p style="font-size:17px;line-height:1.65;font-weight:300;color:#3d4238;margin:20px 0 0">{{ pv.short }}</p>
+<div style="display:flex;align-items:baseline;gap:12px;margin-top:26px;flex-wrap:wrap"><span style="font-size:32px;font-weight:600">{{ pv.price }}</span><sc-if value="{{ pv.hasOff }}" hint-placeholder-val="{{ false }}"><span style="font-size:18px;color:#8b857a;text-decoration:line-through">MRP {{ pv.mrp }}</span><span style="font-size:13px;background:#6d1a2a;color:#f7f2e8;padding:4px 10px;border-radius:40px">{{ pv.off }}</span></sc-if></div>
+<div style="font-size:12px;color:#6b6552;margin-top:6px">Inclusive of all taxes · {{ pv.per100 }}</div>
+<div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#6b6552;margin-top:28px">Pack size</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><sc-for list="{{ pv.variants }}" as="v" hint-placeholder-count="3"><button sc-camel-on-click="{{ v.pick }}" style="padding:12px 18px;border-radius:8px;cursor:pointer;border:1px solid {{ v.bd }};background:{{ v.bg }};color:{{ v.fg }};display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:96px"><span style="font-size:15px;font-weight:500">{{ v.size }}</span><span style="font-size:13px;opacity:.8">{{ v.price }}</span></button></sc-for></div>
+<div style="margin-top:18px;font-size:14px;font-weight:500;color:{{ pv.stockColor }}">● {{ pv.stockText }}</div>
+<div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;align-items:center">
+<div style="display:flex;align-items:center;border:1px solid #d8c7a4;border-radius:40px;background:#fff"><button sc-camel-on-click="{{ qtyDec }}" aria-label="Decrease quantity" style="width:44px;height:48px;border:0;background:none;cursor:pointer;font-size:18px">−</button><span style="min-width:28px;text-align:center">{{ qty }}</span><button sc-camel-on-click="{{ qtyInc }}" aria-label="Increase quantity" style="width:44px;height:48px;border:0;background:none;cursor:pointer;font-size:18px">+</button></div>
+<button sc-camel-on-click="{{ pv.add }}" disabled="{{ pv.isOut }}" style="flex:1 1 160px;height:50px;border:1px solid #0f3b2e;background:transparent;color:#0f3b2e;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer" style-hover="background:#efe7d6">Add to Cart</button>
+<button sc-camel-on-click="{{ pv.buy }}" disabled="{{ pv.isOut }}" style="flex:1 1 160px;height:50px;border:0;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer" style-hover="background:#1a5541">Buy Now</button>
+</div>
+<div style="display:flex;gap:20px;margin-top:16px;flex-wrap:wrap;font-size:14px"><button sc-camel-on-click="{{ pv.wish }}" style="background:none;border:0;padding:0;cursor:pointer;color:#0f3b2e;text-decoration:underline;text-underline-offset:4px">{{ pv.wishLabel }}</button><a href="{{ pv.wa }}" target="_blank" style="color:#1f7a45;text-decoration:underline;text-underline-offset:4px">Enquire on WhatsApp</a><button sc-camel-on-click="{{ pv.share }}" style="background:none;border:0;padding:0;cursor:pointer;color:#0f3b2e;text-decoration:underline;text-underline-offset:4px">Share</button><a href="#/b2b" style="text-decoration:underline;text-underline-offset:4px">Bulk enquiry</a></div>
+<form sc-camel-on-submit="{{ checkPin }}" style="margin-top:26px;border:1px solid #e0d3b8;border-radius:8px;background:#fbf8f1;padding:18px 20px;display:grid;gap:12px"><div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#6b6552">Check delivery</div><div style="display:flex;gap:8px"><input name="pin" sc-camel-default-value="{{ pin }}" sc-camel-input-mode="numeric" sc-camel-max-length="6" placeholder="Enter PIN code" style="flex:1;min-width:0;padding:12px 14px;border:1px solid #d8c7a4;border-radius:40px;background:#fff;font-size:14px"><button type="submit" style="padding:0 20px;border:1px solid #0f3b2e;background:transparent;color:#0f3b2e;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Check</button></div><div style="font-size:14px;color:#3d4238">{{ pinMsg }}</div></form>
+<div style="margin-top:28px;border-top:1px solid #e0d3b8"><sc-for list="{{ pv.details }}" as="d" hint-placeholder-count="6"><div style="padding:14px 0;border-bottom:1px solid #e0d3b8;display:grid;grid-template-columns:minmax(120px,180px) 1fr;gap:16px"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8a6d3b;padding-top:2px">{{ d.k }}</div><div style="font-size:15px;line-height:1.6;color:{{ d.color }}">{{ d.v }}</div></div></sc-for></div>
+</div>
+</div>
+</section>
+<section style="background:#efe7d6">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(32px,5vw,72px)">
+<div>
+<h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(30px,3.4vw,48px);margin:0;color:#0f3b2e">Ratings &amp; <em>Reviews</em></h2>
+<div style="display:flex;align-items:baseline;gap:14px;margin-top:18px"><span style="font-family:'Bodoni Moda',serif;font-size:56px;color:#0f3b2e">{{ pv.avg }}</span><span style="color:#6b6552">{{ pv.ratingText }}</span></div>
+<form sc-camel-on-submit="{{ submitReview }}" style="margin-top:24px;display:grid;gap:12px;background:#f7f2e8;border-radius:8px;padding:22px">
+<div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#6b6552">Write a review</div>
+<div style="display:flex;gap:4px"><sc-for list="{{ starPick }}" as="s" hint-placeholder-count="5"><button type="button" sc-camel-on-click="{{ s.pick }}" aria-label="{{ s.label }}" style="background:none;border:0;cursor:pointer;font-size:26px;padding:0 2px;color:{{ s.color }}">★</button></sc-for></div>
+<input name="name" required="" placeholder="Your name" style="padding:13px 14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px">
+<textarea name="text" required="" rows="3" placeholder="What did you think?" style="padding:13px 14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px;resize:vertical"></textarea>
+<button type="submit" style="justify-self:start;padding:14px 26px;border:0;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer">Submit review</button>
+<div style="font-size:12px;color:#6b6552">Reviews are published after moderation.</div>
+</form>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<sc-for list="{{ pv.reviews }}" as="r" hint-placeholder-count="0"><div style="background:#f7f2e8;border-radius:8px;padding:20px 22px"><div style="display:flex;justify-content:space-between;gap:12px"><strong>{{ r.name }}</strong><span style="color:#b08d57;letter-spacing:2px">{{ r.stars }}</span></div><p style="margin:8px 0 0;line-height:1.6;color:#3d4238">{{ r.text }}</p><div style="font-size:12px;color:#8b857a;margin-top:8px">{{ r.date }}</div></div></sc-for>
+<sc-if value="{{ pv.noReviews }}" hint-placeholder-val="{{ false }}"><div style="padding:40px 24px;text-align:center;border:1px dashed #cdbd9c;border-radius:8px;color:#6b6552">No reviews yet. Be the first to review {{ pv.name }}.</div></sc-if>
+</div>
+</div>
+</section>
+<section style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(16px,4vw,48px)">
+<h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(30px,3.4vw,48px);margin:0 0 32px;color:#0f3b2e">You may also <em>like</em></h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(18px,2vw,28px)"><sc-for list="{{ related }}" as="p" hint-placeholder-count="4"><dc-import name="AparCard" p="{{ p }}" hint-size="100%,480px"></dc-import></sc-for></div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isCart }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(16px,4vw,48px) clamp(64px,8vw,100px)">
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(40px,5vw,72px);margin:0 0 32px;color:#0f3b2e">Your <em>Cart</em></h1>
+<sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:60px 24px;text-align:center;border:1px dashed #d8c7a4;border-radius:10px"><div style="font-family:'Bodoni Moda',serif;font-size:28px;color:#0f3b2e">Your cart is empty</div><a href="#/shop" style="display:inline-block;margin-top:20px;padding:15px 28px;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px">Continue shopping</a></div></sc-if>
+<sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(28px,4vw,56px);align-items:start">
+<div>
+<sc-if value="{{ freeGap }}" hint-placeholder-val="{{ false }}"><div style="margin-bottom:18px;padding:14px 18px;border-radius:8px;background:#e6ecdf;font-size:14px;color:#0f3b2e">{{ freeMsg }}<div style="height:4px;border-radius:2px;background:#cfdcc6;margin-top:10px;overflow:hidden"><div style="height:100%;width:{{ freePct }};background:#0f3b2e"></div></div></div></sc-if>
+<div style="border-top:1px solid #e0d3b8"><sc-for list="{{ lines }}" as="l" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:88px 1fr auto;gap:18px;padding:20px 0;border-bottom:1px solid #e0d3b8;align-items:center"><a href="{{ l.href }}" style="width:88px;height:88px;border-radius:6px;overflow:hidden;background:#e9dfcb;display:block"><img src="{{ l.img }}" alt="{{ l.name }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ l.pos }}"></a><div><a href="{{ l.href }}" style="font-family:'Bodoni Moda',serif;font-size:20px">{{ l.name }}</a><div style="font-size:13px;color:#6b6552;margin-top:4px">{{ l.size }} · {{ l.unit }} each · {{ l.sku }}</div><div style="display:flex;align-items:center;gap:14px;margin-top:10px"><div style="display:flex;align-items:center;border:1px solid #d8c7a4;border-radius:40px;background:#fff"><button sc-camel-on-click="{{ l.dec }}" aria-label="Decrease" style="width:36px;height:36px;border:0;background:none;cursor:pointer">−</button><span style="min-width:22px;text-align:center;font-size:14px">{{ l.qty }}</span><button sc-camel-on-click="{{ l.inc }}" aria-label="Increase" style="width:36px;height:36px;border:0;background:none;cursor:pointer">+</button></div><button sc-camel-on-click="{{ l.remove }}" style="background:none;border:0;padding:0;cursor:pointer;font-size:13px;color:#6d1a2a;text-decoration:underline">Remove</button></div></div><div style="font-weight:600">{{ l.total }}</div></div></sc-for></div>
+</div>
+<div style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:clamp(22px,2.4vw,32px);position:sticky;top:130px">
+<div style="font-family:'Bodoni Moda',serif;font-size:26px;color:#0f3b2e">Order summary</div>
+<form sc-camel-on-submit="{{ applyCoupon }}" style="display:flex;gap:8px;margin-top:20px"><input name="code" placeholder="Coupon code" style="flex:1;min-width:0;padding:12px 14px;border:1px solid #d8c7a4;border-radius:40px;background:#fff;font-size:14px;text-transform:uppercase"><button type="submit" style="padding:0 20px;border:1px solid #0f3b2e;background:transparent;color:#0f3b2e;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Apply</button></form>
+<div style="font-size:13px;margin-top:8px;color:{{ couponColor }}">{{ couponMsg }}</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"><sc-for list="{{ couponHints }}" as="c" hint-placeholder-count="2"><button sc-camel-on-click="{{ c.use }}" style="padding:5px 10px;border:1px dashed #b08d57;background:none;border-radius:4px;cursor:pointer;font-size:12px;color:#8a6d3b">{{ c.code }} · {{ c.desc }}</button></sc-for></div>
+<div style="display:grid;gap:10px;margin-top:22px;font-size:15px"><sc-for list="{{ summary }}" as="s" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;color:{{ s.color }}"><span>{{ s.k }}</span><span>{{ s.v }}</span></div></sc-for></div>
+<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid #e0d3b8;font-size:20px;font-weight:600"><span>Total</span><span>{{ totalText }}</span></div>
+<a href="#/checkout" style="display:block;text-align:center;margin-top:22px;padding:17px;background:#0f3b2e;color:#f7f2e8;font-size:13px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px" style-hover="background:#1a5541;color:#f7f2e8">Proceed to Checkout</a>
+</div>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(16px,4vw,48px) clamp(64px,8vw,100px)">
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(40px,5vw,72px);margin:0 0 32px;color:#0f3b2e">Checkout</h1>
+<sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}"><p>Your cart is empty. <a href="#/shop" style="text-decoration:underline">Go to shop</a></p></sc-if>
+<sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}">
+<form sc-camel-on-submit="{{ placeOrder }}" key="{{ formKey }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(28px,4vw,56px);align-items:start">
+<div style="display:flex;flex-direction:column;gap:32px">
+<div><div style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8a6d3b;margin-bottom:16px">1 · Delivery address</div>
+<sc-if value="{{ hasSaved }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"><sc-for list="{{ savedAddr }}" as="a" hint-placeholder-count="0"><button type="button" sc-camel-on-click="{{ a.pick }}" style="padding:10px 14px;border-radius:8px;cursor:pointer;text-align:left;font-size:13px;border:1px solid {{ a.bd }};background:{{ a.bg }};color:{{ a.fg }}">{{ a.label }}</button></sc-for></div></sc-if>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px"><sc-for list="{{ addrFields }}" as="f" hint-placeholder-count="6"><label style="display:flex;flex-direction:column;gap:6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6b6552;grid-column:{{ f.span }}">{{ f.label }}<input name="{{ f.name }}" required="{{ f.req }}" sc-camel-default-value="{{ f.val }}" type="{{ f.type }}" placeholder="{{ f.ph }}" sc-camel-on-change="{{ f.on }}" style="padding:13px 14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px;letter-spacing:0;text-transform:none;color:#1c2420"></label></sc-for></div>
+<div style="font-size:13px;color:#3d4238;margin-top:12px">{{ zoneMsg }}</div>
+<sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}"><label style="display:flex;gap:10px;align-items:center;margin-top:12px;font-size:14px"><input type="checkbox" name="save" sc-camel-default-checked="{{ true }}"> Save this address to my account</label></sc-if>
+</div>
+<div><div style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8a6d3b;margin-bottom:16px">2 · Payment method</div>
+<div style="display:grid;gap:10px"><sc-for list="{{ payOpts }}" as="o" hint-placeholder-count="4"><button type="button" sc-camel-on-click="{{ o.pick }}" disabled="{{ o.off }}" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-radius:8px;cursor:pointer;text-align:left;border:1px solid {{ o.bd }};background:{{ o.bg }};color:#1c2420;opacity:{{ o.op }}"><span style="display:flex;align-items:center;gap:14px"><span style="width:18px;height:18px;border-radius:50%;border:1px solid #0f3b2e;display:grid;place-items:center"><span style="width:10px;height:10px;border-radius:50%;background:{{ o.dot }}"></span></span><span><span style="display:block;font-weight:500">{{ o.label }}</span><span style="display:block;font-size:13px;color:#6b6552;margin-top:2px">{{ o.sub }}</span></span></span></button></sc-for></div>
+<div style="margin-top:14px;display:grid;gap:12px">
+<div style="font-size:13px;line-height:1.6;color:#3d4238;background:#fbf8f1;border:1px solid #e0d3b8;border-radius:8px;padding:12px 14px">{{ payNote }}</div>
+</div></div>
+</div>
+<div style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:clamp(22px,2.4vw,32px);position:sticky;top:130px">
+<div style="font-family:'Bodoni Moda',serif;font-size:26px;color:#0f3b2e">Order summary</div>
+<div style="display:grid;gap:12px;margin-top:18px"><sc-for list="{{ lines }}" as="l" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span>{{ l.name }} · {{ l.size }} × {{ l.qty }}</span><span>{{ l.total }}</span></div></sc-for></div>
+<div style="display:grid;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid #e0d3b8;font-size:15px"><sc-for list="{{ summary }}" as="s" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;color:{{ s.color }}"><span>{{ s.k }}</span><span>{{ s.v }}</span></div></sc-for></div>
+<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid #e0d3b8;font-size:20px;font-weight:600"><span>Total</span><span>{{ totalText }}</span></div>
+<button type="submit" style="width:100%;margin-top:22px;padding:17px;border:0;background:#0f3b2e;color:#f7f2e8;font-size:13px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer">{{ payBtn }}</button>
+<div style="font-size:12px;color:#6b6552;margin-top:12px;text-align:center">By placing the order you agree to our <a href="#/policy/terms" style="text-decoration:underline">Terms</a> and <a href="#/policy/refund" style="text-decoration:underline">Refund Policy</a>.</div>
+</div>
+</form>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{ isOrder }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:760px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px);text-align:center">
+<div style="width:72px;height:72px;border-radius:50%;background:#0f3b2e;color:#e2c792;display:grid;place-items:center;margin:0 auto;font-size:30px">✓</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(36px,4.6vw,60px);margin:24px 0 0;color:#0f3b2e">Thank you for your order</h1>
+<p style="font-size:17px;color:#3d4238;margin:14px 0 0">Order <strong>{{ ov.id }}</strong> · {{ ov.total }} · {{ ov.pay }}</p>
+<p style="font-size:15px;color:#6b6552;margin:8px 0 0">We'll contact you on {{ ov.phone }} with delivery updates. Save your order ID to track it anytime.</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px"><a href="{{ ov.track }}" style="padding:15px 28px;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px">Track order</a><button sc-camel-on-click="{{ ov.invoice }}" style="padding:15px 28px;border:1px solid #0f3b2e;background:none;color:#0f3b2e;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer">Download invoice</button><a href="#/shop" style="padding:15px 28px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;text-decoration:underline">Continue shopping</a></div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isPayFail }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:760px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px);text-align:center">
+<div style="width:72px;height:72px;border-radius:50%;background:#6d1a2a;color:#f7f2e8;display:grid;place-items:center;margin:0 auto;font-size:30px">!</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(36px,4.6vw,60px);margin:24px 0 0;color:#0f3b2e">Payment didn't go through</h1>
+<p style="font-size:16px;color:#3d4238;margin:14px 0 0">No money was taken. Your cart is saved, so you can try again or choose another payment method.</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px"><a href="#/checkout" sc-camel-on-click="{{ clearFail }}" style="padding:15px 28px;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px">Retry payment</a><a href="{{ waGeneral }}" target="_blank" style="padding:15px 28px;border:1px solid #0f3b2e;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px">Get help on WhatsApp</a></div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isTrack }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:900px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(16px,4vw,48px) clamp(64px,8vw,100px)">
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(40px,5vw,68px);margin:0;color:#0f3b2e">Track your <em>order</em></h1>
+<form sc-camel-on-submit="{{ trackSubmit }}" style="display:flex;gap:10px;margin-top:28px;flex-wrap:wrap"><input name="id" sc-camel-default-value="{{ trackId }}" placeholder="Order ID, e.g. APR204171" style="flex:1 1 260px;padding:14px 18px;border:1px solid #d8c7a4;border-radius:40px;background:#fff;font-size:15px;text-transform:uppercase"><button type="submit" style="padding:0 28px;height:50px;border:0;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer">Track</button></form>
+<sc-if value="{{ tv.found }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:36px;background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:clamp(22px,3vw,36px)">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b">Order {{ tv.id }}</div><div style="font-family:'Bodoni Moda',serif;font-size:28px;color:#0f3b2e;margin-top:6px">{{ tv.status }}</div></div><div style="text-align:right;font-size:14px;color:#6b6552">Placed {{ tv.date }}<br>{{ tv.total }}</div></div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:28px"><sc-for list="{{ tv.steps }}" as="s" hint-placeholder-count="5"><div><div style="height:4px;border-radius:2px;background:{{ s.bar }}"></div><div style="font-size:12px;margin-top:10px;color:{{ s.fg }}">{{ s.label }}</div></div></sc-for></div>
+<div style="display:grid;gap:6px;margin-top:24px;font-size:14px;color:#3d4238"><div>{{ tv.items }}</div><div>{{ tv.ship }}</div><div>{{ tv.extra }}</div></div>
+<div style="margin-top:22px;border-top:1px solid #e0d3b8;padding-top:16px;display:grid;gap:8px"><sc-for list="{{ tv.events }}" as="e" hint-placeholder-count="0"><div style="display:flex;justify-content:space-between;gap:12px;font-size:13px"><span>{{ e.msg }}</span><span style="color:#8b857a">{{ e.t }} · {{ e.ch }}</span></div></sc-for></div>
+</div>
+</sc-if>
+<sc-if value="{{ tv.missing }}" hint-placeholder-val="{{ false }}"><p style="margin-top:24px;color:#6d1a2a">We couldn't find that order. Check the ID or contact us on WhatsApp.</p></sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1100px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(16px,4vw,48px) clamp(64px,8vw,100px)">
+<sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:460px;margin:0 auto">
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);margin:0;color:#0f3b2e;text-align:center">Sign in to APAR</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid #d8c7a4;border-radius:40px;padding:4px;margin-top:28px"><sc-for list="{{ authTabs }}" as="t" hint-placeholder-count="3"><button sc-camel-on-click="{{ t.pick }}" style="padding:11px 6px;border:0;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button></sc-for></div>
+<form sc-camel-on-submit="{{ authSubmit }}" style="display:grid;gap:14px;margin-top:24px"><sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}"><input name="name" required="" autocomplete="name" placeholder="Full name" style="padding:14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px"></sc-if><input name="email" type="email" required="" autocomplete="email" sc-camel-default-value="{{ authEmail }}" placeholder="Email address" style="padding:14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px"><sc-if value="{{ needPass }}" hint-placeholder-val="{{ false }}"><input name="password" type="password" required="" autocomplete="{{ passAuto }}" placeholder="{{ passPh }}" style="padding:14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px"></sc-if><button type="submit" disabled="{{ authBusy }}" style="padding:16px;border:0;background:#0f3b2e;color:#f7f2e8;font-size:13px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer">{{ authBtn }}</button><sc-if value="{{ isLink }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#6b6552;text-align:center;line-height:1.5">We'll email you a secure one-tap sign-in link. No password needed.</div></sc-if><sc-if value="{{ isPass }}" hint-placeholder-val="{{ false }}"><button type="button" sc-camel-on-click="{{ forgotPass }}" style="justify-self:center;background:none;border:0;padding:0;cursor:pointer;color:#0f3b2e;text-decoration:underline;text-underline-offset:4px;font-size:13px">Forgot password?</button></sc-if><div style="font-size:14px;color:#1f7a45;text-align:center;line-height:1.5">{{ authMsg }}</div><div style="font-size:13px;color:#6d1a2a;text-align:center;line-height:1.5">{{ authErr }}</div></form><div style="display:flex;align-items:center;gap:12px;margin:22px 0;color:#8b857a;font-size:12px;letter-spacing:.2em;text-transform:uppercase"><span style="flex:1;height:1px;background:#d8c7a4"></span>or<span style="flex:1;height:1px;background:#d8c7a4"></span></div><button type="button" sc-camel-on-click="{{ googleLogin }}" style="width:100%;padding:15px;border:1px solid #d8c7a4;background:#fff;color:#1c2420;font-size:14px;border-radius:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px"><svg width="18" height="18" sc-camel-view-box="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.8 6C12.4 13.7 17.7 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"></path><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.7l7.9-6z"></path><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.6-4.2-13.5-10l-7.9 6C6.6 42.6 14.6 48 24 48z"></path></svg>Continue with Google</button><p style="font-size:12px;color:#8b857a;text-align:center;margin:18px 0 0;line-height:1.5">By continuing you agree to our <a href="#/policy/terms" style="text-decoration:underline">Terms</a> and <a href="#/policy/privacy" style="text-decoration:underline">Privacy Policy</a>.</p>
+</div>
+</sc-if>
+<sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8a6d3b">My Account</div><h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(38px,4.6vw,60px);margin:10px 0 0;color:#0f3b2e">Namaste, {{ userName }}</h1></div><button sc-camel-on-click="{{ logout }}" style="padding:12px 22px;border:1px solid #0f3b2e;background:none;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#0f3b2e">Log out</button></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:28px"><sc-for list="{{ acctTabs }}" as="t" hint-placeholder-count="5"><button sc-camel-on-click="{{ t.pick }}" style="padding:10px 18px;border-radius:40px;cursor:pointer;font-size:13px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button></sc-for></div>
+<sc-if value="{{ acOrders }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:24px;display:grid;gap:14px"><sc-for list="{{ myOrders }}" as="o" hint-placeholder-count="0"><div style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:20px 22px;display:grid;gap:12px"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><strong>{{ o.id }}</strong> <span style="color:#6b6552;font-size:14px">· {{ o.date }}</span></div><span style="padding:5px 12px;border-radius:40px;background:#e6ecdf;color:#0f3b2e;font-size:12px">{{ o.status }}</span></div><div style="font-size:14px;color:#3d4238">{{ o.items }} · <strong>{{ o.total }}</strong></div><div style="font-size:13px;color:#6b6552">{{ o.extra }}</div><div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px"><sc-for list="{{ o.actions }}" as="a" hint-placeholder-count="3"><button sc-camel-on-click="{{ a.on }}" style="background:none;border:0;padding:0;cursor:pointer;color:#0f3b2e;text-decoration:underline;text-underline-offset:4px;font-size:13px">{{ a.l }}</button></sc-for></div></div></sc-for></div>
+<sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}"><p style="color:#6b6552;margin-top:24px">No orders yet. <a href="#/shop" style="text-decoration:underline">Start shopping</a></p></sc-if>
+</sc-if>
+<sc-if value="{{ acAddr }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:24px"><sc-for list="{{ myAddr }}" as="a" hint-placeholder-count="0"><div style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:20px;font-size:14px;line-height:1.6"><strong>{{ a.name }}</strong><br>{{ a.address }}<br>{{ a.city }} {{ a.pin }}<br>{{ a.phone }}<div style="margin-top:10px"><button sc-camel-on-click="{{ a.remove }}" style="background:none;border:0;padding:0;cursor:pointer;color:#6d1a2a;text-decoration:underline;font-size:13px">Remove</button></div></div></sc-for></div>
+<form sc-camel-on-submit="{{ addAddr }}" style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:20px"><input name="name" required="" placeholder="Name" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><input name="phone" required="" placeholder="Mobile" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><input name="address" required="" placeholder="Address" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><input name="city" required="" placeholder="City" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><input name="pin" required="" placeholder="PIN code" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><button type="submit" style="padding:12px;border:0;background:#0f3b2e;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Add address</button></form>
+</sc-if>
+<sc-if value="{{ acCoupons }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:24px"><sc-for list="{{ myCoupons }}" as="k" hint-placeholder-count="2"><div style="border:1px dashed #b08d57;border-radius:10px;padding:20px;background:#fbf8f1"><div style="font-family:'Bodoni Moda',serif;font-size:26px;color:#0f3b2e;letter-spacing:.08em">{{ k.code }}</div><div style="font-size:14px;color:#3d4238;margin-top:6px">{{ k.desc }}</div></div></sc-for></div></sc-if>
+<sc-if value="{{ acProfile }}" hint-placeholder-val="{{ false }}"><form sc-camel-on-submit="{{ saveProfile }}" style="margin-top:24px;display:grid;gap:12px;max-width:460px"><label style="display:grid;gap:6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6b6552">Name<input name="name" sc-camel-default-value="{{ userName }}" style="padding:13px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px;text-transform:none;letter-spacing:0"></label><label style="display:grid;gap:6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6b6552">Mobile / email<input disabled="{{ true }}" sc-camel-default-value="{{ userContact }}" style="padding:13px;border:1px solid #e0d3b8;border-radius:6px;background:#f3eee3;font-size:15px;text-transform:none;letter-spacing:0"></label><button type="submit" style="justify-self:start;padding:14px 26px;border:0;background:#0f3b2e;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Save</button></form></sc-if>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{ isWish }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(16px,4vw,48px) clamp(64px,8vw,100px)">
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(40px,5vw,72px);margin:0 0 32px;color:#0f3b2e">Your <em>Wishlist</em></h1>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(18px,2vw,28px)"><sc-for list="{{ wishList }}" as="p" hint-placeholder-count="0"><dc-import name="AparCard" p="{{ p }}" hint-size="100%,480px"></dc-import></sc-for></div>
+<sc-if value="{{ wishEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:60px 24px;text-align:center;border:1px dashed #d8c7a4;border-radius:10px;color:#6b6552">Tap the heart on any product to save it here.</div></sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{ isB2B }}" hint-placeholder-val="{{ false }}">
+<section style="background:#0f3b2e;color:#f7f2e8"><div style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,100px) clamp(16px,4vw,48px)"><div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#e2c792">{{ b2bEyebrow }}</div><h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(42px,5.6vw,88px);line-height:1;margin:18px 0 0;max-width:16ch">{{ b2bTitle }}</h1><p style="font-size:18px;line-height:1.6;font-weight:300;color:#ebe2d0;max-width:52ch;margin:24px 0 0">{{ b2bBody }}</p><button sc-camel-on-click="{{ downloadCatalogue }}" style="margin-top:32px;padding:15px 26px;border:1px solid #b08d57;background:none;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.16em;text-transform:uppercase">Download B2B Catalogue (CSV)</button></div></section>
+<section style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(32px,5vw,80px)">
+<div>
+<div style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8a6d3b;margin-bottom:16px">We supply</div>
+<div style="border-top:1px solid #d8c7a4"><sc-for list="{{ buyers }}" as="b" hint-placeholder-count="9"><div style="padding:13px 0;border-bottom:1px solid #d8c7a4;font-family:'Bodoni Moda',serif;font-size:21px;color:#0f3b2e">{{ b }}</div></sc-for></div>
+<div style="margin-top:28px;background:#efe7d6;border-radius:10px;padding:20px 22px;display:grid;gap:10px;font-size:14px;color:#3d4238"><div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b">Bulk terms</div><div><strong>Bulk pack sizes:</strong> To be confirmed</div><div><strong>Minimum order quantity:</strong> To be confirmed</div><div><strong>Tiered bulk pricing:</strong> Shared on quote</div><div><strong>GST invoice:</strong> Provided with GSTIN</div></div>
+</div>
+<form sc-camel-on-submit="{{ leadSubmit }}" key="{{ leadDefault }}" style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:clamp(24px,3vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px;align-content:start">
+<label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6b6552">Enquiry type<sc-raw-select name="type" sc-camel-default-value="{{ leadDefault }}" style="padding:13px 14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px;letter-spacing:0;text-transform:none;color:#1c2420"><sc-for list="{{ leadTypes }}" as="t" hint-placeholder-count="8"><option>{{ t }}</option></sc-for></sc-raw-select></label>
+<sc-for list="{{ leadFields }}" as="f" hint-placeholder-count="8"><label style="display:flex;flex-direction:column;gap:6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6b6552">{{ f.label }}<input name="{{ f.name }}" required="{{ f.req }}" placeholder="{{ f.ph }}" style="padding:13px 14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px;letter-spacing:0;text-transform:none;color:#1c2420"></label></sc-for>
+<label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6b6552">Message<textarea name="message" rows="3" style="padding:13px 14px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:15px;resize:vertical"></textarea></label>
+<div style="grid-column:1/-1;display:flex;gap:16px;align-items:center;flex-wrap:wrap"><button type="submit" style="padding:16px 30px;border:0;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px;cursor:pointer">Send Enquiry</button><a href="{{ waBulk }}" target="_blank" style="font-size:14px;color:#1f7a45;text-decoration:underline">or WhatsApp us</a></div>
+</form>
+</section>
+</sc-if>
+
+<sc-if value="{{ isGifting }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px)">
+<div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#8a6d3b">Gifting</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(42px,5.4vw,84px);line-height:1;margin:14px 0 0;color:#0f3b2e">Festive &amp; <em>Corporate Gifting</em></h1>
+<p style="font-size:17px;line-height:1.7;font-weight:300;color:#3d4238;max-width:56ch;margin:22px 0 40px">Curated APAR combos and gift boxes for festivals, weddings and business gifting. For custom quantities or branding, send us a gifting enquiry.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:clamp(18px,2vw,28px)"><sc-for list="{{ comboCards }}" as="p" hint-placeholder-count="3"><dc-import name="AparCard" p="{{ p }}" hint-size="100%,480px"></dc-import></sc-for></div>
+<a href="#/b2b/gifting" style="display:inline-block;margin-top:40px;padding:16px 30px;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px" style-hover="color:#f7f2e8;background:#1a5541">Corporate gifting enquiry</a>
+</section>
+</sc-if>
+
+<sc-if value="{{ isStory }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,96px) clamp(16px,4vw,48px)">
+<div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#8a6d3b">Our Story · Jaipur</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(42px,5.4vw,84px);line-height:1;margin:18px 0 0;color:#0f3b2e;max-width:16ch">More Than Products. <em style="color:#8a6d3b">A Promise of Quality.</em></h1>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px;margin-top:40px"><sc-for list="{{ storyParas }}" as="t" hint-placeholder-count="3"><p style="font-size:17px;line-height:1.75;font-weight:300;color:#3d4238;margin:0;padding-top:18px;border-top:1px solid #d8c7a4">{{ t }}</p></sc-for></div>
+<div style="border-radius:12px;overflow:hidden;margin-top:48px;background:#f6ebe2"><img src="assets/img/range-lineup.webp" alt="The APAR range" loading="lazy" style="width:100%;display:block"></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:#d8c7a4;margin-top:48px;border-radius:8px;overflow:hidden"><sc-for list="{{ pillars }}" as="p" hint-placeholder-count="5"><div style="background:#f7f2e8;padding:26px 22px"><div style="font-family:'Bodoni Moda',serif;font-size:30px;color:#0f3b2e">{{ p.w }}</div><div style="font-size:14px;color:#6b6552;margin-top:8px;line-height:1.5">{{ p.t }}</div></div></sc-for></div>
+<p style="font-size:14px;color:#8a6d3b;margin-top:24px">Quality, sourcing and process details will be added once confirmed.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:880px;margin:0 auto;padding:clamp(48px,6vw,96px) clamp(16px,4vw,48px)">
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(40px,5vw,72px);margin:0 0 32px;color:#0f3b2e">Frequently asked <em>questions</em></h1>
+<div style="border-top:1px solid #d8c7a4"><sc-for list="{{ faqs }}" as="f" hint-placeholder-count="8"><div style="border-bottom:1px solid #d8c7a4"><button sc-camel-on-click="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:20px 0;background:none;border:0;cursor:pointer;text-align:left;font-family:'Bodoni Moda',serif;font-size:21px;color:#0f3b2e"><span>{{ f.q }}</span><span style="font-family:Barlow,sans-serif;font-size:22px;color:#8a6d3b">{{ f.sign }}</span></button><sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}"><p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:#3d4238">{{ f.a }}</p></sc-if></div></sc-for></div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+<section style="background:#0f3b2e;color:#f7f2e8"><div style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,100px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(36px,5vw,80px)">
+<div><h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(44px,6vw,96px);line-height:1;margin:0">Let's Create <em style="color:#e2c792">Something Good.</em></h1>
+<div style="display:grid;gap:1px;background:rgba(247,242,232,.14);border-radius:8px;overflow:hidden;margin-top:40px"><sc-for list="{{ contactInfo }}" as="c" hint-placeholder-count="5"><a href="{{ c.href }}" style="background:#0f3b2e;padding:20px 22px;display:grid;grid-template-columns:120px 1fr;gap:12px;color:#f7f2e8" style-hover="background:#134536;color:#f7f2e8"><span style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#e2c792;padding-top:3px">{{ c.k }}</span><span style="font-size:16px">{{ c.v }}</span></a></sc-for></div>
+<a href="{{ waGeneral }}" target="_blank" style="display:inline-block;margin-top:28px;padding:16px 30px;background:#1f8f4e;color:#fff;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px" style-hover="color:#fff;background:#23a35a">Chat on WhatsApp</a></div>
+<div style="border-radius:10px;overflow:hidden;min-height:420px;background:#123f31"><iframe title="APAR location map" src="https://maps.google.com/maps?q=Sansar%20Chand%20Road%2C%20Jaipur&amp;z=15&amp;output=embed" style="border:0;width:100%;height:100%;min-height:420px;display:block" loading="lazy"></iframe></div>
+</div></section>
+</sc-if>
+
+<sc-if value="{{ isPolicy }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:820px;margin:0 auto;padding:clamp(48px,6vw,96px) clamp(16px,4vw,48px)">
+<div style="font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#8a6d3b">Policies</div>
+<h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(40px,5vw,68px);margin:14px 0 0;color:#0f3b2e">{{ policyTitle }}</h1>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:24px"><sc-for list="{{ policyLinks }}" as="l" hint-placeholder-count="6"><a href="{{ l.href }}" style="padding:8px 14px;border-radius:40px;font-size:13px;border:1px solid {{ l.bd }};background:{{ l.bg }};color:{{ l.fg }}">{{ l.label }}</a></sc-for></div>
+<p style="font-size:16px;line-height:1.7;color:#3d4238;margin:32px 0 0">APAR's {{ policyTitle }} will be published here. For questions about orders, delivery or returns, contact 78519 78274 or aparfragrances@gmail.com.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+<section style="max-width:1400px;margin:0 auto;padding:clamp(32px,4vw,56px) clamp(16px,3vw,40px) clamp(64px,8vw,100px)">
+<sc-if value="{{ adminLocked }}" hint-placeholder-val="{{ false }}"><div style="max-width:440px;margin:40px auto;display:grid;gap:14px;background:#fbf8f1;border:1px solid #e0d3b8;border-radius:10px;padding:32px;text-align:center"><div style="font-family:'Bodoni Moda',serif;font-size:32px;color:#0f3b2e">Admin</div><p style="margin:0;font-size:15px;line-height:1.6;color:#3d4238">{{ adminMsg }}</p><a href="#/account" style="padding:14px;background:#0f3b2e;color:#f7f2e8;border-radius:40px;font-size:12px;letter-spacing:.14em;text-transform:uppercase">{{ adminBtn }}</a></div></sc-if>
+<sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8a6d3b">Admin</div><h1 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(32px,3.6vw,52px);margin:8px 0 0;color:#0f3b2e">Store dashboard</h1></div><button sc-camel-on-click="{{ adminLogout }}" style="padding:10px 18px;border:1px solid #0f3b2e;background:none;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#0f3b2e">Log out</button></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:22px"><sc-for list="{{ adm.tabs }}" as="t" hint-placeholder-count="11"><button sc-camel-on-click="{{ t.pick }}" style="padding:9px 15px;border-radius:40px;cursor:pointer;font-size:13px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button></sc-for></div>
+<sc-if value="{{ adm.isDash }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:28px"><sc-for list="{{ adm.kpis }}" as="k" hint-placeholder-count="8"><div style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:8px;padding:20px"><div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b">{{ k.k }}</div><div style="font-family:'Bodoni Moda',serif;font-size:34px;color:#0f3b2e;margin-top:8px">{{ k.v }}</div></div></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px;margin-top:12px">
+<div style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:8px;padding:22px"><div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b;margin-bottom:18px">Revenue by product</div><div style="display:grid;gap:12px"><sc-for list="{{ adm.bars }}" as="b" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:130px 1fr 80px;gap:12px;align-items:center;font-size:13px"><span>{{ b.name }}</span><div style="height:10px;background:#efe7d6;border-radius:5px;overflow:hidden"><div style="height:100%;width:{{ b.pct }};background:#0f3b2e;border-radius:5px"></div></div><span style="text-align:right">{{ b.v }}</span></div></sc-for></div></div>
+<div style="background:#fbf8f1;border:1px solid #e0d3b8;border-radius:8px;padding:22px"><div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b;margin-bottom:18px">Low-stock alerts</div><div style="display:grid;gap:10px"><sc-for list="{{ adm.alerts }}" as="s" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;font-size:14px"><span>{{ s.name }}</span><span style="color:{{ s.color }}">{{ s.v }}</span></div></sc-for></div></div>
+</div>
+</sc-if>
+<sc-if value="{{ adm.isCoupons }}" hint-placeholder-val="{{ false }}"><form sc-camel-on-submit="{{ adm.addCoupon }}" style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;background:#fbf8f1;border:1px solid #e0d3b8;border-radius:8px;padding:18px"><input name="code" required="" placeholder="CODE" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;text-transform:uppercase"><sc-raw-select name="type" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><option value="pct">% off</option><option value="flat">₹ off</option></sc-raw-select><input name="value" type="number" required="" placeholder="Value" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><input name="min" type="number" placeholder="Min. order ₹" style="padding:12px;border:1px solid #d8c7a4;border-radius:6px;background:#fff"><button type="submit" style="padding:12px;border:0;background:#0f3b2e;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Create coupon</button></form></sc-if>
+<sc-for list="{{ adm.tables }}" as="tb" hint-placeholder-count="1">
+<div style="margin-top:28px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap"><div style="font-family:'Bodoni Moda',serif;font-size:24px;color:#0f3b2e">{{ tb.title }}</div><sc-if value="{{ tb.hasExp }}" hint-placeholder-val="{{ false }}"><button sc-camel-on-click="{{ tb.exp }}" style="padding:9px 16px;border:1px solid #0f3b2e;background:none;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#0f3b2e">Export CSV</button></sc-if></div>
+<div style="overflow-x:auto;border:1px solid #e0d3b8;border-radius:8px;background:#fbf8f1"><sc-raw-table style="width:100%;border-collapse:collapse;font-size:14px;min-width:{{ tb.minW }}"><sc-raw-thead><sc-raw-tr style="text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8a6d3b"><sc-for list="{{ tb.cols }}" as="h" hint-placeholder-count="5"><sc-raw-th style="padding:13px 14px;font-weight:500">{{ h }}</sc-raw-th></sc-for></sc-raw-tr></sc-raw-thead><sc-raw-tbody><sc-for list="{{ tb.rows }}" as="r" hint-placeholder-count="3"><sc-raw-tr style="border-top:1px solid #e0d3b8"><sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><sc-raw-td style="padding:11px 14px;vertical-align:top">
+<sc-if value="{{ c.isText }}" hint-placeholder-val="{{ true }}"><div style="font-weight:{{ c.fw }};color:{{ c.color }}">{{ c.t }}</div><div style="font-size:12px;color:#6b6552;margin-top:2px">{{ c.sub }}</div></sc-if>
+<sc-if value="{{ c.isSel }}" hint-placeholder-val="{{ false }}"><sc-raw-select value="{{ c.val }}" sc-camel-on-change="{{ c.on }}" style="padding:7px 9px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:13px"><sc-for list="{{ c.opts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></sc-raw-select></sc-if>
+<sc-if value="{{ c.isIn }}" hint-placeholder-val="{{ false }}"><input type="{{ c.type }}" value="{{ c.val }}" sc-camel-on-change="{{ c.on }}" placeholder="{{ c.ph }}" style="width:{{ c.w }};padding:7px 9px;border:1px solid #d8c7a4;border-radius:6px;background:#fff;font-size:13px"></sc-if>
+<sc-if value="{{ c.isBtns }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ c.btns }}" as="b" hint-placeholder-count="0"><button sc-camel-on-click="{{ b.on }}" style="padding:6px 12px;border:1px solid #0f3b2e;background:none;border-radius:40px;cursor:pointer;font-size:12px;color:#0f3b2e">{{ b.l }}</button></sc-for></div></sc-if>
+</sc-raw-td></sc-for></sc-raw-tr></sc-for></sc-raw-tbody></sc-raw-table>
+<sc-if value="{{ tb.empty }}" hint-placeholder-val="{{ false }}"><div style="padding:26px;text-align:center;color:#6b6552;font-size:14px">{{ tb.emptyText }}</div></sc-if></div>
+</div>
+</sc-for>
+</sc-if>
+</section>
+</sc-if>
+</main>
+
+<footer style="background:#0a2a20;color:#b6c4ba">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,88px) clamp(16px,4vw,48px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:32px">
+<div style="grid-column:span 2;min-width:0"><span style="display:inline-flex;background:#f7f2e8;padding:5px 12px;border-radius:40px"><img src="assets/img/logo.webp" alt="APAR" style="height:28px;mix-blend-mode:multiply"></span><p style="font-size:14px;line-height:1.7;margin:18px 0 0;max-width:38ch">0-33, Amber Towar, Sansar chand Road, Jaipur<br>78519 78274 · aparfragrances@gmail.com</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><button sc-camel-on-click="{{ downloadCatalogue }}" style="padding:11px 18px;border:1px solid #b08d57;background:none;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Download Catalogue</button><a href="https://www.instagram.com/" target="_blank" style="padding:11px 18px;border:1px solid rgba(247,242,232,.3);color:#f7f2e8;border-radius:40px;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Instagram</a></div></div>
+<sc-for list="{{ footCols }}" as="c" hint-placeholder-count="3"><div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#e2c792;margin-bottom:14px">{{ c.title }}</div><div style="display:flex;flex-direction:column;gap:10px"><sc-for list="{{ c.links }}" as="l" hint-placeholder-count="5"><a href="{{ l.href }}" style="color:#d6ddd6;font-size:14px" style-hover="color:#e2c792">{{ l.label }}</a></sc-for></div></div></sc-for>
+</div>
+<div style="max-width:1320px;margin:0 auto;padding:20px clamp(16px,4vw,48px) 100px;border-top:1px solid rgba(247,242,232,.1);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px"><span>© APAR, Jaipur · FSSAI licence: to be confirmed</span><a href="#/admin" style="color:#8fa699">Admin</a></div>
+</footer>
+
+<a href="{{ waCurrent }}" target="_blank" aria-label="Chat on WhatsApp" style="position:fixed;right:clamp(14px,2vw,28px);bottom:{{ waBottom }};z-index:60;width:58px;height:58px;border-radius:50%;background:#1f8f4e;color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.45)" style-hover="background:#23a35a;color:#fff"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg></a>
+<sc-if value="{{ showMobileBar }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;left:0;right:0;bottom:0;z-index:55;display:grid;grid-template-columns:1fr 1fr;background:#f7f2e8;border-top:1px solid #d8c7a4"><a href="#/cart" style="padding:17px;text-align:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#0f3b2e">Cart · {{ cartCount }}</a><a href="{{ waCurrent }}" target="_blank" style="padding:17px;text-align:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;background:#0f3b2e;color:#f7f2e8">WhatsApp</a></div></sc-if>
+<sc-if value="{{ showConsent }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;left:clamp(12px,2vw,24px);bottom:{{ consentBottom }};z-index:70;max-width:420px;background:#1c2420;color:#f7f2e8;border-radius:10px;padding:18px 20px;box-shadow:0 20px 40px -20px rgba(0,0,0,.6);display:grid;gap:12px;font-size:14px;line-height:1.5"><div>We use cookies for the cart, sign-in and, with your consent, analytics and marketing. <a href="#/policy/privacy" style="color:#e2c792;text-decoration:underline">Privacy Policy</a></div><div style="display:flex;gap:8px"><button sc-camel-on-click="{{ consentAll }}" style="padding:10px 16px;border:0;background:#b08d57;color:#0a2a20;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Accept all</button><button sc-camel-on-click="{{ consentEssential }}" style="padding:10px 16px;border:1px solid rgba(247,242,232,.4);background:none;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Essential only</button></div></div></sc-if>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;left:50%;bottom:{{ toastBottom }};transform:translateX(-50%);z-index:90;background:#1c2420;color:#f7f2e8;padding:14px 22px;border-radius:40px;font-size:14px;box-shadow:0 20px 40px -20px rgba(0,0,0,.6);display:flex;gap:16px;align-items:center;max-width:92vw">{{ toast }}<a href="#/cart" style="color:#e2c792;font-size:12px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap">View cart</a></div></sc-if>
+<sc-if value="{{ paying }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;inset:0;z-index:95;background:rgba(10,42,32,.8);display:grid;place-items:center"><div style="background:#f7f2e8;border-radius:12px;padding:36px 44px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px">{{ spinner }}<div style="font-family:'Bodoni Moda',serif;font-size:24px;color:#0f3b2e">Processing payment…</div><div style="font-size:13px;color:#6b6552">Please don't close or refresh this window</div></div></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="">
+class Component extends DCLogic {
+  state = { ready: false, route: this.parse(), w: 1280, scrolled: false, menuOpen: false, booting: true, fade: 1, heroIn: false, faqOpen: -1 };
+  parse() { const h = (location.hash || '').replace(/^#\/?/, '').split('/'); return { page: h[0] || 'home', id: decodeURIComponent(h[1] || '') }; }
+  componentDidMount() {
+    const boot = () => {
+      if (!(window.APAR_DATA && window.AparStore && window.AparAdmin && window.AparCloud)) { this.bt = setTimeout(boot, 60); return; }
+      const S = window.AparStore; let saved = {};
+      try { const raw = JSON.parse(localStorage.getItem(S.KEY) || '{}'); S.persisted.forEach(k => { if (raw[k] !== undefined) saved[k] = raw[k]; }); } catch (e) {}
+      this.setState({ ...S.defaults(), ...saved, ready: true });
+      if (window.AparCloud) window.AparCloud.attach(this);
+      setTimeout(() => this.setState({ booting: false, heroIn: true }), 700);
+    };
+    boot();
+    this.onHash = () => { this.setState({ route: this.parse(), sel: 0, qty: 1, img: 0, menuOpen: false, fade: 0 }); window.scrollTo(0, 0); requestAnimationFrame(() => setTimeout(() => this.setState({ fade: 1 }), 30)); };
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onScroll = () => { const v = window.scrollY > 40; if (v !== this.state.scrolled) this.setState({ scrolled: v }); };
+    window.addEventListener('hashchange', this.onHash); window.addEventListener('resize', this.onResize); window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onResize(); this.onScroll();
+  }
+  componentDidUpdate(pp, ps) {
+    if (!this.state.ready) return;
+    if (window.AparCloud && ps && ps.ready) window.AparCloud.sync(this, ps);
+    const S = window.AparStore, o = {}; S.persisted.forEach(k => o[k] = this.state[k]);
+    try { localStorage.setItem(S.KEY, JSON.stringify(o)); } catch (e) {}
+    const { page, id } = this.state.route, p = page === 'product' && S.find(id);
+    const t = { home: 'APAR · Premium Indian Food Products', shop: 'Shop APAR Products', cart: 'Cart · APAR', checkout: 'Checkout · APAR', b2b: 'Bulk Supply & Distributors · APAR', story: 'Our Story · APAR', faq: 'FAQs · APAR', contact: 'Contact APAR', account: 'My Account · APAR', track: 'Track Order · APAR', wishlist: 'Wishlist · APAR', gifting: 'Festive & Corporate Gifting · APAR', admin: 'Admin · APAR' }[page];
+    document.title = p ? p.name + ' · Buy Online · APAR' : (t || 'APAR');
+  }
+  componentWillUnmount() { ['hashchange', 'resize', 'scroll'].forEach((e, i) => window.removeEventListener(e, [this.onHash, this.onResize, this.onScroll][i])); clearTimeout(this.bt); clearTimeout(this.tt); }
+  go(p) { location.hash = '#/' + p; }
+  renderVals() {
+    const s = this.state, w = s.w, isMobile = w < 960, { page, id } = s.route;
+    const base = { bootOpacity: s.booting ? 1 : 0, bootVis: s.booting ? 'visible' : 'hidden', isMobile, isDesktop: !isMobile };
+    if (!s.ready) return { ...base, isHome: true, headerBg: 'transparent', mainPad: '0', fadeOpacity: 1, heroGrid: '1fr' };
+    const S = window.AparStore, D = window.APAR_DATA, inr = S.inr, pill = S.pill;
+    const home = page === 'home' || page === '', solid = !home || s.scrolled || s.menuOpen;
+    const T = S.totals(this);
+    const waMsg = t => 'https://wa.me/' + D.WA + '?text=' + encodeURIComponent(t);
+    const nav = [['Shop', '#/shop'], ['Gulkand', '#/product/gulkand'], ['Gifting', '#/gifting'], ['B2B', '#/b2b'], ['Our Story', '#/story'], ['Contact', '#/contact']].map(([label, href]) => ({ label, href }));
+    const g400 = S.vars(this, D.PRODUCTS[0])[1];
+    const pz = D.zone(s.pin);
+    const itemsTxt = o => o.items.map(i => i.name.replace('APAR ', '') + ' ' + i.size + ' × ' + i.qty).join(', ');
+    const out = { ...base, nav, navAll: [...nav, ...[['FAQs', '#/faq'], ['Track Order', '#/track'], ['My Account', '#/account'], ['Wishlist', '#/wishlist']].map(([label, href]) => ({ label, href }))],
+      headerBg: solid ? 'rgba(15,59,46,.97)' : 'transparent', headerShadow: solid ? '0 10px 30px -20px rgba(0,0,0,.6)' : 'none', mainPad: home ? '0' : '102px', fadeOpacity: s.fade, heroGrid: isMobile ? '1fr' : 'minmax(0,1.5fr) minmax(0,1fr)', heroScale: s.heroIn ? '1' : '1.08',
+      menuOpen: s.menuOpen, toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }), closeMenu: () => this.setState({ menuOpen: false }),
+      cartCount: s.cart.reduce((a, l) => a + l.qty, 0), hasCart: s.cart.length > 0, cartEmpty: s.cart.length === 0, wishCount: s.wish.length, hasWish: s.wish.length > 0,
+      isHome: home, isShop: page === 'shop', isProduct: page === 'product', isCart: page === 'cart', isCheckout: page === 'checkout', isOrder: page === 'order', isPayFail: page === 'payfail', isTrack: page === 'track', isAccount: page === 'account', isWish: page === 'wishlist', isB2B: page === 'b2b', isGifting: page === 'gifting', isStory: page === 'story', isFaq: page === 'faq', isContact: page === 'contact', isPolicy: page === 'policy', isAdmin: page === 'admin',
+      imgBakery: D.IM.bakery, imgPetals: D.IM.petals, story0: D.STORY[0], story2: D.STORY[2], storyParas: D.STORY,
+      pillars: [['Tradition', 'Traditional Indian flavours'], ['Craft', 'Thoughtful processing and presentation'], ['Quality', 'Built around consistent product quality'], ['Range', 'Products for homes and businesses'], ['Trust', 'A brand built for long-term relationships']].map(([w, t]) => ({ w, t })),
+      heroPrice: inr(g400.price), heroMrp: inr(g400.mrp),
+      cats: D.CATS.map(c => ({ ...c, pos: c.pos || '50% 50%', href: '#/shop/' + c.slug })),
+      signature: D.PRODUCTS.filter(p => p.featured).map(p => S.card(this, p)), comboCards: D.PRODUCTS.filter(p => p.cat === 'combos').map(p => S.card(this, p)),
+      downloadCatalogue: () => S.downloadCatalogue(this),
+      waCurrent: waMsg(page === 'product' && S.find(id) ? `Hello APAR, I am interested in ${S.find(id).name.replace('APAR ', '')}. Please share product details, pricing and availability.` : 'Hello APAR, I would like to know more about your products.'),
+      waGeneral: waMsg('Hello APAR, I have a question.'), waBulk: waMsg('Hello APAR, I would like to discuss a bulk order.'),
+      waBottom: isMobile ? '74px' : '28px', showMobileBar: isMobile && page !== 'checkout' && page !== 'admin', toast: s.toast, hasToast: !!s.toast, toastBottom: isMobile ? '140px' : '100px', paying: s.paying,
+      showConsent: !s.consent, consentBottom: isMobile ? '74px' : '24px', consentAll: () => this.setState({ consent: 'all' }), consentEssential: () => this.setState({ consent: 'essential' }),
+      spinner: React.createElement('span', { style: { width: 36, height: 36, borderRadius: '50%', border: '3px solid #e0d3b8', borderTopColor: '#0f3b2e', animation: 'aparSpin .8s linear infinite' } }),
+      pin: s.pin, pinMsg: s.pinMsg, loggedIn: !!s.user, loggedOut: !s.user,
+      checkPin: e => { e.preventDefault(); const pin = String(new FormData(e.target).get('pin')).trim(), z = D.zone(pin); this.setState({ pin, pinMsg: z ? `Delivers to ${pin} in ${z.days} business days · ${z.cod ? 'COD available' : 'Prepaid only'} · Free delivery above ₹499` : 'Enter a valid 6-digit PIN code.' }); },
+      footCols: [
+        { title: 'Shop', links: D.CATS.map(c => ({ label: c.name, href: '#/shop/' + c.slug })) },
+        { title: 'Help', links: [['FAQs', '#/faq'], ['Track Order', '#/track'], ['My Account', '#/account'], ['Shipping Policy', '#/policy/shipping'], ['Return Policy', '#/policy/returns'], ['Refund Policy', '#/policy/refund'], ['Cancellation Policy', '#/policy/cancellation']].map(([label, href]) => ({ label, href })) },
+        { title: 'Company', links: [['Our Story', '#/story'], ['Gifting', '#/gifting'], ['Bulk / B2B', '#/b2b'], ['Distributors', '#/b2b/distributor'], ['Contact', '#/contact'], ['Privacy Policy', '#/policy/privacy'], ['Terms & Conditions', '#/policy/terms']].map(([label, href]) => ({ label, href })) }
+      ] };
+    if (page === 'shop') {
+      const cat = D.CATS.find(c => c.slug === id), q = s.q.trim().toLowerCase();
+      let list = D.PRODUCTS.filter(p => (!cat || p.cat === cat.slug) && (!q || (p.name + ' ' + p.short + ' ' + p.uses + ' ' + p.cat).toLowerCase().includes(q)));
+      const lo = p => S.vars(this, p)[0].price, off = p => { const v = S.vars(this, p)[0]; return 1 - v.price / v.mrp; };
+      if (s.sort === 'low') list = [...list].sort((a, b) => lo(a) - lo(b)); if (s.sort === 'high') list = [...list].sort((a, b) => lo(b) - lo(a)); if (s.sort === 'off') list = [...list].sort((a, b) => off(b) - off(a));
+      Object.assign(out, { shopTitle: cat ? cat.name : 'All Products', q: s.q, onQ: e => this.setState({ q: e.target.value }), sort: s.sort, onSort: e => this.setState({ sort: e.target.value }),
+        catChips: [{ name: 'All', href: '#/shop', ...pill(!cat) }, ...D.CATS.map(c => ({ name: c.name, href: '#/shop/' + c.slug, ...pill(cat && cat.slug === c.slug) }))],
+        shopList: list.map(p => S.card(this, p)), shopEmpty: !list.length, shopCount: list.length + (list.length === 1 ? ' product' : ' products'),
+        emptyTitle: id === 'other' && !q ? 'New APAR products are on the way' : 'No products match', emptyBody: id === 'other' && !q ? 'Future APAR products will appear here.' : 'Try "rose", "cherry" or "bakery".' });
+    }
+    if (page === 'product') {
+      const p = S.find(id) || D.PRODUCTS[0], vs = S.vars(this, p), vi = Math.min(s.sel, vs.length - 1), v = vs[vi], r = S.rating(this, p.id), rv = (s.reviews[p.id] || []).filter(x => x.approved);
+      const gal = p.gallery, mi = Math.min(s.img, gal.length - 1), isOut = v.stock <= 0, TBC = D.TBC;
+      out.pv = { name: p.name, cat: S.catName(p.cat), catHref: '#/shop/' + p.cat, sku: v.sku, short: p.short, mainImg: gal[mi], pos: mi === 0 ? (p.pos || '50% 50%') : '50% 50%',
+        gallery: gal.map((src, i) => ({ src, bd: i === mi ? '#0f3b2e' : 'transparent', pick: () => this.setState({ img: i }) })),
+        price: inr(v.price), mrp: inr(v.mrp), hasOff: v.mrp > v.price, off: Math.round((1 - v.price / v.mrp) * 100) + '% off', per100: inr(v.price / v.g * 100) + ' per 100 g',
+        variants: vs.map((x, i) => ({ size: x.size, price: x.stock > 0 ? inr(x.price) : 'Out of stock', ...pill(i === vi), pick: () => this.setState({ sel: i, qty: 1 }) })),
+        isOut, stockText: isOut ? 'Out of stock' : v.stock <= 10 ? 'Only ' + v.stock + ' left' : 'In stock', stockColor: isOut ? '#6d1a2a' : v.stock <= 10 ? '#a0661c' : '#1f7a45',
+        add: () => S.add(this, p.id, vi, s.qty), buy: () => { if (S.add(this, p.id, vi, s.qty)) this.go('checkout'); },
+        wish: () => S.toggleWish(this, p.id), wishLabel: s.wish.includes(p.id) ? '♥ Saved to wishlist' : '♡ Add to wishlist',
+        share: () => { const url = location.href; if (navigator.share) navigator.share({ title: p.name, url }).catch(() => {}); else { navigator.clipboard && navigator.clipboard.writeText(url); S.flash(this, 'Link copied'); } },
+        wa: waMsg(`Hello APAR, I am interested in ${p.name.replace('APAR ', '')}. Please share product details, pricing and availability.`),
+        stars: S.star(r.avg), ratingText: r.text, avg: r.n ? r.avg.toFixed(1) : '–',
+        details: [['Uses', p.uses], ['SKU', v.sku + ' (proposed)'], ['Net quantity', TBC], ['Ingredients', TBC], ['Nutrition per 100 g', TBC], ['Allergens', TBC], ['Storage', TBC], ['Shelf life', TBC], ['Manufacturer / packer', TBC], ['FSSAI licence', TBC], ['Barcode / GTIN', TBC], ['Country of origin', 'India']].map(([k, val]) => ({ k, v: val, color: val === TBC ? '#8b857a' : '#3d4238' })),
+        reviews: rv.slice().reverse().map(x => ({ ...x, stars: S.star(x.rating) })), noReviews: !rv.length };
+      out.qty = s.qty; out.qtyInc = () => this.setState({ qty: Math.min(s.qty + 1, Math.max(v.stock, 1)) }); out.qtyDec = () => this.setState({ qty: Math.max(1, s.qty - 1) });
+      out.starPick = [1, 2, 3, 4, 5].map(n => ({ label: n + ' stars', color: n <= s.rating ? '#b08d57' : '#d8c7a4', pick: () => this.setState({ rating: n }) }));
+      out.submitReview = e => { e.preventDefault(); if (!s.user) { S.flash(this, 'Please sign in to write a review'); this.go('account'); return; } const form = e.target, f = new FormData(form); window.AparCloud.addReview({ pid: p.id, name: String(f.get('name') || '').slice(0, 60), text: String(f.get('text') || '').slice(0, 1000), rating: s.rating }).then(() => { form.reset(); S.flash(this, 'Thank you. Your review will appear after approval.'); }).catch(err => S.flash(this, 'Could not submit review: ' + err.message)); };
+      out.related = D.PRODUCTS.filter(x => x.id !== p.id && (x.cat === p.cat || x.featured)).slice(0, 4).map(x => S.card(this, x));
+    }
+    if (page === 'cart' || page === 'checkout') {
+      out.lines = T.lines.map(({ p, v, l, idx }) => ({ name: p.name, size: v.size, sku: v.sku, img: p.img, pos: p.pos || '50% 50%', href: '#/product/' + p.id, qty: l.qty, unit: inr(v.price), total: inr(v.price * l.qty),
+        inc: () => this.setState(st => ({ cart: st.cart.map((x, i) => i === idx ? { ...x, qty: Math.min(x.qty + 1, v.stock) } : x) })),
+        dec: () => this.setState(st => ({ cart: st.cart.map((x, i) => i === idx ? { ...x, qty: x.qty - 1 } : x).filter(x => x.qty > 0) })),
+        remove: () => this.setState(st => ({ cart: st.cart.filter((x, i) => i !== idx) })) }));
+      out.summary = [{ k: 'Subtotal', v: inr(T.sub), color: '#1c2420' }, ...(T.disc ? [{ k: 'Coupon ' + s.coupon, v: '−' + inr(T.disc), color: '#1f7a45' }] : []), { k: 'Shipping', v: T.ship ? inr(T.ship) : 'Free', color: '#1c2420' }];
+      out.totalText = inr(T.total);
+      const gap = 499 - (T.sub - T.disc); out.freeGap = gap > 0; out.freeMsg = 'Add ' + inr(gap) + ' more for free delivery'; out.freePct = Math.min(100, Math.round((T.sub - T.disc) / 499 * 100)) + '%';
+      const apply = code => { code = (code || '').trim().toUpperCase(); const k = s.coupons.find(x => x.code === code && x.active); if (!k) return this.setState({ couponMsg: 'That code is not valid.', couponOk: false }); if (k.min && T.sub < k.min) return this.setState({ couponMsg: code + ' needs a subtotal of ' + inr(k.min) + '.', couponOk: false }); this.setState({ coupon: code, couponMsg: code + ' applied', couponOk: true }); };
+      out.applyCoupon = e => { e.preventDefault(); apply(new FormData(e.target).get('code')); };
+      out.couponHints = s.coupons.filter(k => k.active).map(k => ({ code: k.code, desc: k.type === 'pct' ? k.value + '% off' : '₹' + k.value + ' off' + (k.min ? ' above ' + inr(k.min) : ''), use: () => apply(k.code) }));
+      out.couponMsg = s.couponMsg; out.couponColor = s.couponOk ? '#1f7a45' : '#6d1a2a';
+      const u = s.user || {}, addrs = u.addresses || [], a = addrs[s.addrIdx] || {};
+      out.hasSaved = addrs.length > 0; out.formKey = 'f' + s.addrIdx;
+      out.savedAddr = addrs.map((x, i) => ({ label: x.name + ' · ' + x.city + ' ' + x.pin, ...pill(i === s.addrIdx), pick: () => this.setState({ addrIdx: i, pin: x.pin }) }));
+      out.addrFields = [['Full name', 'name', 'text', a.name || u.name || '', '', '1/-1'], ['Mobile number', 'phone', 'tel', a.phone || (/^\d+$/.test(u.contact || '') ? u.contact : ''), '10-digit mobile', 'auto'], ['Email', 'email', 'email', a.email || (String(u.contact || '').includes('@') ? u.contact : ''), 'For order updates', 'auto'], ['Address', 'address', 'text', a.address || '', 'House no., street, area', '1/-1'], ['City', 'city', 'text', a.city || '', '', 'auto'], ['PIN code', 'pin', 'text', a.pin || s.pin || '', '6 digits', 'auto']]
+        .map(([label, name, type, val, ph, span]) => ({ label, name, type, val, ph, span, req: name !== 'email', on: name === 'pin' ? (e => { const v = e.target.value.trim(); if (v.length === 6 || !v) this.setState({ pin: v }); }) : undefined }));
+      out.zoneMsg = T.z ? `Delivery to ${s.pin}: ${T.z.days} business days · ${T.z.name} zone · ${T.codOk ? 'COD available' : 'COD not available'}` : 'Enter your PIN code to see delivery time and COD availability.';
+      if (s.pay === 'cod' && !T.codOk) setTimeout(() => this.setState({ pay: 'upi' }), 0);
+      out.payOpts = [['upi', 'UPI', 'Google Pay, PhonePe, Paytm, BHIM'], ['card', 'Credit / Debit Card', 'Visa, Mastercard, RuPay'], ['nb', 'Net Banking', 'All major Indian banks'], ['cod', 'Cash on Delivery', T.codOk ? 'Pay when your order arrives' : 'Not available for this PIN code or order value']]
+        .map(([k, label, sub]) => { const off = k === 'cod' && !T.codOk; return { label, sub, off, op: off ? '.5' : '1', bd: s.pay === k ? '#0f3b2e' : '#d8c7a4', bg: s.pay === k ? '#fbf8f1' : '#fff', dot: s.pay === k ? '#0f3b2e' : 'transparent', pick: () => !off && this.setState({ pay: k }) }; });
+      out.payNote = s.pay === 'cod' ? 'Pay in cash when your order arrives. Please keep the exact amount ready.' : 'You\'ll complete payment securely on Razorpay (UPI, cards, net banking, wallets). Your order is confirmed only after the payment succeeds.';
+      out.payBtn = s.pay === 'cod' ? 'Place Order · ' + inr(T.total) : 'Pay ' + inr(T.total);
+      out.placeOrder = e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)); if (!D.zone(f.pin)) { S.flash(this, 'Enter a valid 6-digit PIN code'); return; } this.setState({ pin: f.pin }); S.placeOrder(this, f); };
+    }
+    out.clearFail = () => this.setState({ simFail: false });
+    if (page === 'order') { const o = s.orders.find(x => x.id === id) || { items: [] }; out.ov = { id: o.id, total: inr(o.total), pay: o.pay, phone: o.phone, track: '#/track/' + o.id, invoice: () => S.invoice(o) }; }
+    if (page === 'track') {
+      const ID = String(id || '').toUpperCase();
+      let o = ID && s.orders.find(x => x.id === ID);
+      if (!o && ID && s.trackRemote && s.trackRemote.id === ID) o = s.trackRemote;
+      if (ID && !o && s.trackLookup !== ID) setTimeout(() => { this.setState({ trackLookup: ID }); window.AparCloud.track(ID).then(r => this.setState({ trackRemote: r.order, trackDone: ID })).catch(() => this.setState({ trackDone: ID })); }, 0);
+      out.trackId = id; out.trackSubmit = e => { e.preventDefault(); this.go('track/' + String(new FormData(e.target).get('id')).trim().toUpperCase()); };
+      out.tv = o ? { found: true, missing: false, id: o.id, status: D.STATUSES[o.si], date: o.date, total: inr(o.total) + ' · ' + o.pay + ' · ' + o.payStatus, items: itemsTxt(o),
+        ship: o.tracking ? `Courier: ${o.courier} · Tracking no. ${o.tracking}` : 'Tracking number will be shared once shipped.', extra: [o.refund && 'Refund: ' + o.refund, o.ret && 'Return: ' + o.ret].filter(Boolean).join(' · '),
+        steps: D.STATUSES.slice(0, 5).map((l, i) => ({ label: l, bar: o.si !== 5 && i <= o.si ? '#0f3b2e' : '#e0d3b8', fg: o.si !== 5 && i <= o.si ? '#0f3b2e' : '#8b857a' })), events: (o.events || []).slice().reverse() } : { found: false, missing: !!ID && s.trackDone === ID };
+    }
+    if (page === 'account') {
+      const mode = ['link', 'email', 'signup'].includes(s.authMode) ? s.authMode : 'link';
+      const mine = s.user ? s.orders.filter(o => !o.sample && ((s.user.uid && o.uid === s.user.uid) || o.user === s.user.contact || o.email === s.user.contact)) : [];
+      Object.assign(out, { isSignup: mode === 'signup', isLink: mode === 'link', isPass: mode === 'email', needPass: mode !== 'link', passPh: mode === 'signup' ? 'Create a password (min. 6 characters)' : 'Password', passAuto: mode === 'signup' ? 'new-password' : 'current-password',
+        authEmail: s.authEmail || '', authErr: s.authErr || '', authMsg: s.authMsg || '', authBusy: !!s.authBusy,
+        authBtn: s.authBusy ? 'Please wait…' : mode === 'link' ? (s.linkPending ? 'Confirm & sign in' : 'Email me a sign-in link') : mode === 'signup' ? 'Create account' : 'Sign in',
+        authTabs: [['link', 'Email link'], ['email', 'Password'], ['signup', 'Sign up']].map(([k, label]) => ({ label, bg: mode === k ? '#0f3b2e' : 'transparent', fg: mode === k ? '#f7f2e8' : '#1c2420', pick: () => this.setState({ authMode: k, authErr: '', authMsg: '' }) })),
+        authSubmit: e => { e.preventDefault(); if (s.authBusy) return; const f = Object.fromEntries(new FormData(e.target)); window.AparCloud.authSubmit(this, mode, f.email, f.password, f.name); },
+        forgotPass: e => { const form = e.target && e.target.form; window.AparCloud.reset(this, form && form.email ? form.email.value : ''); },
+        googleLogin: () => window.AparCloud.google(this),
+        logout: () => window.AparCloud.logout(), userName: s.user ? s.user.name : '', userContact: s.user ? s.user.contact : '',
+        acctTabs: [['orders', 'Orders'], ['addresses', 'Addresses'], ['coupons', 'Coupons'], ['profile', 'Profile']].map(([k, label]) => ({ label, ...pill(s.acctTab === k), pick: () => this.setState({ acctTab: k }) })).concat([{ label: 'Wishlist · ' + s.wish.length, ...pill(false), pick: () => this.go('wishlist') }]),
+        acOrders: s.acctTab === 'orders', acAddr: s.acctTab === 'addresses', acCoupons: s.acctTab === 'coupons', acProfile: s.acctTab === 'profile',
+        myOrders: mine.map(o => ({ id: o.id, date: o.date, items: itemsTxt(o), total: inr(o.total), status: D.STATUSES[o.si], extra: [o.pay + ' · ' + o.payStatus, o.tracking && 'Tracking ' + o.tracking, o.refund && 'Refund ' + o.refund, o.ret && 'Return ' + o.ret].filter(Boolean).join(' · '),
+          actions: [{ l: 'Track', on: () => this.go('track/' + o.id) }, { l: 'Invoice', on: () => S.invoice(o) }, { l: 'Reorder', on: () => S.reorder(this, o) }, ...(o.si < 2 ? [{ l: 'Cancel order', on: () => S.cancel(this, o) }] : []), ...(o.si === 4 && !o.ret ? [{ l: 'Request return', on: () => S.updateOrder(this, o.id, x => ({ ...x, ret: 'Requested', events: S.notify(x, 'Return requested') })) }] : [])] })),
+        noOrders: !mine.length,
+        myAddr: ((s.user || {}).addresses || []).map((a, i) => ({ ...a, remove: () => this.setState(st => { const user = { ...st.user, addresses: st.user.addresses.filter((x, j) => j !== i) }; return { user, users: st.users.map(u => u.contact === user.contact ? user : u) }; }) })),
+        addAddr: e => { e.preventDefault(); const a = Object.fromEntries(new FormData(e.target)); this.setState(st => { const user = { ...st.user, addresses: [...(st.user.addresses || []), a] }; return { user, users: st.users.map(u => u.contact === user.contact ? user : u) }; }); e.target.reset(); },
+        myCoupons: s.coupons.filter(k => k.active).map(k => ({ code: k.code, desc: (k.type === 'pct' ? k.value + '% off' : '₹' + k.value + ' off') + (k.min ? ' on orders above ' + inr(k.min) : ' on any order') })),
+        saveProfile: e => { e.preventDefault(); const name = new FormData(e.target).get('name'); this.setState(st => { const user = { ...st.user, name }; return { user, users: st.users.map(u => u.contact === user.contact ? user : u) }; }); S.flash(this, 'Profile saved'); } });
+    }
+    if (page === 'wishlist') { const l = D.PRODUCTS.filter(p => s.wish.includes(p.id)); out.wishList = l.map(p => S.card(this, p)); out.wishEmpty = !l.length; }
+    if (page === 'b2b') {
+      const dist = id === 'distributor', gift = id === 'gifting';
+      Object.assign(out, { b2bEyebrow: dist ? 'Distributors & dealers' : gift ? 'Corporate gifting' : 'B2B · Bulk supply', b2bTitle: dist ? 'Grow With APAR' : gift ? 'Gifting, made memorable' : 'Built for Business. Ready for Scale.',
+        b2bBody: dist ? 'Partner with APAR and bring our growing product range to customers in your market.' : gift ? 'APAR gift boxes and combos for festivals, events and corporate gifting. Tell us the quantity and occasion.' : 'Gulkand, Karonda Cherry, Tutti Frutti, Lacha Tutti Frutti and Lacha Supari for businesses. Tell us what you need and our team will respond with pricing and availability.',
+        leadDefault: dist ? 'Distributor' : gift ? 'Corporate gifting' : 'Bulk purchase',
+        leadTypes: ['Bulk purchase', 'Distributor', 'Dealership', 'Bakery', 'Hotel / Restaurant', 'Retailer', 'Corporate gifting', 'General'],
+        buyers: ['Bakeries', 'Sweet manufacturers', 'Hotels', 'Restaurants', 'Distributors', 'Wholesalers', 'Retailers', 'Food manufacturers', 'FMCG companies'],
+        leadFields: [['Name', 'name', 'Full name', true], ['Company', 'company', 'Business name', false], ['GSTIN', 'gstin', '15-character GSTIN', false], ['Phone', 'phone', '+91', true], ['Email', 'email', 'you@company.com', false], ['Product', 'product', 'e.g. Tutti Frutti', false], ['Quantity', 'quantity', 'e.g. 200 kg / month', false], ['Location', 'location', 'City, State', true]].map(([label, name, ph, req]) => ({ label, name, ph, req })),
+        leadSubmit: e => { e.preventDefault(); const form = e.target, f = Object.fromEntries(new FormData(form)); window.AparCloud.sendLead(f).then(() => { form.reset(); S.flash(this, 'Thank you. Our team will contact you shortly.'); }).catch(err => S.flash(this, err.message)); } });
+    }
+    if (page === 'faq') out.faqs = D.FAQ.map(([q, a], i) => ({ q, a, open: s.faqOpen === i, sign: s.faqOpen === i ? '−' : '+', toggle: () => this.setState({ faqOpen: s.faqOpen === i ? -1 : i }) }));
+    if (page === 'contact') { const C = D.CONTACT; out.contactInfo = [['Phone', C.phone, 'tel:+917851978274'], ['WhatsApp', C.phone, 'https://wa.me/' + D.WA], ['Email', C.email, 'mailto:' + C.email], ['Address', C.address, 'https://maps.google.com/?q=Sansar+Chand+Road+Jaipur'], ['Bulk & distribution', 'Send an enquiry', '#/b2b']].map(([k, v, href]) => ({ k, v, href })); }
+    if (page === 'policy') { out.policyTitle = D.POLICIES[id] || 'Policies'; out.policyLinks = Object.entries(D.POLICIES).map(([k, label]) => ({ label, href: '#/policy/' + k, ...pill(k === id) })); }
+    if (page === 'admin') {
+      out.adminLocked = !s.admin; out.adminOpen = !!s.admin;
+      out.adminMsg = !s.user ? 'Sign in with the APAR admin account to manage orders, stock, prices, coupons and reviews.' : 'You are signed in as ' + s.user.contact + ', which does not have admin access. Sign out from My Account and sign in with the admin email.';
+      out.adminBtn = s.user ? 'Go to My Account' : 'Sign in';
+      out.adminLogout = () => window.AparCloud.logout();
+      out.adm = s.admin ? window.AparAdmin.build(this) : { tabs: [], tables: [] };
+    }
+    return out;
+  }
+}
+</script>
+
+
+</body></html>

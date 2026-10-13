@@ -1,0 +1,8 @@
+{
+  "name": "apar-website",
+  "private": true,
+  "description": "APAR online store: static site + Netlify functions (Firebase + Razorpay)",
+  "dependencies": {
+    "firebase-admin": "^12.7.0"
+  }
+}
