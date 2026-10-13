@@ -55,6 +55,16 @@
     'auth/popup-blocked': 'Your browser blocked the Google window. Please allow pop-ups and try again.'
   }[code] || 'Sign-in failed. Please try again.');
 
+  // Firestore can't store arrays inside arrays, so variants are saved as objects.
+  function fromDb(p) { return Object.assign({}, p, { v: (p.v || []).map(x => Array.isArray(x) ? x : [x.size, Number(x.g) || 0, Number(x.mrp) || 0, Number(x.price) || 0, Number(x.stock) || 0, x.sku || '']) }); }
+  function toDb(p) { const o = Object.assign({}, p, { v: p.v.map(([size, g, mrp, price, stock, sku]) => ({ size, g, mrp, price, stock: stock || 0, sku: sku || '' })) }); Object.keys(o).forEach(k => o[k] === undefined && delete o[k]); return o; }
+  // Customers only see visible products; the admin sees everything.
+  function setVisible() {
+    const all = D().ALL_PRODUCTS || D().PRODUCTS.slice();
+    const list = comp && comp.state.admin ? all : all.filter(p => !p.hidden);
+    D().PRODUCTS.splice(0, D().PRODUCTS.length, ...list);
+  }
+
   function groupReviews(docs) {
     const out = {};
     docs.map(d => ({ _id: d.id, ...d.data() })).sort((a, b) => (a.ts || 0) - (b.ts || 0)).forEach(r => {
@@ -66,6 +76,7 @@
   // ---------- Startup ----------
   C.attach = function (c) {
     comp = c;
+    D().ALL_PRODUCTS = D().PRODUCTS.slice();
     comp.setState({ orders: guestOrders() });
     if (!window.firebase || !window.APAR_FIREBASE) { warn('Firebase not loaded'); return; }
     try {
@@ -79,8 +90,12 @@
     db.doc('settings/catalog').onSnapshot(d => {
       const x = d.exists ? d.data() : {};
       const px = x.px || {}, coupons = Array.isArray(x.coupons) ? x.coupons : D().COUPONS;
+      if (Array.isArray(x.products) && x.products.length) D().ALL_PRODUCTS = x.products.map(fromDb);
+      if (Array.isArray(x.cats) && x.cats.length) D().CATS.splice(0, D().CATS.length, ...x.cats);
+      D().SITE = x.site || {};
+      setVisible();
       M.px = px; M.coupons = coupons;
-      comp.setState({ px, coupons });
+      comp.setState({ px, coupons, site: D().SITE, catalogV: Date.now() });
     }, warn);
 
     db.collection('reviews').where('approved', '==', true).onSnapshot(qs => {
@@ -96,7 +111,7 @@
     unsubAdmin.forEach(f => f()); unsubAdmin = [];
     if (!u) {
       M.user = null;
-      comp.setState({ user: null, admin: false, orders: guestOrders() });
+      comp.setState({ user: null, admin: false, orders: guestOrders() }, setVisible);
       return;
     }
     const ref = db.doc('users/' + u.uid);
@@ -125,7 +140,7 @@
   }
 
   function attachAdmin() {
-    comp.setState({ admin: true });
+    comp.setState({ admin: true }, () => { setVisible(); comp.setState({ catalogV: Date.now() }); });
     unsubAdmin.push(db.collection('orders').orderBy('ts', 'desc').limit(1000).onSnapshot(qs => {
       M.orders = new Map();
       const orders = qs.docs.map(d => { const o = d.data(); M.orders.set(o.id, o); return o; });
@@ -280,6 +295,104 @@
   };
   C.track = id => api('track-order?id=' + encodeURIComponent(id), null, 'GET');
 
+  // ---------- Admin: products, photos, site settings ----------
+  const slug = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+  const catRef = () => db.doc('settings/catalog');
+  const patchPe = (c, o) => c.setState(st => ({ pe: st.pe ? Object.assign({}, st.pe, o) : st.pe }));
+
+  C.saveProduct = function (c, d) {
+    if (!db || !c.state.admin) return;
+    const fail = msg => patchPe(c, { busy: false, err: true, msg });
+    const name = String(d.name || '').trim();
+    if (!name) return fail('Please enter the product name.');
+    const variants = (d.variants || []).filter(v => String(v.size || '').trim() || v.price);
+    if (!variants.length) return fail('Add at least one pack size with a price.');
+    for (const v of variants) {
+      if (!String(v.size || '').trim()) return fail('Every pack needs a size, e.g. "250 g".');
+      if (!(Number(v.price) > 0)) return fail('Every pack needs a selling price.');
+      if (v.mrp && Number(v.mrp) < Number(v.price)) return fail('MRP cannot be lower than the selling price (' + v.size + ').');
+    }
+    const all = D().ALL_PRODUCTS || D().PRODUCTS;
+    const old = d.isNew ? null : all.find(p => p.id === d.id);
+    let id = old ? old.id : slug(name) || 'product';
+    if (!old) { let n = 2, base = id; while (all.some(p => p.id === id)) id = base + '-' + n++; }
+    const code = old && old.code ? old.code : name.replace(/^APAR\s+/i, '').split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 4) || 'P';
+    const cats = D().CATS.map(k => Object.assign({}, k));
+    let cat = d.cat || (cats[0] && cats[0].slug);
+    const newCat = String(d.newCat || '').trim();
+    if (newCat) {
+      const s = slug(newCat);
+      if (!cats.some(k => k.slug === s)) cats.splice(Math.max(0, cats.length - 1), 0, { slug: s, name: newCat, img: (d.imgs || [])[0] || '' });
+      cat = s;
+    }
+    const imgs = (d.imgs || []).filter(Boolean);
+    const v = variants.map(x => {
+      const size = String(x.size).trim(), price = Math.round(Number(x.price)), mrp = Math.round(Number(x.mrp) || price);
+      return [size, Math.round(Number(x.g) || 0), mrp, price, 0, String(x.sku || '').trim() || ('APR-' + code + '-' + size.replace(/\s/g, '').toUpperCase())];
+    });
+    const product = Object.assign({}, old || {}, {
+      id, code, cat, name, short: String(d.short || '').trim(), uses: String(d.uses || '').trim(),
+      featured: !!d.featured, hidden: !!d.hidden, img: imgs[0] || '', gallery: imgs, details: d.details || {}, v
+    });
+    if (old && old.img !== product.img) delete product.pos;
+    const products = old ? all.map(p => p.id === id ? product : p) : [...all, product];
+    const px = {};
+    variants.forEach((x, i) => { px[id + ':' + i] = { mrp: v[i][2], price: v[i][3], stock: Math.max(0, Math.round(Number(x.stock) || 0)) }; });
+    for (let i = variants.length; old && i < old.v.length; i++) px[id + ':' + i] = firebase.firestore.FieldValue.delete();
+    patchPe(c, { busy: true, err: false, msg: '' });
+    catRef().set({ products: products.map(toDb), cats, px }, { merge: true })
+      .then(() => { c.setState({ pe: null }); S().flash(c, name + (old ? ' updated' : ' added to the store')); })
+      .catch(e => fail('Could not save: ' + e.message));
+  };
+
+  C.setHidden = function (c, id, hidden) {
+    const all = (D().ALL_PRODUCTS || D().PRODUCTS).map(p => p.id === id ? Object.assign({}, p, { hidden }) : p);
+    catRef().set({ products: all.map(toDb) }, { merge: true })
+      .then(() => S().flash(c, hidden ? 'Product hidden from the store' : 'Product is visible on the store'))
+      .catch(e => S().flash(c, 'Could not save: ' + e.message));
+  };
+
+  C.saveSite = function (c, site) {
+    const clean = {};
+    ['announce', 'fssai', 'gstin'].forEach(k => { clean[k] = String((site || {})[k] || '').trim(); });
+    catRef().set({ site: clean }, { merge: true })
+      .then(() => { c.setState({ siteDraft: null }); S().flash(c, 'Site settings saved'); })
+      .catch(e => S().flash(c, 'Could not save: ' + e.message));
+  };
+
+  function compress(file) {
+    return new Promise((res, rej) => {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => {
+        const k = Math.min(1, 1400 / Math.max(img.naturalWidth, img.naturalHeight));
+        const w = Math.round(img.naturalWidth * k), h = Math.round(img.naturalHeight * k);
+        const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        const ctx = cv.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        const d = cv.toDataURL('image/webp', 0.85);
+        res(d.indexOf('data:image/webp') === 0 ? d : cv.toDataURL('image/jpeg', 0.85));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Could not read "' + file.name + '". Please use a JPG or PNG photo.')); };
+      img.src = url;
+    });
+  }
+
+  C.uploadImages = async function (c, files) {
+    if (!files.length) return;
+    patchPe(c, { uploading: true, err: false, msg: '' });
+    let done = 0;
+    for (const f of files) {
+      try {
+        const data = await compress(f);
+        const r = await api('upload-image', { data });
+        done++;
+        c.setState(st => ({ pe: st.pe ? Object.assign({}, st.pe, { imgs: [...(st.pe.imgs || []), r.url] }) : st.pe }));
+      } catch (e) { patchPe(c, { err: true, msg: e.message }); }
+    }
+    patchPe(c, { uploading: false });
+    if (done) S().flash(c, done + (done > 1 ? ' photos' : ' photo') + ' uploaded. Click Save to publish.');
+  };
+
   // ---------- Checkout ----------
   let rzpLoading = null;
   function loadRazorpay() {
@@ -339,5 +452,6 @@
     }
   };
 
+  C._comp = () => comp;
   window.AparCloud = C;
 })();

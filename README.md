@@ -19,6 +19,8 @@ Live store for APAR (Jaipur). Same design as "APAR Shop v2", now with real accou
 Razorpay webhook (optional backup): Settings → Webhooks → Add → URL `https://<your-site>/.netlify/functions/razorpay-webhook`, event `order.paid`.
 
 ## Admin
+Admin panel can: add/edit/hide products, upload photos, change pack sizes, prices, stock and product details; update order status, payment status, courier and tracking number; see customers, payments, reviews, B2B leads; edit announcement bar, FSSAI and GSTIN (Site settings). Product photos are stored in Netlify Blobs and served at `/media/...`.
+
 Open `/#/admin` and sign in (Google or email link) with **aparfragrances@gmail.com**.
 To add another admin email, change it in `firestore.rules`, `public/assets/js/apar-cloud.js` (`ADMIN_EMAILS`) and set Netlify variable `ADMIN_EMAILS`.
 

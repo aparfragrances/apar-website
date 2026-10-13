@@ -42,11 +42,16 @@ function vars(px, p) {
   });
 }
 
+// Products saved by the admin panel live in settings/catalog.products (variants stored as objects).
+function fromDb(p) {
+  return { ...p, v: (p.v || []).map(x => Array.isArray(x) ? x : [x.size, Number(x.g) || 0, Number(x.mrp) || 0, Number(x.price) || 0, Number(x.stock) || 0, x.sku || '']) };
+}
 async function readCatalog(tx) {
   const ref = db().doc('settings/catalog');
   const snap = tx ? await tx.get(ref) : await ref.get();
   const d = snap.exists ? snap.data() : {};
-  return { ref, px: d.px || {}, coupons: Array.isArray(d.coupons) ? d.coupons : D.COUPONS };
+  const products = Array.isArray(d.products) && d.products.length ? d.products.map(fromDb) : D.PRODUCTS;
+  return { ref, px: d.px || {}, coupons: Array.isArray(d.coupons) ? d.coupons : D.COUPONS, products };
 }
 
 const clean = (v, max) => String(v == null ? '' : v).replace(/[<>]/g, '').trim().slice(0, max);
@@ -71,9 +76,10 @@ function priceCart(cat, items, couponCode, pin, opts) {
   if (!Array.isArray(items) || !items.length || items.length > 30) throw httpErr(400, 'Your cart is empty.');
   const need = {};
   const lines = items.map(it => {
-    const p = D.PRODUCTS.find(x => x.id === it.pid);
+    const p = cat.products.find(x => x.id === it.pid);
     const vi = Number(it.vi), qty = Math.floor(Number(it.qty));
     if (!p || !Number.isInteger(vi) || !(qty >= 1 && qty <= 50)) throw httpErr(400, 'Your cart has an invalid item. Please refresh and try again.');
+    if (p.hidden) throw httpErr(409, p.name + ' is no longer available. Please remove it from your cart.');
     const v = vars(cat.px, p)[vi];
     if (!v) throw httpErr(400, 'Your cart has an invalid pack size. Please refresh and try again.');
     need[p.id + ':' + vi] = (need[p.id + ':' + vi] || 0) + qty;
@@ -113,7 +119,7 @@ async function newOrderRef(tx) {
 function applyStock(tx, cat, items, orderId, sign) {
   const ch = {};
   items.forEach(it => {
-    const p = D.PRODUCTS.find(x => x.id === it.pid);
+    const p = cat.products.find(x => x.id === it.pid);
     if (!p) return;
     const vi = Number.isInteger(it.vi) ? it.vi : p.v.findIndex(x => x[0] === it.size);
     if (vi < 0) return;
@@ -170,7 +176,7 @@ async function finalizePaid(pendingId, paymentId, rzpOrderId) {
     const T = { items: P.items, sub: P.sub, disc: P.disc, ship: P.ship, total: P.total, coupon: P.coupon };
     let note = '';
     P.items.forEach(it => {
-      const p = D.PRODUCTS.find(x => x.id === it.pid);
+      const p = cat.products.find(x => x.id === it.pid);
       if (p && vars(cat.px, p)[it.vi] && vars(cat.px, p)[it.vi].stock < it.qty) note = 'Stock check needed: an item sold out while this customer was paying.';
     });
     const order = buildOrder({ id, user: P.uid ? { uid: P.uid, email: P.email } : null, addr: P.addr, T, pay: P.pay, payStatus: 'Paid', txn: paymentId, note });
@@ -199,4 +205,4 @@ function body(event) {
   try { return JSON.parse(event.body || '{}'); } catch (e) { throw httpErr(400, 'Invalid request.'); }
 }
 
-module.exports = { D, admin, db, FieldValue, httpErr, getUser, isAdmin, today, stamp, vars, readCatalog, validateAddress, priceCart, newOrderRef, applyStock, couponUse, buildOrder, rzpKeys, hmac, safeEqual, finalizePaid, respond, handler, body, clean };
+module.exports = { fromDb, D, admin, db, FieldValue, httpErr, getUser, isAdmin, today, stamp, vars, readCatalog, validateAddress, priceCart, newOrderRef, applyStock, couponUse, buildOrder, rzpKeys, hmac, safeEqual, finalizePaid, respond, handler, body, clean };
