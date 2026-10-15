@@ -55,13 +55,14 @@
   const fromDb = p => Object.assign({}, p, { v: (p.v || []).map(x => Array.isArray(x) ? x : [x.size, Number(x.g) || 0, Number(x.mrp) || 0, Number(x.price) || 0, Number(x.stock) || 0, x.sku || '']) });
   const toDb = p => { const o = Object.assign({}, p, { v: p.v.map(([size, g, mrp, price, stock, sku]) => ({ size, g, mrp, price, stock: stock || 0, sku: sku || '' })) }); Object.keys(o).forEach(k => o[k] === undefined && delete o[k]); return o; };
   A.vars = (px, p) => p.v.map(([size, g, mrp, price, stock, sku], i) => { const o = (px || {})[p.id + ':' + i] || {}; return { i, size, g, sku, mrp: o.mrp != null ? o.mrp : mrp, price: o.price != null ? o.price : price, stock: o.stock != null ? o.stock : stock }; });
+  const SHIP0 = D.SHIP_DEFAULT || { free: 499, codMax: 5000, zones: { A: 39, B: 49, C: 49, D: 79 }, cod: { A: true, B: true, C: true, D: false } };
   function readCatalog(snap) {
     const x = snap && snap.exists ? snap.data() : {};
     return {
       raw: x, px: x.px || {}, coupons: Array.isArray(x.coupons) ? x.coupons : D.COUPONS.map(k => Object.assign({}, k)),
       products: (Array.isArray(x.products) && x.products.length ? x.products : D.PRODUCTS).map(fromDb),
       cats: Array.isArray(x.cats) && x.cats.length ? x.cats : D.CATS, site: x.site || {},
-      shipping: Object.assign({}, D.SHIP_DEFAULT, x.shipping || {}, { zones: Object.assign({}, D.SHIP_DEFAULT.zones, (x.shipping || {}).zones || {}), cod: Object.assign({}, D.SHIP_DEFAULT.cod, (x.shipping || {}).cod || {}) })
+      shipping: Object.assign({}, SHIP0, x.shipping || {}, { zones: Object.assign({}, SHIP0.zones, (x.shipping || {}).zones || {}), cod: Object.assign({}, SHIP0.cod, (x.shipping || {}).cod || {}) })
     };
   }
   A.readCatalog = readCatalog;
@@ -70,15 +71,16 @@
   A.subscribe = function (role, onData, onNewOrder) {
     const unsubs = [], state = { ready: {} };
     const push = (k, v) => { state[k] = v; state.ready[k] = true; onData(Object.assign({}, state)); };
-    const err = k => e => { console.warn(k, e); push(k + 'Error', e.message); };
-    unsubs.push(db.doc('settings/catalog').onSnapshot(s => push('catalog', readCatalog(s)), err('catalog')));
+    const err = k => e => { console.warn(k, e); state[k + 'Error'] = e.message || String(e); onData(Object.assign({}, state)); };
+    const safe = (k, fn) => x => { try { fn(x); } catch (e) { err(k)(e); } };
+    unsubs.push(db.doc('settings/catalog').onSnapshot(safe('catalog', s => push('catalog', readCatalog(s))), err('catalog')));
     let known = null;
-    unsubs.push(db.collection('orders').orderBy('ts', 'desc').limit(1500).onSnapshot(qs => {
+    unsubs.push(db.collection('orders').orderBy('ts', 'desc').limit(1500).onSnapshot(safe('orders', qs => {
       const orders = qs.docs.map(d => d.data());
       if (known) qs.docChanges().forEach(ch => { if (ch.type === 'added' && !known.has(ch.doc.id)) onNewOrder && onNewOrder(ch.doc.data()); });
       known = new Set(orders.map(o => o.id));
       push('orders', orders);
-    }, err('orders')));
+    }), err('orders')));
     unsubs.push(db.collection('users').limit(5000).onSnapshot(qs => push('users', qs.docs.map(d => Object.assign({ uid: d.id }, d.data()))), err('users')));
     unsubs.push(db.collection('reviews').onSnapshot(qs => push('reviews', qs.docs.map(d => Object.assign({ _id: d.id }, d.data())).sort((a, b) => (b.ts || 0) - (a.ts || 0))), err('reviews')));
     unsubs.push(db.collection('leads').orderBy('ts', 'desc').limit(1000).onSnapshot(qs => push('leads', qs.docs.map(d => Object.assign({ _id: d.id }, d.data()))), err('leads')));

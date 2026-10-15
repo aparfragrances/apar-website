@@ -73,9 +73,11 @@
     const props = { data, role, openOrder };
     const search = e => { e.preventDefault(); const v = q.trim(); if (!v) return; const hit = (data.orders || []).find(o => o.id === v.toUpperCase()); if (hit) setOrder(hit.id); else { A.go('orders/all'); setTimeout(() => window.dispatchEvent(new CustomEvent('aa-search', { detail: v })), 0); } };
     const [ordersQuery, setOrdersQuery] = useState('');
+    const [slow, setSlow] = useState(false);
+    useEffect(() => { const t = setTimeout(() => setSlow(true), 12000); return () => clearTimeout(t); }, []);
     useEffect(() => { const f = e => setOrdersQuery(e.detail + ' '); window.addEventListener('aa-search', f); return () => window.removeEventListener('aa-search', f); }, []);
     let body;
-    if (!data.ready.catalog || !data.ready.orders) body = err ? html`<div className="page"><div className="alert">Could not load data: ${err}. Check that the latest Firestore rules are published.</div></div>` : html`<div className="loading"><span className="spin"></span>Loading your store…</div>`;
+    if (!data.ready.catalog || !data.ready.orders) body = err ? html`<div className="page"><div className="alert">Could not load data: ${err}. Press Ctrl+F5 to reload; if it continues, check that the latest Firestore rules are published.</div></div>` : html`<div className="loading"><span className="spin"></span>Loading your store…${slow && html`<div className="sub" style=${{ marginLeft: 12 }}>Taking longer than usual. Check your internet, then press Ctrl+F5.</div>`}</div>`;
     else if (!allowed) body = html`<div className="page"><div className="alert grey">This section is only for admins.</div></div>`;
     else body = {
       dashboard: html`<${A.Dashboard} ...${props} />`, orders: html`<${A.Orders} ...${props} tab=${sub || 'all'} query=${ordersQuery.trim()} />`,
