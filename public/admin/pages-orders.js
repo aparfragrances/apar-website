@@ -101,7 +101,7 @@
       </div>
       ${sel.length > 0 && html`<div className="bulk"><b>${sel.length} selected</b>
         <${Btn} small onClick=${() => bulkStatus(1)}>Mark packed</${Btn}><${Btn} small onClick=${() => bulkStatus(2)}>Mark shipped</${Btn}><${Btn} small onClick=${() => bulkStatus(4)}>Mark delivered</${Btn}>
-        <${Btn} small icon="print" onClick=${() => A.run(Promise.resolve(A.printLabels(sel, cat)))}>Shipping labels</${Btn}><${Btn} small icon="print" onClick=${() => A.run(Promise.resolve(A.printInvoices(sel, cat)))}>Invoices</${Btn}>
+        <${Btn} small icon="print" onClick=${() => A.run(Promise.resolve(A.printLabels(sel, cat)))}>Shipping labels</${Btn}><${Btn} small icon="print" onClick=${() => A.run(Promise.resolve().then(() => A.printInvoices(sel, cat)), "Invoice PDF downloaded")}>Invoices PDF</${Btn}>
         <${Btn} small icon="dl" onClick=${() => A.exportOrders(sel)}>Export</${Btn}><${Btn} small kind="link" onClick=${() => setPicked({})}>Clear</${Btn}></div>`}
       <div className="card" style=${{ padding: 0 }}>${rows.length ? html`<div className="tbl-wrap"><table className="tbl clickable">
         <thead><tr><th style=${{ width: 36 }}><input type="checkbox" checked=${!!allOn} onChange=${toggleAll} aria-label="Select all" /></th><th>Order</th><th>Customer</th><th>Items</th><th className="r">Total</th><th>Payment</th><th>Status</th><th>Tracking</th></tr></thead>
@@ -152,7 +152,7 @@
     };
 
     return html`<${Drawer} open=${true} onClose=${onClose} wide=${true} title=${html`Order ${o.id} <${Badge} t=${status} /> <${Badge} t=${o.payStatus} />`} sub=${o.date + ' · ' + inr(o.total) + ' · ' + o.pay}
-      footer=${html`<${Btn} icon="print" onClick=${() => A.run(Promise.resolve(A.printInvoices([o], cat)))}>GST invoice</${Btn}><${Btn} icon="print" onClick=${() => A.run(Promise.resolve(A.printLabels([o], cat)))}>Shipping label</${Btn}><span className="grow"></span>${!cancelled && o.si < 2 && html`<${Btn} kind="danger-ghost" onClick=${cancel}>Cancel order</${Btn}>`}${next != null && html`<${Btn} kind="primary" onClick=${() => doStatus(next)}>Mark ${STATUSES[next].toLowerCase()}</${Btn}>`}`}>
+      footer=${html`<${Btn} icon="print" onClick=${() => A.run(Promise.resolve().then(() => A.printInvoices([o], cat)), "Invoice PDF downloaded")}>Invoice PDF</${Btn}><${Btn} icon="print" onClick=${() => A.run(Promise.resolve(A.printLabels([o], cat)))}>Shipping label</${Btn}><span className="grow"></span>${!cancelled && o.si < 2 && html`<${Btn} kind="danger-ghost" onClick=${cancel}>Cancel order</${Btn}>`}${next != null && html`<${Btn} kind="primary" onClick=${() => doStatus(next)}>Mark ${STATUSES[next].toLowerCase()}</${Btn}>`}`}>
       ${o.note && html`<div className="alert"><${Icon} n="alert" /> ${o.note}</div>`}
       <div className="steps">${STATUSES.slice(0, 5).map((s, i) => html`<button key=${s} type="button" className=${cx('step', !cancelled && i <= o.si && 'done', !cancelled && i === o.si && 'cur')} disabled=${cancelled || i === o.si} onClick=${() => doStatus(i)} title=${'Set status: ' + s}><span className="step-dot">${!cancelled && i < o.si ? '✓' : i + 1}</span>${s}</button>`)}</div>
       ${cancelled && html`<div className="alert grey">This order was cancelled.</div>`}

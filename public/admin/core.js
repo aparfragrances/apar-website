@@ -253,6 +253,10 @@
     w.document.close();
   }
   A.printInvoices = function (orders, cat) {
+    if (!orders || !orders.length) throw new Error('Select at least one order');
+    return window.AparInvoice.download(orders, { site: (cat && cat.site) || {}, products: (cat && cat.products) || window.APAR_DATA.PRODUCTS });
+  };
+  A.printInvoicesOld = function (orders, cat) {
     const S = cat.site || {}, gstin = S.gstin || '';
     const pages = orders.map(o => {
       const intra = RAJ(o.pin) && (!S.state || /rajasthan/i.test(S.state));
