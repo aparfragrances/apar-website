@@ -20,6 +20,7 @@ exports.handler = C.handler(async event => {
       tx.set(ref, { ...o, createdAt: C.FieldValue().serverTimestamp() });
       return o;
     });
+    await C.notifyNewOrder(order);
     return { mode: 'cod', order };
   }
 

@@ -2,28 +2,43 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
-    function isAdmin() {
-      return signedIn()
-        && request.auth.token.email in ['aparfragrances@gmail.com']
-        && request.auth.token.email_verified == true;
+    function myEmail() { return request.auth.token.email.lower(); }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function isOwnerEmail() { return verified() && myEmail() in ['aparfragrances@gmail.com']; }
+    function hasRole(r) {
+      return verified()
+        && exists(/databases/$(database)/documents/roles/$(myEmail()))
+        && get(/databases/$(database)/documents/roles/$(myEmail())).data.role in r;
     }
-    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    function isAdmin() { return isOwnerEmail() || hasRole(['admin']); }
+    function isStaff() { return isAdmin() || hasRole(['staff']); }
+    function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
 
-    // Admin can read and manage everything (orders, leads, stock log, customers).
+    // Owner and admins can manage everything.
     match /{document=**} { allow read, write: if isAdmin(); }
 
+    // Public catalog (products, prices, coupons, delivery charges, site settings).
     match /settings/{id} { allow read: if true; }
 
+    // Each person can see their own role (used by the admin app to decide what to show).
+    match /roles/{email} { allow read: if signedIn() && myEmail() == email; }
+
     match /users/{uid} {
-      allow read, write: if isOwner(uid);
+      allow read, write: if isSelf(uid);
+      allow read: if isStaff();
     }
 
+    // Orders are created only by the server. Customers see their own; staff can view and update.
     match /orders/{id} {
-      allow read: if signedIn() && resource.data.uid == request.auth.uid;
+      allow read: if (signedIn() && resource.data.uid == request.auth.uid) || isStaff();
+      allow update: if isStaff();
     }
+
+    match /leads/{id} { allow read, update: if isStaff(); }
+    match /inventory_log/{id} { allow read: if isStaff(); }
 
     match /reviews/{id} {
-      allow read: if resource.data.approved == true;
+      allow read: if resource.data.approved == true || isStaff();
       allow create: if signedIn()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.approved == false

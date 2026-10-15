@@ -4,6 +4,7 @@
   "description": "APAR online store: static site + Netlify functions (Firebase + Razorpay)",
   "dependencies": {
     "@netlify/blobs": "^8.2.0",
-    "firebase-admin": "^12.7.0"
+    "firebase-admin": "^12.7.0",
+    "nodemailer": "^6.9.16"
   }
 }

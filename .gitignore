@@ -2,3 +2,5 @@ node_modules/
 .env
 *.local
 service-account*.json
+public/admin/_test.html
+public/admin/_mock.js

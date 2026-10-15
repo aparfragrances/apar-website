@@ -14,7 +14,7 @@ exports.handler = async event => {
     if (ev.event === 'order.paid') {
       const ord = ev.payload.order.entity, pay = ev.payload.payment.entity;
       const pending = ord.notes && ord.notes.pending;
-      if (pending) await C.finalizePaid(pending, pay.id, ord.id);
+      if (pending) { const res = await C.finalizePaid(pending, pay.id, ord.id); if (res && res.__created) { const { __created, ...o } = res; await C.notifyNewOrder(o); } }
     }
     return C.respond(200, { ok: true });
   } catch (e) {

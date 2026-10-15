@@ -645,7 +645,7 @@
 <div style="grid-column:span 2;min-width:0"><span style="display:inline-flex;background:#f7f2e8;padding:5px 12px;border-radius:40px"><img src="assets/img/logo.webp" alt="APAR" style="height:28px;mix-blend-mode:multiply"></span><p style="font-size:14px;line-height:1.7;margin:18px 0 0;max-width:38ch">0-33, Amber Towar, Sansar chand Road, Jaipur<br>78519 78274 · aparfragrances@gmail.com</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><button sc-camel-on-click="{{ downloadCatalogue }}" style="padding:11px 18px;border:1px solid #b08d57;background:none;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Download Catalogue</button><a href="https://www.instagram.com/" target="_blank" style="padding:11px 18px;border:1px solid rgba(247,242,232,.3);color:#f7f2e8;border-radius:40px;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Instagram</a></div></div>
 <sc-for list="{{ footCols }}" as="c" hint-placeholder-count="3"><div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#e2c792;margin-bottom:14px">{{ c.title }}</div><div style="display:flex;flex-direction:column;gap:10px"><sc-for list="{{ c.links }}" as="l" hint-placeholder-count="5"><a href="{{ l.href }}" style="color:#d6ddd6;font-size:14px" style-hover="color:#e2c792">{{ l.label }}</a></sc-for></div></div></sc-for>
 </div>
-<div style="max-width:1320px;margin:0 auto;padding:20px clamp(16px,4vw,48px) 100px;border-top:1px solid rgba(247,242,232,.1);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px"><span>{{ fssaiText }}</span><a href="#/admin" style="color:#8fa699">Admin</a></div>
+<div style="max-width:1320px;margin:0 auto;padding:20px clamp(16px,4vw,48px) 100px;border-top:1px solid rgba(247,242,232,.1);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px"><span>{{ fssaiText }}</span><a href="/admin/" style="color:#8fa699">Admin</a></div>
 </footer>
 
 <a href="{{ waCurrent }}" target="_blank" aria-label="Chat on WhatsApp" style="position:fixed;right:clamp(14px,2vw,28px);bottom:{{ waBottom }};z-index:60;width:58px;height:58px;border-radius:50%;background:#1f8f4e;color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.45)" style-hover="background:#23a35a;color:#fff"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg></a>
@@ -760,9 +760,9 @@ class Component extends DCLogic {
       out.summary = [{ k: 'Subtotal', v: inr(T.sub), color: '#1c2420' }, ...(T.disc ? [{ k: 'Coupon ' + s.coupon, v: '−' + inr(T.disc), color: '#1f7a45' }] : []), { k: 'Shipping', v: T.ship ? inr(T.ship) : 'Free', color: '#1c2420' }];
       out.totalText = inr(T.total);
       const gap = T.free - (T.sub - T.disc); out.freeGap = gap > 0; out.freeMsg = 'Add ' + inr(gap) + ' more for free delivery'; out.freePct = Math.min(100, Math.round((T.sub - T.disc) / (T.free || 1) * 100)) + '%';
-      const apply = code => { code = (code || '').trim().toUpperCase(); const k = s.coupons.find(x => x.code === code && x.active); if (!k) return this.setState({ couponMsg: 'That code is not valid.', couponOk: false }); if (k.min && T.sub < k.min) return this.setState({ couponMsg: code + ' needs a subtotal of ' + inr(k.min) + '.', couponOk: false }); this.setState({ coupon: code, couponMsg: code + ' applied', couponOk: true }); };
+      const apply = code => { code = (code || '').trim().toUpperCase(); const k = s.coupons.find(x => x.code === code && S.couponLive(x)); if (!k) return this.setState({ couponMsg: 'That code is not valid.', couponOk: false }); if (k.min && T.sub < k.min) return this.setState({ couponMsg: code + ' needs a subtotal of ' + inr(k.min) + '.', couponOk: false }); this.setState({ coupon: code, couponMsg: code + ' applied', couponOk: true }); };
       out.applyCoupon = e => { e.preventDefault(); apply(new FormData(e.target).get('code')); };
-      out.couponHints = s.coupons.filter(k => k.active).map(k => ({ code: k.code, desc: k.type === 'pct' ? k.value + '% off' : '₹' + k.value + ' off' + (k.min ? ' above ' + inr(k.min) : ''), use: () => apply(k.code) }));
+      out.couponHints = s.coupons.filter(k => S.couponLive(k) && !k.hidden).map(k => ({ code: k.code, desc: k.type === 'pct' ? k.value + '% off' : '₹' + k.value + ' off' + (k.min ? ' above ' + inr(k.min) : ''), use: () => apply(k.code) }));
       out.couponMsg = s.couponMsg; out.couponColor = s.couponOk ? '#1f7a45' : '#6d1a2a';
       const u = s.user || {}, addrs = u.addresses || [], a = addrs[s.addrIdx] || {};
       out.hasSaved = addrs.length > 0; out.formKey = 'f' + s.addrIdx;
@@ -807,7 +807,7 @@ class Component extends DCLogic {
         noOrders: !mine.length,
         myAddr: ((s.user || {}).addresses || []).map((a, i) => ({ ...a, remove: () => this.setState(st => { const user = { ...st.user, addresses: st.user.addresses.filter((x, j) => j !== i) }; return { user, users: st.users.map(u => u.contact === user.contact ? user : u) }; }) })),
         addAddr: e => { e.preventDefault(); const a = Object.fromEntries(new FormData(e.target)); this.setState(st => { const user = { ...st.user, addresses: [...(st.user.addresses || []), a] }; return { user, users: st.users.map(u => u.contact === user.contact ? user : u) }; }); e.target.reset(); },
-        myCoupons: s.coupons.filter(k => k.active).map(k => ({ code: k.code, desc: (k.type === 'pct' ? k.value + '% off' : '₹' + k.value + ' off') + (k.min ? ' on orders above ' + inr(k.min) : ' on any order') })),
+        myCoupons: s.coupons.filter(k => S.couponLive(k) && !k.hidden).map(k => ({ code: k.code, desc: (k.type === 'pct' ? k.value + '% off' : '₹' + k.value + ' off') + (k.min ? ' on orders above ' + inr(k.min) : ' on any order') })),
         saveProfile: e => { e.preventDefault(); const name = new FormData(e.target).get('name'); this.setState(st => { const user = { ...st.user, name }; return { user, users: st.users.map(u => u.contact === user.contact ? user : u) }; }); S.flash(this, 'Profile saved'); } });
     }
     if (page === 'wishlist') { const l = D.PRODUCTS.filter(p => s.wish.includes(p.id)); out.wishList = l.map(p => S.card(this, p)); out.wishEmpty = !l.length; }
@@ -825,6 +825,7 @@ class Component extends DCLogic {
     if (page === 'contact') { const C = D.CONTACT; out.contactInfo = [['Phone', C.phone, 'tel:+917851978274'], ['WhatsApp', C.phone, 'https://wa.me/' + D.WA], ['Email', C.email, 'mailto:' + C.email], ['Address', C.address, 'https://maps.google.com/?q=Sansar+Chand+Road+Jaipur'], ['Bulk & distribution', 'Send an enquiry', '#/b2b']].map(([k, v, href]) => ({ k, v, href })); }
     if (page === 'policy') { out.policyTitle = D.POLICIES[id] || 'Policies'; out.policyLinks = Object.entries(D.POLICIES).map(([k, label]) => ({ label, href: '#/policy/' + k, ...pill(k === id) })); }
     if (page === 'admin') {
+      if (!window.__aparAdminRedirect) { window.__aparAdminRedirect = true; setTimeout(() => location.replace('/admin/'), 0); }
       out.adminLocked = !s.admin; out.adminOpen = !!s.admin;
       out.adminMsg = !s.user ? 'Sign in with the APAR admin account to manage orders, stock, prices, coupons and reviews.' : 'You are signed in as ' + s.user.contact + ', which does not have admin access. Sign out from My Account and sign in with the admin email.';
       out.adminBtn = s.user ? 'Go to My Account' : 'Sign in';

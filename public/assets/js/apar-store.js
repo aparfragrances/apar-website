@@ -35,7 +35,8 @@
       return { name: p.name, cat: S.catName(p.cat), img: p.img, pos: p.pos || '50% 50%', href: '#/product/' + p.id, price: inr(v.price), mrp: inr(v.mrp), hasOff: v.mrp > v.price, off: Math.round((1 - v.price / v.mrp) * 100) + '% off', from: vs.length > 1 ? 'From ' : '', size: vs.length > 1 ? vs.map(x => x.size).join(' · ') : v.size, rating: S.rating(c, p.id).text, isOut: out, addLabel: out ? 'Out of stock' : 'Add to cart',
         add: () => { const i = vs.findIndex(x => x.stock > 0); if (i >= 0) S.add(c, p.id, i, 1); }, wish: () => S.toggleWish(c, p.id), wishFill: w ? '#b3202f' : 'none', wishStroke: w ? '#b3202f' : '#0f3b2e' };
     },
-    couponCalc(c, code, sub) { const k = c.state.coupons.find(x => x.code === code && x.active); if (!k || sub < (k.min || 0)) return 0; return k.type === 'pct' ? Math.round(sub * k.value / 100) : Math.min(k.value, sub); },
+    couponLive(k) { if (!k || !k.active) return false; const t = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }); if (k.expires && t > String(k.expires)) return false; if (k.maxUses && (k.uses || 0) >= Number(k.maxUses)) return false; return true; },
+    couponCalc(c, code, sub) { const k = c.state.coupons.find(x => x.code === code && S.couponLive(x)); if (!k || sub < (k.min || 0)) return 0; return k.type === 'pct' ? Math.round(sub * k.value / 100) : Math.min(k.value, sub); },
     totals(c, pinOverride) {
       const s = c.state;
       const lines = s.cart.map((l, idx) => { const p = S.find(l.pid); if (!p) return null; const v = S.vars(c, p)[l.vi]; return v ? { p, v, l, idx } : null; }).filter(Boolean);

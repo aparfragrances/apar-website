@@ -6,13 +6,14 @@ exports.handler = C.handler(async event => {
   const b = C.body(event);
   const user = await C.getUser(event);
   if (!user) throw C.httpErr(401, 'Please sign in to manage your order.');
+  const role = await C.roleOf(user);
   const id = C.clean(b.id, 12).toUpperCase();
   const order = await C.db().runTransaction(async tx => {
     const ref = C.db().collection('orders').doc(id);
     const snap = await tx.get(ref);
     if (!snap.exists) throw C.httpErr(404, 'Order not found.');
     const o = snap.data();
-    if (o.uid !== user.uid && !C.isAdmin(user)) throw C.httpErr(403, 'This order belongs to a different account.');
+    if (o.uid !== user.uid && !C.canStaff(role)) throw C.httpErr(403, 'This order belongs to a different account.');
     const ev = msg => [...(o.events || []), { t: C.stamp(), msg, ch: 'Website' }];
     if (b.action === 'cancel') {
       if (o.si >= 2) throw C.httpErr(400, 'This order has already shipped and can no longer be cancelled. You can request a return after delivery.');

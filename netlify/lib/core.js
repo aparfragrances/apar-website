@@ -30,6 +30,26 @@ async function getUser(event) {
   try { return await admin().auth().verifyIdToken(m[1]); } catch (e) { return null; }
 }
 const isAdmin = u => !!u && u.email_verified === true && ADMIN_EMAILS.includes(String(u.email || '').toLowerCase());
+// Roles: the owner email(s) above are always admin. Extra people are added in the admin app (roles/{email} = { role: 'admin' | 'staff' }).
+async function roleOf(u) {
+  if (!u || u.email_verified !== true) return null;
+  if (isAdmin(u)) return 'owner';
+  try {
+    const s = await db().collection('roles').doc(String(u.email || '').toLowerCase()).get();
+    const r = s.exists ? s.data().role : null;
+    return r === 'admin' || r === 'staff' ? r : null;
+  } catch (e) { return null; }
+}
+const canAdmin = r => r === 'owner' || r === 'admin';
+const canStaff = r => r === 'owner' || r === 'admin' || r === 'staff';
+const todayISO = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+// A coupon works if it is active, not expired and not used up.
+function couponOk(k, sub) {
+  if (!k || !k.active) return false;
+  if (k.expires && todayISO() > String(k.expires)) return false;
+  if (k.maxUses && (k.uses || 0) >= Number(k.maxUses)) return false;
+  return sub >= (k.min || 0);
+}
 
 const IST = { timeZone: 'Asia/Kolkata' };
 const today = () => new Date().toLocaleDateString('en-IN', { ...IST, day: 'numeric', month: 'short', year: 'numeric' });
@@ -94,7 +114,7 @@ function priceCart(cat, items, couponCode, pin, opts) {
   }
   const sub = lines.reduce((a, l) => a + l.v.price * l.qty, 0);
   const code = String(couponCode || '').trim().toUpperCase();
-  const k = code && cat.coupons.find(x => x.code === code && x.active);
+  const k = code && cat.coupons.find(x => x.code === code && couponOk(x, 0));
   let disc = 0;
   if (k && sub >= (k.min || 0)) disc = k.type === 'pct' ? Math.round(sub * k.value / 100) : Math.min(k.value, sub);
   const sh = cat.shipping || D.SHIP_DEFAULT;
@@ -188,8 +208,61 @@ async function finalizePaid(pendingId, paymentId, rzpOrderId) {
     couponUse(tx, cat, P.coupon);
     tx.set(ref, { ...order, createdAt: FieldValue().serverTimestamp() });
     tx.delete(pref);
-    return order;
+    return Object.assign({}, order, { __created: true });
   });
+}
+
+
+// ---------- Email (optional): set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS (e.g. your Zoho mailbox) in Netlify ----------
+let transport = null;
+function mailer() {
+  if (transport !== null) return transport;
+  const host = process.env.SMTP_HOST, user = process.env.SMTP_USER, pass = process.env.SMTP_PASS;
+  if (!host || !user || !pass) { transport = false; return false; }
+  const port = Number(process.env.SMTP_PORT || 465);
+  transport = require('nodemailer').createTransport({ host, port, secure: port === 465, auth: { user, pass } });
+  return transport;
+}
+async function sendMail(to, subject, html) {
+  const t = mailer();
+  if (!t || !to) return false;
+  const from = process.env.MAIL_FROM || ('APAR <' + process.env.SMTP_USER + '>');
+  try {
+    await Promise.race([t.sendMail({ from, to, subject, html }), new Promise((_, rej) => setTimeout(() => rej(new Error('mail timeout')), 5000))]);
+    return true;
+  } catch (e) { console.error('mail failed', e.message); return false; }
+}
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const rupee = n => '₹' + Math.round(n || 0).toLocaleString('en-IN');
+function orderEmailHtml(o, heading, intro, site) {
+  site = site || {};
+  const rows = (o.items || []).map(i => `<tr><td style="padding:8px 0;border-bottom:1px solid #eee">${esc(i.name)} · ${esc(i.size)} × ${i.qty}</td><td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">${rupee(i.price * i.qty)}</td></tr>`).join('');
+  const base = process.env.SITE_URL || 'https://aparfragrances.com';
+  return `<div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#1c2420">
+  <div style="background:#0f3b2e;color:#f7f2e8;padding:20px 24px;font-size:22px;letter-spacing:.2em">APAR</div>
+  <div style="padding:24px;background:#fbf8f1;border:1px solid #e0d3b8">
+  <h2 style="margin:0 0 8px;color:#0f3b2e;font-weight:400">${esc(heading)}</h2>
+  <p style="margin:0 0 16px;line-height:1.6">${intro}</p>
+  <p style="margin:0 0 6px"><strong>Order ${esc(o.id)}</strong> · ${esc(o.date)}</p>
+  <table style="width:100%;border-collapse:collapse;font-size:14px">${rows}
+  <tr><td style="padding:6px 0">Subtotal</td><td style="text-align:right">${rupee(o.sub)}</td></tr>
+  ${o.disc ? `<tr><td style="padding:6px 0">Discount</td><td style="text-align:right">−${rupee(o.disc)}</td></tr>` : ''}
+  <tr><td style="padding:6px 0">Delivery</td><td style="text-align:right">${o.ship ? rupee(o.ship) : 'Free'}</td></tr>
+  <tr><td style="padding:8px 0;font-weight:bold">Total</td><td style="text-align:right;font-weight:bold">${rupee(o.total)}</td></tr></table>
+  <p style="margin:16px 0 0;font-size:14px;line-height:1.6">Payment: ${esc(o.pay)} · ${esc(o.payStatus)}<br>Deliver to: ${esc(o.name)}, ${esc(o.address)}, ${esc(o.city)} ${esc(o.pin)} · ${esc(o.phone)}</p>
+  ${o.tracking ? `<p style="margin:12px 0 0;font-size:14px">Courier: ${esc(o.courier)} · Tracking no. <strong>${esc(o.tracking)}</strong></p>` : ''}
+  <p style="margin:20px 0 0"><a href="${base}/#/track/${esc(o.id)}" style="background:#0f3b2e;color:#f7f2e8;padding:12px 20px;border-radius:30px;text-decoration:none;font-size:13px;letter-spacing:.1em">TRACK ORDER</a></p>
+  </div><p style="font-size:12px;color:#888;padding:12px 24px">APAR · Jaipur${site.fssai ? ' · FSSAI ' + esc(site.fssai) : ''}${site.gstin ? ' · GSTIN ' + esc(site.gstin) : ''}</p></div>`;
+}
+// New order: alert the store owner and send the customer a confirmation (only when email is configured).
+async function notifyNewOrder(o) {
+  if (!mailer()) return;
+  let site = {};
+  try { const s = await db().doc('settings/catalog').get(); site = (s.exists && s.data().site) || {}; } catch (e) { }
+  const owner = site.notifyEmail || process.env.NOTIFY_EMAIL || ADMIN_EMAILS[0];
+  const jobs = [sendMail(owner, `New order ${o.id} · ${rupee(o.total)} · ${o.pay}`, orderEmailHtml(o, 'New order received', `${esc(o.name)} (${esc(o.phone)}) just placed an order. Open the admin app to pack it.`, site))];
+  if (o.email) jobs.push(sendMail(o.email, `Your APAR order ${o.id} is confirmed`, orderEmailHtml(o, 'Thank you for your order', 'We have received your order and will pack it soon. We will email you again when it ships.', site)));
+  await Promise.all(jobs);
 }
 
 function respond(status, body) {
@@ -209,4 +282,4 @@ function body(event) {
   try { return JSON.parse(event.body || '{}'); } catch (e) { throw httpErr(400, 'Invalid request.'); }
 }
 
-module.exports = { fromDb, D, admin, db, FieldValue, httpErr, getUser, isAdmin, today, stamp, vars, readCatalog, validateAddress, priceCart, newOrderRef, applyStock, couponUse, buildOrder, rzpKeys, hmac, safeEqual, finalizePaid, respond, handler, body, clean };
+module.exports = { roleOf, canAdmin, canStaff, couponOk, todayISO, notifyNewOrder, sendMail, orderEmailHtml, fromDb, D, admin, db, FieldValue, httpErr, getUser, isAdmin, today, stamp, vars, readCatalog, validateAddress, priceCart, newOrderRef, applyStock, couponUse, buildOrder, rzpKeys, hmac, safeEqual, finalizePaid, respond, handler, body, clean };

@@ -5,7 +5,7 @@ const { connectLambda, getStore } = require('@netlify/blobs');
 exports.handler = C.handler(async event => {
   if (event.httpMethod !== 'POST') throw C.httpErr(405, 'Method not allowed');
   const user = await C.getUser(event);
-  if (!C.isAdmin(user)) throw C.httpErr(403, 'Only the store admin can upload photos.');
+  if (!C.canAdmin(await C.roleOf(user))) throw C.httpErr(403, 'Only the store admin can upload photos.');
   const b = C.body(event);
   const m = /^data:(image\/(webp|jpeg|png));base64,([A-Za-z0-9+/=]+)$/.exec(String(b.data || ''));
   if (!m) throw C.httpErr(400, 'Please upload a JPG, PNG or WebP image.');
