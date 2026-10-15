@@ -11,6 +11,7 @@
   const dataUrl = blob => new Promise(res => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(blob); });
 
   function prepare() {
+    if (root.__aparInvoiceAssets) return Promise.resolve(root.__aparInvoiceAssets);
     if (ready) return ready;
     ready = (async () => {
       if (!(root.jspdf && root.jspdf.jsPDF)) await loadScript(BASE + 'jspdf.umd.min.js');
@@ -184,4 +185,5 @@
     },
     words
   };
-})(window);
+  if (typeof module !== 'undefined' && module.exports) module.exports = root.AparInvoice;
+})(typeof window !== 'undefined' ? window : globalThis);

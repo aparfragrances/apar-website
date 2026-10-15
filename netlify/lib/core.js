@@ -223,12 +223,12 @@ function mailer() {
   transport = require('nodemailer').createTransport({ host, port, secure: port === 465, auth: { user, pass } });
   return transport;
 }
-async function sendMail(to, subject, html) {
+async function sendMail(to, subject, html, attachments) {
   const t = mailer();
   if (!t || !to) return false;
   const from = process.env.MAIL_FROM || ('APAR <' + process.env.SMTP_USER + '>');
   try {
-    await Promise.race([t.sendMail({ from, to, subject, html }), new Promise((_, rej) => setTimeout(() => rej(new Error('mail timeout')), 5000))]);
+    await Promise.race([t.sendMail({ from, to, subject, html, attachments }), new Promise((_, rej) => setTimeout(() => rej(new Error('mail timeout')), 8000))]);
     return true;
   } catch (e) { console.error('mail failed', e.message); return false; }
 }
@@ -257,11 +257,13 @@ function orderEmailHtml(o, heading, intro, site) {
 // New order: alert the store owner and send the customer a confirmation (only when email is configured).
 async function notifyNewOrder(o) {
   if (!mailer()) return;
-  let site = {};
-  try { const s = await db().doc('settings/catalog').get(); site = (s.exists && s.data().site) || {}; } catch (e) { }
+  let site = {}, products = D.PRODUCTS;
+  try { const s = await db().doc('settings/catalog').get(); if (s.exists) { const c = s.data(); site = c.site || {}; if (Array.isArray(c.products) && c.products.length) products = c.products; } } catch (e) { }
   const owner = site.notifyEmail || process.env.NOTIFY_EMAIL || ADMIN_EMAILS[0];
-  const jobs = [sendMail(owner, `New order ${o.id} · ${rupee(o.total)} · ${o.pay}`, orderEmailHtml(o, 'New order received', `${esc(o.name)} (${esc(o.phone)}) just placed an order. Open the admin app to pack it.`, site))];
-  if (o.email) jobs.push(sendMail(o.email, `Your APAR order ${o.id} is confirmed`, orderEmailHtml(o, 'Thank you for your order', 'We have received your order and will pack it soon. We will email you again when it ships.', site)));
+  const pdf = await require('./invoice-pdf').invoicePdf(o, site, products);
+  const att = pdf ? [{ filename: 'APAR-Invoice-' + o.id + '.pdf', content: pdf, contentType: 'application/pdf' }] : undefined;
+  const jobs = [sendMail(owner, `New order ${o.id} · ${rupee(o.total)} · ${o.pay}`, orderEmailHtml(o, 'New order received', `${esc(o.name)} (${esc(o.phone)}) just placed an order. Open the admin app to pack it.`, site), att)];
+  if (o.email) jobs.push(sendMail(o.email, `Your APAR order ${o.id} is confirmed`, orderEmailHtml(o, 'Thank you for your order', 'We have received your order and will pack it soon. Your tax invoice is attached to this email as a PDF. We will email you again when it ships.', site), att));
   await Promise.all(jobs);
 }
 

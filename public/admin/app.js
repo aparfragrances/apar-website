@@ -12,6 +12,13 @@
   const ROLE_LABEL = { owner: 'Owner', admin: 'Admin', staff: 'Staff' };
 
   // ---------- sound + browser notification for new orders ----------
+  function ago(ts) {
+    if (!ts) return '';
+    const m = Math.floor((Date.now() - ts) / 60000);
+    if (m < 1) return 'just now'; if (m < 60) return m + 'm ago';
+    const h = Math.floor(m / 60); if (h < 24) return h + 'h ago';
+    const d = Math.floor(h / 24); return d < 7 ? d + 'd ago' : new Date(ts).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  }
   function chime() {
     try {
       const C = new (window.AudioContext || window.webkitAudioContext)();
@@ -55,6 +62,9 @@
     const [menu, setMenu] = useState(false), [order, setOrder] = useState(null), [q, setQ] = useState('');
     const [alerts, setAlerts] = useState(() => { try { return localStorage.getItem('apar-admin-alerts') !== 'off'; } catch (e) { return true; } });
     const alertsRef = useRef(alerts); alertsRef.current = alerts;
+    const [bell, setBell] = useState(false);
+    const [seen, setSeen] = useState(() => { try { return Number(localStorage.getItem('apar-admin-seen')) || 0; } catch (e) { return 0; } });
+    const markSeen = () => { const t = Date.now(); setSeen(t); try { localStorage.setItem('apar-admin-seen', String(t)); } catch (e) { } };
     const h = A.useHash();
     const page = h[0] || 'dashboard', sub = h[1] || '';
     useEffect(() => A.subscribe(role, setData, o => {
@@ -68,6 +78,8 @@
     const nav = NAV.filter(n => n[3] === 'staff' || isAdmin);
     const allowed = nav.some(n => n[0] === page);
     const newCount = (data.orders || []).filter(o => o.si === 0).length;
+    const feed = [...(data.orders || []).slice(0, 25).map(o => ({ k: 'o' + o.id, ts: o.ts || 0, kind: 'order', o })), ...(isAdmin ? (data.leads || []).slice(0, 10).map(l => ({ k: 'l' + l._id, ts: l.ts || 0, kind: 'lead', l })) : []), ...(isAdmin ? (data.reviews || []).filter(r => !r.approved).slice(0, 10).map(r => ({ k: 'r' + r._id, ts: r.ts || 0, kind: 'review', r })) : [])].sort((a, b) => b.ts - a.ts).slice(0, 30);
+    const unread = feed.filter(f => f.ts > seen).length;
     const err = data.ordersError || data.catalogError;
     const openOrder = id => setOrder(id);
     const props = { data, role, openOrder };
@@ -94,7 +106,19 @@
       <div className="main">
         <header className="top"><button className="icon-btn only-m" onClick=${() => setMenu(true)} aria-label="Open menu"><${Icon} n="menu" /></button>
           <form className="top-search" onSubmit=${search}><${Icon} n="search" s=${16} /><input value=${q} onChange=${e => setQ(e.target.value)} placeholder="Find order ID, name or phone…" aria-label="Search" /></form>
-          <button className=${cx('icon-btn', alerts && 'on')} onClick=${toggleAlerts} title=${alerts ? 'New-order alerts on' : 'New-order alerts off'} aria-label="New-order alerts"><${Icon} n="bell" />${newCount > 0 && html`<span className="bell-n">${newCount}</span>`}</button>
+          <div className="bell-wrap"><button className=${cx('icon-btn', bell && 'on')} onClick=${() => setBell(!bell)} title="Notifications" aria-label="Notifications" aria-expanded=${bell}><${Icon} n="bell" />${unread > 0 && html`<span className="bell-n">${unread > 99 ? '99+' : unread}</span>`}</button>
+            ${bell && html`<div className="bell-scrim" onClick=${() => setBell(false)}></div><div className="bell-pop" role="dialog" aria-label="Notifications">
+              <div className="bell-h"><strong>Notifications</strong>${unread > 0 ? html`<button className="link" onClick=${markSeen}>Mark all as read</button>` : html`<span className="muted sm">All caught up</span>`}</div>
+              <div className="bell-set"><span>🔔 Sound + desktop alert for new orders</span><button className=${cx('switch', alerts && 'on')} onClick=${toggleAlerts} aria-pressed=${alerts} aria-label="Toggle new-order alerts"><span></span></button></div>
+              ${alerts && window.Notification && Notification.permission === 'default' && html`<button className="bell-perm" onClick=${() => Notification.requestPermission()}>Allow desktop notifications on this computer</button>`}
+              <div className="bell-list">${feed.length === 0 ? html`<div className="bell-empty">No notifications yet. New orders will appear here instantly.</div>` : feed.map(f => {
+                const un = f.ts > seen;
+                if (f.kind === 'order') { const o = f.o; return html`<button key=${f.k} className=${cx('bell-i', un && 'un')} onClick=${() => { setBell(false); setOrder(o.id); }}><span className="bell-ic">🛒</span><span className="bell-t"><b>New order ${o.id} · ${A.inr(o.total)}</b><span>${o.name}${o.city ? ' · ' + o.city : ''} · ${o.pay}${o.si === 0 ? ' · to pack' : ''}</span></span><span className="bell-ago">${ago(f.ts)}</span></button>`; }
+                if (f.kind === 'lead') { const l = f.l; return html`<button key=${f.k} className=${cx('bell-i', un && 'un')} onClick=${() => { setBell(false); A.go('leads'); }}><span className="bell-ic">📩</span><span className="bell-t"><b>Bulk enquiry · ${l.name || l.company || ''}</b><span>${[l.company, l.product, l.quantity].filter(Boolean).join(' · ')}</span></span><span className="bell-ago">${ago(f.ts)}</span></button>`; }
+                const r = f.r; return html`<button key=${f.k} className=${cx('bell-i', un && 'un')} onClick=${() => { setBell(false); A.go('reviews'); }}><span className="bell-ic">⭐</span><span className="bell-t"><b>Review waiting for approval</b><span>${r.name || ''} · ${'★'.repeat(r.rating || r.stars || 0)}</span></span><span className="bell-ago">${ago(f.ts)}</span></button>`;
+              })}</div>
+              <a className="bell-f" href="#/orders/new" onClick=${() => setBell(false)}>View orders to pack${newCount ? ' (' + newCount + ')' : ''} →</a>
+            </div>`}</div>
           <div className="who"><div className="who-n">${user.displayName || user.email}</div><div className="who-r">${ROLE_LABEL[role]} · <button className="link" onClick=${() => A.auth.signOut()}>Sign out</button></div></div></header>
         <main>${body}</main>
       </div>

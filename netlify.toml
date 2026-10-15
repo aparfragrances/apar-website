@@ -5,6 +5,7 @@
 
 [functions]
   node_bundler = "esbuild"
+  included_files = ["public/assets/pdf/*.ttf", "public/assets/pdf/apar-logo.png"]
 
 [[headers]]
   for = "/*"

@@ -5,6 +5,8 @@
   "dependencies": {
     "@netlify/blobs": "^8.2.0",
     "firebase-admin": "^12.7.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "nodemailer": "^6.9.16"
   }
 }
