@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://aparfragrances.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://aparfragrances.com/</loc><lastmod>2026-10-19</lastmod><priority>1.0</priority></url>
+  <url><loc>https://aparfragrances.com/gulkand/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/karonda-cherry/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/tutti-frutti/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/lacha-tutti-frutti/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/lacha-supari/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/gift-boxes/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/wholesale/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/about/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/faq/</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://aparfragrances.com/guides/ways-to-use-gulkand/</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://aparfragrances.com/guides/eggless-tutti-frutti-cake/</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://aparfragrances.com/guides/tutti-frutti-vs-lacha-tutti-frutti-vs-karonda-cherry/</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
 </urlset>

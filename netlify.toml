@@ -1,7 +1,7 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
-  command = ""
+  command = "node scripts/build-seo.js"
 
 [functions]
   node_bundler = "esbuild"
@@ -73,13 +73,13 @@
 
 [[redirects]]
   from = "/mouth-fresheners.html"
-  to = "/#/shop"
+  to = "/lacha-supari/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mouth-freshener.html"
-  to = "/#/shop"
+  to = "/lacha-supari/"
   status = 301
   force = true
 
@@ -97,61 +97,61 @@
 
 [[redirects]]
   from = "/fresh-fruits.html"
-  to = "/#/shop/tutti-frutti"
+  to = "/tutti-frutti/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/tutti-frutti.html"
-  to = "/#/shop/tutti-frutti"
+  to = "/tutti-frutti/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/green-tutti-frutti.html"
-  to = "/#/shop/tutti-frutti"
+  to = "/tutti-frutti/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apar-gulkand.html"
-  to = "/#/shop/gulkand"
+  to = "/gulkand/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/gulkand.html"
-  to = "/#/shop/gulkand"
+  to = "/gulkand/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lachha-tutti-frutti.html"
-  to = "/#/shop/lacha-tutti-frutti"
+  to = "/lacha-tutti-frutti/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/green-lachha-futti-frutti.html"
-  to = "/#/shop/lacha-tutti-frutti"
+  to = "/lacha-tutti-frutti/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/about-us.html"
-  to = "/#/story"
+  to = "/about/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/profile.html"
-  to = "/#/story"
+  to = "/about/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/company-profile.html"
-  to = "/#/story"
+  to = "/about/"
   status = 301
   force = true
 
@@ -175,19 +175,19 @@
 
 [[redirects]]
   from = "/contact-us.html"
-  to = "/#/contact"
+  to = "/wholesale/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enquiry.html"
-  to = "/#/contact"
+  to = "/wholesale/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/send-enquiry.html"
-  to = "/#/contact"
+  to = "/wholesale/"
   status = 301
   force = true
 

@@ -787,7 +787,7 @@ class Component extends DCLogic {
     const g400 = S.vars(this, D.PRODUCTS[0])[1];
     const pz = D.zone(s.pin);
     const itemsTxt = o => o.items.map(i => i.name.replace('APAR ', '') + ' ' + i.size + ' × ' + i.qty).join(', ');
-    const out = { ...base, nav, navAll: [...nav, ...[['FAQs', '#/faq'], ['Track Order', '#/track'], ['My Account', '#/account'], ['Wishlist', '#/wishlist']].map(([label, href]) => ({ label, href }))],
+    const out = { ...base, nav, navAll: [...nav, ...[['FAQs', '/faq/'], ['Gulkand guide', '/guides/ways-to-use-gulkand/'], ['Tutti frutti cake recipe', '/guides/eggless-tutti-frutti-cake/'], ['Track Order', '#/track'], ['My Account', '#/account'], ['Wishlist', '#/wishlist']].map(([label, href]) => ({ label, href }))],
       headerBg: solid ? 'rgba(15,59,46,.97)' : 'transparent', headerShadow: solid ? '0 10px 30px -20px rgba(0,0,0,.6)' : 'none', mainPad: home ? '0' : '102px', fadeOpacity: s.fade, heroGrid: isMobile ? '1fr' : 'minmax(0,1.5fr) minmax(0,1fr)', heroScale: s.heroIn ? '1' : '1.08',
       menuOpen: s.menuOpen, toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }), closeMenu: () => this.setState({ menuOpen: false }),
       cartCount: s.cart.reduce((a, l) => a + l.qty, 0), hasCart: s.cart.length > 0, cartEmpty: s.cart.length === 0, wishCount: s.wish.length, hasWish: s.wish.length > 0,
@@ -806,9 +806,9 @@ class Component extends DCLogic {
       pin: s.pin, pinMsg: s.pinMsg, loggedIn: !!s.user, loggedOut: !s.user,
       checkPin: e => { e.preventDefault(); const pin = String(new FormData(e.target).get('pin')).trim(), z = D.quote(pin), fr = (D.SHIP || {}).free != null ? D.SHIP.free : 499; this.setState({ pin, pinMsg: z ? `Delivers to ${pin} in ${z.days} business days · ${z.cod ? 'COD available' : 'Prepaid only'} · Free delivery above ₹${fr}` : 'Enter a valid 6-digit PIN code.' }); },
       footCols: [
-        { title: 'Shop', links: D.CATS.map(c => ({ label: c.name, href: '#/shop/' + c.slug })) },
+        { title: 'Shop', links: D.CATS.map(c => ({ label: c.name, href: ({ gulkand: '/gulkand/', 'karonda-cherry': '/karonda-cherry/', 'tutti-frutti': '/tutti-frutti/', 'lacha-tutti-frutti': '/lacha-tutti-frutti/', 'lacha-supari': '/lacha-supari/', combos: '/gift-boxes/' })[c.slug] || '#/shop/' + c.slug })) },
         { title: 'Help', links: [['FAQs', '#/faq'], ['Track Order', '#/track'], ['My Account', '#/account'], ['Shipping Policy', '#/policy/shipping'], ['Return Policy', '#/policy/returns'], ['Refund Policy', '#/policy/refund'], ['Cancellation Policy', '#/policy/cancellation']].map(([label, href]) => ({ label, href })) },
-        { title: 'Company', links: [['Our Story', '#/story'], ['Gifting', '#/gifting'], ['Bulk / B2B', '#/b2b'], ['Distributors', '#/b2b/distributor'], ['Contact', '#/contact'], ['Privacy Policy', '#/policy/privacy'], ['Terms & Conditions', '#/policy/terms']].map(([label, href]) => ({ label, href })) }
+        { title: 'Company', links: [['About APAR', '/about/'], ['Gifting', '/gift-boxes/'], ['Wholesale supplier', '/wholesale/'], ['Distributors', '#/b2b/distributor'], ['Contact', '#/contact'], ['Privacy Policy', '#/policy/privacy'], ['Terms & Conditions', '#/policy/terms']].map(([label, href]) => ({ label, href })) }
       ] };
     if (page === 'shop') {
       const cat = D.CATS.find(c => c.slug === id), q = s.q.trim().toLowerCase();
