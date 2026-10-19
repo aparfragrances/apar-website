@@ -39,3 +39,178 @@
   from = "/media/*"
   to = "/.netlify/functions/image?id=:splat"
   status = 200
+
+# Old IndiaMART website addresses -> new pages (keeps Google links working)
+[[redirects]]
+  from = "/products.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/our-products.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/product.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/products/*"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/catalog/*"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mouth-fresheners.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mouth-freshener.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/candy.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/candies.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fresh-fruits.html"
+  to = "/#/shop/tutti-frutti"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tutti-frutti.html"
+  to = "/#/shop/tutti-frutti"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/green-tutti-frutti.html"
+  to = "/#/shop/tutti-frutti"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/apar-gulkand.html"
+  to = "/#/shop/gulkand"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gulkand.html"
+  to = "/#/shop/gulkand"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lachha-tutti-frutti.html"
+  to = "/#/shop/lacha-tutti-frutti"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/green-lachha-futti-frutti.html"
+  to = "/#/shop/lacha-tutti-frutti"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/about-us.html"
+  to = "/#/story"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/profile.html"
+  to = "/#/story"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/company-profile.html"
+  to = "/#/story"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/photos.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/photo-gallery.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gallery.html"
+  to = "/#/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact-us.html"
+  to = "/#/contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/enquiry.html"
+  to = "/#/contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/send-enquiry.html"
+  to = "/#/contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/testimonial.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/testimonials.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/sitemap.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
