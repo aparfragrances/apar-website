@@ -126,7 +126,7 @@
       }
     } catch (e) { warn(e); data = data || { name: u.displayName || '', addresses: [] }; }
     pendingName = '';
-    const user = { uid: u.uid, name: data.name || u.displayName || '', contact: u.email || '', email: u.email || '', joined: data.joined || '', addresses: data.addresses || [], verified: u.emailVerified };
+    const user = { uid: u.uid, name: data.name || u.displayName || '', contact: u.email || '', email: u.email || '', joined: data.joined || '', addresses: data.addresses || [], verified: u.emailVerified, phone: data.phone || '', birthday: data.birthday || '', waUpdates: data.waUpdates !== false, emailOffers: !!data.emailOffers };
     M.user = user;
     comp.setState({ user, authErr: '', authMsg: '', authBusy: false, linkPending: false });
     if (location.hash.indexOf('#/account') === 0 || location.hash.indexOf('#/admin') === 0) { /* stay */ }
@@ -176,7 +176,7 @@
     const s = c.state;
     if (s.user && s.user.uid && s.user !== ps.user && s.user !== M.user) {
       M.user = s.user;
-      db.doc('users/' + s.user.uid).set({ name: s.user.name || '', addresses: s.user.addresses || [] }, { merge: true }).catch(warn);
+      db.doc('users/' + s.user.uid).set({ name: s.user.name || '', addresses: s.user.addresses || [], phone: s.user.phone || '', birthday: s.user.birthday || '', waUpdates: s.user.waUpdates !== false, emailOffers: !!s.user.emailOffers }, { merge: true }).catch(warn);
     }
     if (!s.admin) return;
     const cat = db.doc('settings/catalog');

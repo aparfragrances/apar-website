@@ -13,7 +13,7 @@
       const D = window.APAR_DATA;
       return { cart: [], wish: [], user: null, users: [], orders: [], leads: [], reviews: {}, px: {}, coupons: D.COUPONS, hist: [], txns: [], consent: '', admin: false,
         q: '', sort: 'featured', sel: 0, qty: 1, img: 0, coupon: '', couponMsg: '', couponOk: true, pay: 'upi', simFail: false, paying: false, toast: '', rating: 5,
-        authMode: 'link', authEmail: '', authMsg: '', authBusy: false, linkPending: false, trackLookup: '', trackDone: '', trackRemote: null, otpSent: false, otpPhone: '', acctTab: 'orders', adminTab: 'dashboard', pin: '', pinMsg: '', addrIdx: -1, adj: {}, adjType: {}, adminErr: '' };
+        authMode: 'link', authEmail: '', authMsg: '', authBusy: false, linkPending: false, trackLookup: '', trackDone: '', trackRemote: null, otpSent: false, otpPhone: '', acctTab: 'overview', adminTab: 'dashboard', pin: '', pinMsg: '', addrIdx: -1, adj: {}, adjType: {}, adminErr: '' };
     },
     persisted: ['cart', 'wish', 'consent', 'pin'],
     find: id => window.APAR_DATA.PRODUCTS.find(p => p.id === id),
