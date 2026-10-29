@@ -204,7 +204,7 @@
   A.addLead = lead => api('lead-admin', { action: 'add', lead });
   A.importLeads = (rows, mode) => api('lead-admin', { action: 'import', rows, mode });
   A.saveLeadTemplates = list => db.doc('settings/leadTemplates').set({ list, by: me(), ts: Date.now() });
-  A.setRole = (email, role) => db.collection('roles').doc(String(email).trim().toLowerCase()).set({ role, addedBy: me(), ts: Date.now() });
+  A.setRole = (email, role) => db.collection('roles').doc(String(email).normalize('NFKC').replace(/[^\x21-\x7e]/g, '').toLowerCase()).set({ role, addedBy: me(), ts: Date.now() });
   A.removeRole = email => db.collection('roles').doc(email).delete();
   A.notify = (id, kind) => api('order-notify', { id, kind });
 

@@ -35,8 +35,17 @@ async function roleOf(u) {
   if (!u || u.email_verified !== true) return null;
   if (isAdmin(u)) return 'owner';
   try {
-    const s = await db().collection('roles').doc(String(u.email || '').toLowerCase()).get();
-    const r = s.exists ? s.data().role : null;
+    const email = String(u.email || '').toLowerCase();
+    const s = await db().collection('roles').doc(email).get();
+    let r = s.exists ? s.data().role : null;
+    if (!r) {
+      // Team emails pasted from WhatsApp/Contacts can carry invisible characters. Match them loosely
+      // and save a clean copy so the browser check works next time.
+      const clean = x => String(x || '').normalize('NFKC').replace(/[^\x21-\x7e]/g, '').toLowerCase();
+      const all = await db().collection('roles').get();
+      const hit = all.docs.find(d => d.id !== email && clean(d.id) === clean(email));
+      if (hit) { r = hit.data().role; await db().collection('roles').doc(email).set(Object.assign({}, hit.data(), { repairedFrom: hit.id })); await hit.ref.delete(); }
+    }
     return r === 'admin' || r === 'staff' ? r : null;
   } catch (e) { return null; }
 }
