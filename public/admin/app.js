@@ -53,7 +53,7 @@
   function NoAccess({ user, role }) {
     return html`<div className="login"><div className="login-card"><div className="brandmark">APAR</div><h1>No admin access</h1>
       <p className="muted">${role === 'unverified' ? 'Please verify your email first (check your inbox), or sign in with Google.' : 'You are signed in as ' + user.email + ', which is not on the APAR team. Ask the owner to add you in Settings → Team.'}</p>
-      <${Btn} kind="primary" onClick=${() => A.auth.signOut()}>Sign in with another account</${Btn}><a className="sub" href="/">← Back to the store</a></div></div>`;
+      <${Btn} kind="primary" onClick=${() => location.reload()}>Check again</${Btn}><${Btn} onClick=${() => A.auth.signOut()}>Sign in with another account</${Btn}><a className="sub" href="/">← Back to the store</a></div></div>`;
   }
 
   // ---------- main shell ----------
