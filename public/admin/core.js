@@ -46,9 +46,10 @@
     const email = String(u.email || '').toLowerCase();
     if (!u.emailVerified) return 'unverified';
     if (OWNER_EMAILS.includes(email)) return 'owner';
-    try { const s = await db.collection('roles').doc(email).get(); if (s.exists && ['admin', 'staff'].includes(s.data().role)) return s.data().role; } catch (e) { }
+    const diag = A.accessDiag = { browser: '', server: '' };
+    try { const s = await db.collection('roles').doc(email).get(); diag.browser = s.exists ? 'role=' + s.data().role : 'no entry'; if (s.exists && ['admin', 'staff'].includes(s.data().role)) return s.data().role; } catch (e) { diag.browser = 'error ' + (e.code || e.message); }
     // Second opinion from the server (works even if the browser read above failed or was cached).
-    try { const r = await api('whoami'); if (['owner', 'admin', 'staff'].includes(r.role)) return r.role === 'owner' ? 'admin' : r.role; } catch (e) { }
+    try { const r = await api('whoami'); diag.server = 'role=' + r.role + (r.verified ? '' : ' (email not verified)') + ' as ' + r.email; if (['owner', 'admin', 'staff'].includes(r.role)) return r.role === 'owner' ? 'admin' : r.role; } catch (e) { diag.server = 'error ' + e.message; }
     return null;
   };
   A.canAdmin = r => r === 'owner' || r === 'admin';
