@@ -178,7 +178,7 @@
         <p className="sub">New-order emails need email sending switched on once in Netlify (SMTP settings). See the README in your GitHub repository.</p></${Card}>
       ${A.canAdmin(role) && html`<${Card} title="Team & access" actions=${html`<${Btn} small icon="plus" onClick=${addRole}>Add member</${Btn}>`} pad=${false}>
         <table className="tbl"><tbody><tr><td><b>${A.OWNER_EMAILS[0]}</b></td><td><${Badge} t="Owner" tone="green" /></td><td className="sub">Full access, cannot be removed</td><td></td></tr>
-        ${roles.map(r => html`<tr key=${r.email}><td><b>${r.email}</b></td><td><${Badge} t=${r.role === 'admin' ? 'Admin' : 'Staff'} tone=${r.role === 'admin' ? 'violet' : 'blue'} /></td><td className="sub">${r.role === 'admin' ? 'Everything, including team' : 'Orders, customers, leads, reviews, stock'}</td>
+        ${roles.map(r => html`<tr key=${r.email}><td><b>${r.email}</b></td><td><${Badge} t=${r.role === 'admin' ? 'Admin' : r.role === 'staff' ? 'Staff' : 'No access set'} tone=${r.role === 'admin' ? 'violet' : r.role === 'staff' ? 'blue' : 'red'} /></td><td className="sub">${r.role === 'admin' ? 'Everything, including team' : 'Orders, customers, leads, reviews, stock'}</td>
           <td className="r"><${Btn} small kind="danger-ghost" onClick=${async () => { if (await A.confirm({ title: 'Remove ' + r.email + '?', text: 'They lose access to the admin app immediately.', ok: 'Remove', danger: true })) A.run(A.removeRole(r.email), 'Access removed'); }}>Remove</${Btn}></td></tr>`)}</tbody></table></${Card}>`}
     </div>`;
   };

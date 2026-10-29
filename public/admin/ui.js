@@ -70,7 +70,7 @@
   let askSetter = null;
   A.AskHost = () => {
     const [c, setC] = useState(null); const [v, setV] = useState({});
-    askSetter = o => { setV(Object.fromEntries(o.fields.map(f => [f.k, f.value || '']))); setC(o); };
+    askSetter = o => { setV(Object.fromEntries(o.fields.map(f => [f.k, f.value || (f.options ? f.options[0] : '')]))); setC(o); };
     if (!c) return null;
     const done = r => { setC(null); c.resolve(r); };
     return html`<${A.Modal} open=${true} onClose=${() => done(null)} title=${c.title} footer=${html`<${Btn} onClick=${() => done(null)}>Cancel</${Btn}><${Btn} kind="primary" onClick=${() => done(v)}>${c.ok || 'Save'}</${Btn}>`}>
