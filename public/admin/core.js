@@ -83,7 +83,7 @@
     }), err('orders')));
     unsubs.push(db.collection('users').limit(5000).onSnapshot(qs => push('users', qs.docs.map(d => Object.assign({ uid: d.id }, d.data()))), err('users')));
     unsubs.push(db.collection('reviews').onSnapshot(qs => push('reviews', qs.docs.map(d => Object.assign({ _id: d.id }, d.data())).sort((a, b) => (b.ts || 0) - (a.ts || 0))), err('reviews')));
-    unsubs.push(db.collection('leads').orderBy('ts', 'desc').limit(1000).onSnapshot(qs => push('leads', qs.docs.map(d => Object.assign({ _id: d.id }, d.data()))), err('leads')));
+    unsubs.push(db.collection('leads').orderBy('ts', 'desc').limit(6000).onSnapshot(qs => push('leads', qs.docs.map(d => Object.assign({ _id: d.id }, d.data()))), err('leads')));
     unsubs.push(db.collection('inventory_log').orderBy('ts', 'desc').limit(400).onSnapshot(qs => push('hist', qs.docs.map(d => d.data())), err('hist')));
     if (A.canAdmin(role)) unsubs.push(db.collection('roles').onSnapshot(qs => push('roles', qs.docs.map(d => Object.assign({ email: d.id }, d.data()))), err('roles')));
     return () => unsubs.forEach(f => f());
@@ -189,6 +189,19 @@
   A.deleteReview = id => db.collection('reviews').doc(id).delete();
   A.updateLead = (id, patch) => db.collection('leads').doc(id).update(patch);
   A.deleteLead = id => db.collection('leads').doc(id).delete();
+  // Lead Desk: log a call / WhatsApp on a lead (status, note, follow-up) and keep its history.
+  A.logLead = function (l, p) {
+    const t = Date.now(), entry = { t, by: me(), type: p.type || 'call', status: p.status, note: p.note || '' };
+    const up = { status: p.status, lastAt: t, lastBy: me(), log: FV().arrayUnion(entry) };
+    if (p.note) up.notes = p.note;
+    if (p.follow !== undefined) up.follow = p.follow || '';
+    if (p.value) up.value = Number(p.value) || 0;
+    if (p.owner !== undefined) up.owner = p.owner;
+    return db.collection('leads').doc(l._id).update(up);
+  };
+  A.addLead = lead => api('lead-admin', { action: 'add', lead });
+  A.importLeads = (rows, mode) => api('lead-admin', { action: 'import', rows, mode });
+  A.saveLeadTemplates = list => db.doc('settings/leadTemplates').set({ list, by: me(), ts: Date.now() });
   A.setRole = (email, role) => db.collection('roles').doc(String(email).trim().toLowerCase()).set({ role, addedBy: me(), ts: Date.now() });
   A.removeRole = email => db.collection('roles').doc(email).delete();
   A.notify = (id, kind) => api('order-notify', { id, kind });
