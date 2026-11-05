@@ -2,8 +2,6 @@
 /products.html /#/shop 301
 /our-products.html /#/shop 301
 /product.html /#/shop 301
-/products/* /#/shop 301
-/catalog/* /#/shop 301
 /mouth-fresheners.html /lacha-supari/ 301
 /mouth-freshener.html /lacha-supari/ 301
 /candy.html /#/shop 301
@@ -27,3 +25,5 @@
 /testimonial.html / 301
 /testimonials.html / 301
 /sitemap.html / 301
+/products/* /#/shop 301
+/catalog/* /#/shop 301
