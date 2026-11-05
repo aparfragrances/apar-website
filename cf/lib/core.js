@@ -156,7 +156,8 @@ export function buildOrder({ id, user, addr, T, pay, payStatus, txn, note }) {
 export function rzpKeys() {
   const key = ENV.RAZORPAY_KEY_ID, secret = ENV.RAZORPAY_KEY_SECRET;
   if (!key || !secret) throw httpErr(503, 'Online payment is being set up. Please choose Cash on Delivery for now.');
-  return { key: key.trim(), secret: secret.trim() };
+  const tidy = v => String(v).normalize('NFKC').replace(/[^\x21-\x7e]/g, '');
+  return { key: tidy(key), secret: tidy(secret) };
 }
 export async function hmac(secret, body) {
   const k = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);

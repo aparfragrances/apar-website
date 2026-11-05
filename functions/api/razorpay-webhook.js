@@ -8,7 +8,7 @@ export async function onRequest({ request, env, waitUntil }) {
   if (!secret) return C.respond(503, { error: 'Webhook secret not configured' });
   const raw = await request.text();
   const sig = request.headers.get('x-razorpay-signature');
-  if (!C.safeEqual(await C.hmac(secret.trim(), raw), sig)) return C.respond(400, { error: 'Bad signature' });
+  if (!C.safeEqual(await C.hmac(String(secret).normalize('NFKC').replace(/[^\x21-\x7e]/g, ''), raw), sig)) return C.respond(400, { error: 'Bad signature' });
   let ev; try { ev = JSON.parse(raw); } catch (e) { return C.respond(400, { error: 'Bad JSON' }); }
   try {
     if (ev.event === 'order.paid') {

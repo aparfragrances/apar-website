@@ -34,7 +34,12 @@ export const onRequest = C.handler(async ({ request, env, waitUntil }) => {
     body: JSON.stringify({ amount: Math.round(T.total * 100), currency: 'INR', receipt: pref.id, notes: { pending: pref.id, phone: addr.phone } })
   });
   const ro = await r.json().catch(() => ({}));
-  if (!r.ok || !ro.id) { console.error('Razorpay order error', r.status, JSON.stringify(ro)); throw C.httpErr(502, 'Could not start the payment. Please try again or choose Cash on Delivery.'); }
+  if (!r.ok || !ro.id) {
+    console.error('Razorpay order error', r.status, JSON.stringify(ro));
+    const e = C.httpErr(502, 'Could not start the payment. Please try again or choose Cash on Delivery.');
+    if (request.headers.get('x-apar-debug') === '1') e.message += ' [Razorpay ' + r.status + ': ' + String((ro.error && ro.error.description) || '').slice(0, 120) + ' | key ' + key.slice(0, 9) + '… len ' + key.length + ', secret len ' + secret.length + ']';
+    throw e;
+  }
   await pref.set({
     uid: user ? user.uid : null, email: (user && user.email) || addr.email || '', addr, pay,
     items: T.items, sub: T.sub, disc: T.disc, ship: T.ship, total: T.total, coupon: T.coupon,
