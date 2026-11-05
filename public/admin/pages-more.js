@@ -175,7 +175,7 @@
     };
     return html`<div className="page narrow"><div className="page-h"><div><h1>Settings</h1><p className="muted">Business details for invoices, website text and your team.</p></div><${Btn} kind="primary" disabled=${!dirty || busy} onClick=${save}>${busy ? 'Saving…' : 'Save changes'}</${Btn}></div>
       <${Card} title="Business & website"><div className="form-grid">${SITE_FIELDS.map(([k, l, ph]) => html`<${Field} key=${k} label=${l} wide=${k === 'announce' || k === 'address'}><input type=${k === 'lowStock' ? 'number' : 'text'} value=${s[k] || ''} placeholder=${ph} onChange=${e => setS(Object.assign({}, s, { [k]: e.target.value }))} /></${Field}>`)}</div>
-        <p className="sub">New-order emails need email sending switched on once in Netlify (SMTP settings). See the README in your GitHub repository.</p></${Card}>
+        <p className="sub">New-order emails need an email key added once in the hosting settings (BREVO_API_KEY or ZEPTOMAIL_TOKEN, plus MAIL_FROM).</p></${Card}>
       ${A.canAdmin(role) && html`<${Card} title="Team & access" actions=${html`<${Btn} small icon="plus" onClick=${addRole}>Add member</${Btn}>`} pad=${false}>
         <table className="tbl"><tbody><tr><td><b>${A.OWNER_EMAILS[0]}</b></td><td><${Badge} t="Owner" tone="green" /></td><td className="sub">Full access, cannot be removed</td><td></td></tr>
         ${roles.map(r => html`<tr key=${r.email}><td><b>${r.email}</b></td><td><${Badge} t=${r.role === 'admin' ? 'Admin' : r.role === 'staff' ? 'Staff' : 'No access set'} tone=${r.role === 'admin' ? 'violet' : r.role === 'staff' ? 'blue' : 'red'} /></td><td className="sub">${r.role === 'admin' ? 'Everything, including team' : 'Orders, customers, leads, reviews, stock'}</td>

@@ -4,3 +4,5 @@ node_modules/
 service-account*.json
 public/admin/_test.html
 public/admin/_mock.js
+.dev.vars
+.wrangler/

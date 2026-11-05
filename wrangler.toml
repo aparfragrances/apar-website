@@ -1,0 +1,5 @@
+# Cloudflare Pages settings for the APAR website.
+name = "apar-website"
+pages_build_output_dir = "public"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]

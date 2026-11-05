@@ -1,7 +1,7 @@
-// APAR cloud layer: Firebase login + database sync + secure checkout (Razorpay via Netlify functions).
+// APAR cloud layer: Firebase login + database sync + secure checkout (Razorpay via the site’s server functions).
 (function () {
   const ADMIN_EMAILS = ['aparfragrances@gmail.com'];
-  const API = '/.netlify/functions/';
+  const API = '/api/';
   const GUEST_KEY = 'apar-guest-orders';
   const LINK_KEY = 'apar-link-email';
   const S = () => window.AparStore;

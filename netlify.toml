@@ -36,6 +36,11 @@
     Cache-Control = "no-cache"
 
 [[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
   from = "/media/*"
   to = "/.netlify/functions/image?id=:splat"
   status = 200

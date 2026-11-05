@@ -2,7 +2,7 @@
 (function () {
   const D = window.APAR_DATA;
   const OWNER_EMAILS = ['aparfragrances@gmail.com'];
-  const API = '/.netlify/functions/';
+  const API = '/api/';
   const A = (window.AA = window.AA || {});
 
   // ---------- small helpers ----------
@@ -219,8 +219,11 @@
         const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
         const ctx = cv.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
         URL.revokeObjectURL(url);
-        const d = cv.toDataURL('image/webp', 0.85);
-        res(d.indexOf('data:image/webp') === 0 ? d : cv.toDataURL('image/jpeg', 0.85));
+        // Keep each photo under ~850 KB so it fits in the store database.
+        const webp = cv.toDataURL('image/webp', 0.85).indexOf('data:image/webp') === 0, type = webp ? 'image/webp' : 'image/jpeg';
+        let q = 0.85, d = cv.toDataURL(type, q);
+        while (d.length > 1150000 && q > 0.4) { q -= 0.1; d = cv.toDataURL(type, q); }
+        res(d);
       };
       img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Could not read "' + file.name + '". Please use a JPG or PNG photo.')); };
       img.src = url;
