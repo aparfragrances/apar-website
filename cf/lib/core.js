@@ -154,7 +154,8 @@ export function buildOrder({ id, user, addr, T, pay, payStatus, txn, note }) {
 }
 
 export function rzpKeys() {
-  const key = ENV.RAZORPAY_KEY_ID, secret = ENV.RAZORPAY_KEY_SECRET;
+  // Also accept the names from Razorpay's downloaded key file (key_id / key_secret).
+  const key = ENV.RAZORPAY_KEY_ID || ENV.key_id, secret = ENV.RAZORPAY_KEY_SECRET || ENV.key_secret;
   if (!key || !secret) throw httpErr(503, 'Online payment is being set up. Please choose Cash on Delivery for now.');
   const tidy = v => String(v).normalize('NFKC').replace(/[^\x21-\x7e]/g, '');
   // People often paste the label too ("Key ID: rzp_live_…"). Keep only the actual key.
