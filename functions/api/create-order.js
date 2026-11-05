@@ -30,7 +30,7 @@ export const onRequest = C.handler(async ({ request, env, waitUntil }) => {
   const pref = C.db().collection('pending_orders').doc();
   const r = await fetch('https://api.razorpay.com/v1/orders', {
     method: 'POST',
-    headers: { Authorization: 'Basic ' + btoa(key + ':' + secret), 'Content-Type': 'application/json' },
+    headers: { Authorization: 'Basic ' + btoa(unescape(encodeURIComponent(key + ':' + secret))), 'Content-Type': 'application/json' },
     body: JSON.stringify({ amount: Math.round(T.total * 100), currency: 'INR', receipt: pref.id, notes: { pending: pref.id, phone: addr.phone } })
   });
   const ro = await r.json().catch(() => ({}));
