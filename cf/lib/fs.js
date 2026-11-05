@@ -8,6 +8,18 @@ const fromB64url = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.
 export const b64ToBytes = s => { const bin = atob(s); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; };
 export const bytesToB64 = u => { let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
 
+// Accepts the Firebase key however it was pasted: the raw file, with real line breaks inside the
+// private key, wrapped in quotes, or base64-encoded.
+export function parseServiceAccount(raw) {
+  let s = String(raw || '').replace(/^\uFEFF/, '').trim();
+  if (/^["'].*["']$/s.test(s)) { try { const u = JSON.parse(s); if (typeof u === 'string') s = u.trim(); } catch (e) { s = s.slice(1, -1).trim(); } }
+  if (s && s[0] !== '{') { try { const d = atob(s.replace(/\s+/g, '')); if (d.trim()[0] === '{') s = d.trim(); } catch (e) { } }
+  const tries = [s, s.replace(/\r/g, '').replace(/-----BEGIN PRIVATE KEY-----[\s\S]*?-----END PRIVATE KEY-----\n?/, m => m.replace(/\n/g, '\\n')), s.replace(/\r?\n/g, ' ').replace(/(-----BEGIN PRIVATE KEY-----)\s*([\s\S]*?)\s*(-----END PRIVATE KEY-----)/, (m, a, b, c) => a + '\\n' + b.replace(/\s+/g, '\\n') + '\\n' + c)];
+  const pem = k => { const b = String(k).replace(/\\n/g, '\n').replace(/-----(BEGIN|END) PRIVATE KEY-----/g, '').replace(/\s+/g, ''); return '-----BEGIN PRIVATE KEY-----\n' + b.match(/.{1,64}/g).join('\n') + '\n-----END PRIVATE KEY-----\n'; };
+  for (const t of tries) { try { const j = JSON.parse(t); if (j && j.private_key && j.client_email) { j.private_key = pem(j.private_key); return j; } } catch (e) { } }
+  return null;
+}
+
 function httpErr(status, message) { const e = new Error(message); e.status = status; return e; }
 
 // ---------- Service-account access token ----------
@@ -90,7 +102,8 @@ export function firestore(env) {
   let sa;
   const raw = env.FIREBASE_SERVICE_ACCOUNT;
   if (!raw) throw httpErr(503, 'The store is still being set up (database key missing). Please try again later or order on WhatsApp.');
-  try { sa = JSON.parse(raw); } catch (e) { throw httpErr(503, 'Server configuration error (FIREBASE_SERVICE_ACCOUNT is not valid JSON).'); }
+  sa = parseServiceAccount(raw);
+  if (!sa) throw httpErr(503, 'Server configuration error (FIREBASE_SERVICE_ACCOUNT is not a valid Firebase key). Paste the whole downloaded key file.');
   const pid = sa.project_id;
   const root = `projects/${pid}/databases/(default)/documents`;
   const emu = env.FIRESTORE_EMULATOR_HOST; // local testing only

@@ -13,7 +13,8 @@ async function liveCatalog() {
   if (!process.env.FIREBASE_SERVICE_ACCOUNT) return null;
   try {
     const admin = require('firebase-admin');
-    if (!admin.apps.length) admin.initializeApp({ credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)) });
+    const { parseServiceAccount } = await import('../cf/lib/fs.js'); const sa = parseServiceAccount(process.env.FIREBASE_SERVICE_ACCOUNT); if (!sa) throw new Error('FIREBASE_SERVICE_ACCOUNT not readable'); sa.private_key = sa.private_key.replace(/\\n/g, '\n');
+    if (!admin.apps.length) admin.initializeApp({ credential: admin.credential.cert(sa) });
     const snap = await admin.firestore().doc('settings/catalog').get();
     return snap.exists ? snap.data() : null;
   } catch (e) { console.warn('SEO build: using default catalogue (' + e.message + ')'); return null; }
