@@ -157,7 +157,12 @@ export function rzpKeys() {
   const key = ENV.RAZORPAY_KEY_ID, secret = ENV.RAZORPAY_KEY_SECRET;
   if (!key || !secret) throw httpErr(503, 'Online payment is being set up. Please choose Cash on Delivery for now.');
   const tidy = v => String(v).normalize('NFKC').replace(/[^\x21-\x7e]/g, '');
-  return { key: tidy(key), secret: tidy(secret) };
+  // People often paste the label too ("Key ID: rzp_live_…"). Keep only the actual key.
+  const k = tidy(key), m = /rzp_(live|test)_[A-Za-z0-9]+/.exec(k);
+  let sec = tidy(secret).replace(/^.*[:=]/, '');
+  const runs = sec.match(/[A-Za-z0-9]{16,}/g);
+  if (sec.length > 30 && runs) sec = runs[runs.length - 1];
+  return { key: m ? m[0] : k, secret: sec };
 }
 export async function hmac(secret, body) {
   const k = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
