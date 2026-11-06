@@ -252,7 +252,7 @@ export function handler(fn, methods) {
       const show = e.status && !e.internal;
       const out = { error: show ? e.message : 'Something went wrong on our side. Please try again, or order on WhatsApp.' };
       // Diagnostic detail only when the request carries the support header (never shown to shoppers).
-      if (!show && ctx.request.headers.get('x-apar-debug') === '1') out.detail = String((e && e.name) || '') + ': ' + String((e && e.message) || '').replace(/rzp_[a-z]+_[A-Za-z0-9]+/g, 'rzp_***').slice(0, 300);
+      if (!show && ENV.APAR_DEBUG === '1' && ctx.request.headers.get('x-apar-debug') === '1') out.detail = String((e && e.name) || '') + ': ' + String((e && e.message) || '').replace(/rzp_[a-z]+_[A-Za-z0-9]+/g, 'rzp_***').slice(0, 300);
       return respond(show ? e.status : 500, out);
     }
   };

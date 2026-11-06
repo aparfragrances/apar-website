@@ -66,6 +66,61 @@
     ['Do you supply in bulk?', 'Yes. Bakeries, sweet shops, hotels, retailers and distributors can send an enquiry from the B2B page or on WhatsApp.']
   ];
   const POLICIES = { shipping: 'Shipping Policy', returns: 'Return Policy', refund: 'Refund Policy', cancellation: 'Cancellation Policy', privacy: 'Privacy Policy', terms: 'Terms & Conditions' };
+  // Policy text. Contact: 78519 78274 · aparfragrances@gmail.com. Seller: Apar Fragrances, Jaipur.
+  const HELP = 'WhatsApp or call 78519 78274, or email aparfragrances@gmail.com';
+  const POLICY_TEXT = {
+    shipping: [
+      ['Where we deliver', 'We deliver across India through trusted courier partners. Enter your PIN code on any product page or at checkout to see if we deliver to you and the expected delivery time.'],
+      ['Dispatch time', 'Orders are packed and handed to the courier within 1–2 working days (Monday to Saturday, except public holidays). Orders placed on Sunday or a holiday are dispatched the next working day.'],
+      ['Delivery time', 'Rajasthan: usually 2–3 days. Metro cities: 3–5 days. Rest of India: 4–7 days. Remote areas (including J&K and the North East): 6–9 days. These are estimates after dispatch; weather, festivals or courier delays can add a few days.'],
+      ['Delivery charges', 'Delivery is free on orders of ₹499 or more (after discounts). For smaller orders, a small charge based on your PIN code is shown at checkout before you pay.'],
+      ['Cash on Delivery', 'COD is available on most PIN codes for orders up to ₹5,000. Checkout shows whether COD is available for your address.'],
+      ['Tracking', 'Once your order ships, the courier name and tracking number appear in My Account and on the Track Order page. We also send updates by email and WhatsApp.'],
+      ['Wrong address or failed delivery', 'Please check your address and mobile number before placing the order. If a parcel is returned because of a wrong address or the customer was unavailable, re-shipping charges may apply. Refused COD orders may block COD for future orders.'],
+      ['Need help?', HELP + '.']
+    ],
+    returns: [
+      ['Food items cannot be returned once opened', 'Our products are food items, so for hygiene and safety we cannot accept returns of opened or used products, or returns because of change of mind or taste preference.'],
+      ['When we will replace or refund', 'We will replace the product or give a full refund if you received: a damaged or leaking pack, a wrong product or size, a missing item, or a product past its expiry date.'],
+      ['How to report a problem', 'Report it within 48 hours of delivery from My Account (Return / Replace), or on WhatsApp at 78519 78274, with your order number and clear photos of the product, the pack and the outer box. An unboxing video helps us resolve it faster.'],
+      ['What happens next', 'We review your request within 1–2 working days. If approved, we send a replacement at no extra cost, or refund you as per our Refund Policy. If we need the item back, we arrange the pickup.'],
+      ['Bulk and B2B orders', 'Bulk, wholesale and custom gifting orders are covered by the terms agreed in your quotation.']
+    ],
+    refund: [
+      ['When you get a refund', 'You get a refund when an order is cancelled before dispatch, when a prepaid order cannot be delivered, or when a return or replacement request is approved and a replacement is not possible.'],
+      ['How long it takes', 'Approved refunds are started within 2 working days. Online payments (UPI, card, net banking, wallet) go back to the original payment method and usually reach you in 5–7 working days, depending on your bank.'],
+      ['Cash on Delivery orders', 'For COD orders, we refund to your UPI ID or bank account. We will ask for these details on WhatsApp or email.'],
+      ['Delivery charges', 'Delivery charges are refunded when the problem is from our side (damaged, wrong or missing item). They are not refunded for orders cancelled after dispatch.'],
+      ['Refund status', 'You can see the refund status on the order in My Account. For help, ' + HELP + '.']
+    ],
+    cancellation: [
+      ['Before dispatch', 'You can cancel your order free of charge from My Account (Cancel order) until it is shipped. Prepaid orders are refunded in full to the original payment method.'],
+      ['After dispatch', 'Once an order has shipped it cannot be cancelled. If you refuse a COD parcel, COD may be disabled for your future orders.'],
+      ['Cancellation by APAR', 'We may cancel an order if a product is out of stock, the address is not serviceable, the payment fails or looks suspicious, or the price shown was wrong because of a technical error. If you have already paid, you get a full refund.'],
+      ['Need help?', HELP + '.']
+    ],
+    privacy: [
+      ['Who we are', 'This website is run by Apar Fragrances, 0-33, Amber Towar, Sansar Chand Road, Jaipur, Rajasthan. This policy explains what personal information we collect and how we use it.'],
+      ['What we collect', 'Your name, mobile number, email, delivery addresses and order history when you create an account or place an order; messages you send us; and basic technical data such as device and browser type. We do not store your card, UPI or bank details; payments are handled securely by Razorpay.'],
+      ['How we use it', 'To process and deliver your orders, send order and delivery updates (email, SMS or WhatsApp), provide customer support, prevent fraud, keep tax and accounting records, and, only if you opt in, send offers and new launch news.'],
+      ['Who we share it with', 'Only with service providers who help us run the store: courier partners (to deliver your order), Razorpay (payments), Google Firebase (secure account and order storage) and Brevo (order emails). We never sell your personal data.'],
+      ['Your choices', 'You can update your details and notification preferences in My Account. To get a copy of your data or delete your account, email aparfragrances@gmail.com.'],
+      ['Cookies', 'We use essential cookies and browser storage to keep you signed in and remember your cart. Optional analytics are used only if you allow them.'],
+      ['Security and retention', 'Your data is stored on secure, encrypted services. We keep order and invoice records for as long as tax laws require.'],
+      ['Contact', 'For any privacy question, ' + HELP + '.']
+    ],
+    terms: [
+      ['About these terms', 'By using aparfragrances.com or placing an order, you agree to these terms. The website is run by Apar Fragrances, Jaipur, Rajasthan (GSTIN 08ABHFA9691D1Z6, FSSAI Lic. No. 12217026000698).'],
+      ['Products and prices', 'All prices are in Indian Rupees and include GST unless stated otherwise. Product photos are for illustration; packaging may vary slightly. We may change prices, products or offers at any time; the price at the time you place the order applies.'],
+      ['Orders', 'An order is confirmed when you receive an order number. We may refuse or cancel an order as described in our Cancellation Policy.'],
+      ['Payments', 'Online payments are processed by Razorpay. Cash on Delivery is available on eligible orders. Coupon codes are subject to their own conditions and cannot be exchanged for cash.'],
+      ['Food safety', 'Please read the ingredients and allergen information on the pack before use. Store as directed and consume before the best-before date.'],
+      ['Use of the website', 'Do not misuse the website, place fake orders or try to break its security. All content, logos and photos belong to APAR and may not be copied without permission.'],
+      ['Liability', 'Our responsibility for any order is limited to the amount you paid for that order.'],
+      ['Law and jurisdiction', 'These terms are governed by the laws of India. Any dispute is subject to the courts of Jaipur, Rajasthan.'],
+      ['Contact', HELP + '.']
+    ]
+  };
   const d = (n) => { const t = new Date(Date.now() - n * 864e5); return t.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
   const SAMPLE_ORDERS = [
     { id: 'APR204118', date: d(7), name: 'Sample · Riya S.', phone: '9800000001', email: '', city: 'Jaipur', address: 'Sample address', pin: '302001', items: [{ pid: 'gulkand', sku: 'APR-GK-400G', name: 'APAR Gulkand', size: '400 g', qty: 2, price: 249 }], sub: 498, disc: 0, ship: 39, total: 537, pay: 'UPI', payStatus: 'Paid', txn: 'pay_SAMPLE01', si: 4, tracking: 'SR1029384756', courier: 'Sample Courier', refund: '', ret: '', sample: true, events: [] },
@@ -80,7 +135,7 @@
     const zs = sh.zones || {}, cs = sh.cod || {};
     return { ...z, ship: zs[z.z] != null && zs[z.z] !== '' ? Number(zs[z.z]) : z.ship, cod: cs[z.z] != null ? !!cs[z.z] : z.cod };
   }
-  root.APAR_DATA = { SHIP_DEFAULT, SHIP: SHIP_DEFAULT, quote, IM, TBC, CATS, PRODUCTS, STORY, STATUSES, COUPONS, zone, FAQ, POLICIES, SAMPLE_ORDERS, WA: '917851978274',
+  root.APAR_DATA = { SHIP_DEFAULT, SHIP: SHIP_DEFAULT, quote, IM, TBC, CATS, PRODUCTS, STORY, STATUSES, COUPONS, zone, FAQ, POLICIES, POLICY_TEXT, SAMPLE_ORDERS, WA: '917851978274',
     CONTACT: { phone: '78519 78274', email: 'aparfragrances@gmail.com', address: '0-33, Amber Towar, Sansar chand Road, Jaipur' } };
   if (typeof module !== 'undefined' && module.exports) module.exports = root.APAR_DATA;
 })(typeof window !== 'undefined' ? window : globalThis);

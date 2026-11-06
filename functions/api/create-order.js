@@ -37,7 +37,7 @@ export const onRequest = C.handler(async ({ request, env, waitUntil }) => {
   if (!r.ok || !ro.id) {
     console.error('Razorpay order error', r.status, JSON.stringify(ro));
     const e = C.httpErr(424, 'Could not start the payment. Please try again or choose Cash on Delivery.');
-    if (request.headers.get('x-apar-debug') === '1') e.message += ' [Razorpay ' + r.status + ': ' + String((ro.error && ro.error.description) || '').slice(0, 120) + ' | key ' + key + ' len ' + key.length + ', secret len ' + secret.length + ']';
+    if (env.APAR_DEBUG === '1' && request.headers.get('x-apar-debug') === '1') e.message += ' [Razorpay ' + r.status + ': ' + String((ro.error && ro.error.description) || '').slice(0, 120) + ' | key ' + key + ' len ' + key.length + ', secret len ' + secret.length + ']';
     throw e;
   }
   await pref.set({
