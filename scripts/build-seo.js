@@ -37,6 +37,7 @@ const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(
   });
   const vars = p => p.v.map(([size, g, mrp, price, stock, sku], i) => { const o = px[p.id + ':' + i] || {}; return { i, size, sku, mrp: o.mrp ?? mrp, price: o.price ?? price, stock: o.stock ?? stock }; });
   const site = Object.assign({ phone: D.CONTACT.phone, email: D.CONTACT.email, address: D.CONTACT.address, legalName: 'Apar Fragrances' }, cat.site || {});
+  if (!site.fssai) site.fssai = '12217026000698';
   const phoneIntl = '+91' + String(site.phone || '').replace(/\D/g, '').slice(-10);
   const WA = 'https://wa.me/' + D.WA;
   const byId = id => PRODUCTS.find(p => p.id === id);

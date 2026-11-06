@@ -261,7 +261,7 @@ function orderEmailHtml(o, heading, intro, site) {
   <p style="margin:16px 0 0;font-size:14px;line-height:1.6">Payment: ${esc(o.pay)} · ${esc(o.payStatus)}<br>Deliver to: ${esc(o.name)}, ${esc(o.address)}, ${esc(o.city)} ${esc(o.pin)} · ${esc(o.phone)}</p>
   ${o.tracking ? `<p style="margin:12px 0 0;font-size:14px">Courier: ${esc(o.courier)} · Tracking no. <strong>${esc(o.tracking)}</strong></p>` : ''}
   <p style="margin:20px 0 0"><a href="${base}/#/track/${esc(o.id)}" style="background:#0f3b2e;color:#f7f2e8;padding:12px 20px;border-radius:30px;text-decoration:none;font-size:13px;letter-spacing:.1em">TRACK ORDER</a></p>
-  </div><p style="font-size:12px;color:#888;padding:12px 24px">APAR · Jaipur${site.fssai ? ' · FSSAI ' + esc(site.fssai) : ''}${site.gstin ? ' · GSTIN ' + esc(site.gstin) : ''}</p></div>`;
+  </div><p style="font-size:12px;color:#888;padding:12px 24px">APAR · Jaipur · FSSAI ${esc(site.fssai || '12217026000698')}${site.gstin ? ' · GSTIN ' + esc(site.gstin) : ''}</p></div>`;
 }
 // New order: alert the store owner and send the customer a confirmation (only when email is configured).
 async function notifyNewOrder(o) {

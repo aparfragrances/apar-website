@@ -60,7 +60,7 @@
     const S = ctx.site || {}, W = 210, M = 14;
     const seller = {
       name: S.legalName || 'Apar Fragrances', address: S.address || '0-33, Amber Tower, Sansar Chand Road, Jaipur', state: S.state || 'Rajasthan',
-      phone: S.phone || '78519 78274', email: S.email || 'aparfragrances@gmail.com', gstin: S.gstin || '', fssai: S.fssai || '', web: ctx.web || 'www.aparfragrances.com'
+      phone: S.phone || '78519 78274', email: S.email || 'aparfragrances@gmail.com', gstin: S.gstin || '', fssai: S.fssai || '12217026000698', web: ctx.web || 'www.aparfragrances.com'
     };
     const C = compute(o, ctx.products, S);
     const font = (f, size, color) => { doc.setFont(f === 'b' ? 'PoppinsSemi' : f === 's' ? 'Bodoni' : 'Poppins', 'normal'); doc.setFontSize(size); doc.setTextColor.apply(doc, color || INK); };
