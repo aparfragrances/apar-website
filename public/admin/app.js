@@ -38,6 +38,7 @@
       A.auth.sendSignInLinkToEmail(email, { url: location.origin + '/admin/', handleCodeInApp: true }).then(() => { try { localStorage.setItem('apar-admin-link', email); } catch (e) { } setBusy(false); setMsg('Sign-in link sent to ' + email + '. Open it on this device.'); }).catch(fail);
     };
     const pass = () => { setBusy(true); setErr(''); A.auth.signInWithEmailAndPassword(email, pw).catch(fail); };
+    const forgot = () => { if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return setErr('Type your email above, then tap "Forgot password?".'); setErr(''); A.auth.sendPasswordResetEmail(email).then(() => setMsg('Password reset link sent to ' + email + '. Check your inbox (and spam).')).catch(fail); };
     return html`<div className="login"><div className="login-card">
       <div className="brandmark">APAR</div><h1>Admin</h1><p className="muted">Sign in with your store account to manage orders, products and customers.</p>
       <div className="seg">${[['google', 'Google'], ['link', 'Email link'], ['pass', 'Password']].map(([k, l]) => html`<button key=${k} className=${mode === k ? 'on' : ''} onClick=${() => { setMode(k); setErr(''); setMsg(''); }}>${l}</button>`)}</div>
@@ -46,6 +47,7 @@
       ${mode === 'pass' && html`<input type="password" value=${pw} onChange=${e => setPw(e.target.value)} placeholder="Password" autoComplete="current-password" onKeyDown=${e => e.key === 'Enter' && pass()} />`}
       ${mode === 'link' && html`<${Btn} kind="primary" disabled=${busy} onClick=${link}>${busy ? 'Sending…' : 'Email me a sign-in link'}</${Btn}>`}
       ${mode === 'pass' && html`<${Btn} kind="primary" disabled=${busy} onClick=${pass}>${busy ? 'Signing in…' : 'Sign in'}</${Btn}>`}
+      ${mode === 'pass' && html`<button type="button" className="sub" style=${{ background: 'none', border: 0, cursor: 'pointer', textDecoration: 'underline' }} onClick=${forgot}>Forgot password?</button>`}
       ${msg && html`<div className="ok-msg">${msg}</div>`}${err && html`<div className="err-msg">${err}</div>`}
       <a className="sub" href="/">← Back to the store</a></div></div>`;
   }
