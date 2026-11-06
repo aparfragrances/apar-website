@@ -121,7 +121,7 @@
               })}</div>
               <a className="bell-f" href="#/orders/new" onClick=${() => setBell(false)}>View orders to pack${newCount ? ' (' + newCount + ')' : ''} →</a>
             </div>`}</div>
-          <div className="who"><div className="who-n">${user.displayName || user.email}</div><div className="who-r">${ROLE_LABEL[role]} · <button className="link" onClick=${() => A.auth.signOut()}>Sign out</button></div></div></header>
+          <div className="who"><div className="who-n">${user.displayName || user.email}</div><div className="who-r">${ROLE_LABEL[role]} · <button className="link" title="Get a link by email to set a new password" onClick=${() => { if (!confirm('Send a change-password link to ' + user.email + '?')) return; A.auth.sendPasswordResetEmail(user.email).then(() => A.toast('Password link sent to ' + user.email + '. Check inbox and spam.', 'ok')).catch(e => A.toast(e.message, 'err')); }}>Change password</button> · <button className="link" onClick=${() => A.auth.signOut()}>Sign out</button></div></div></header>
         <main>${body}</main>
       </div>
       <${A.OrderDrawer} data=${data} id=${order} onClose=${() => setOrder(null)} />
