@@ -165,6 +165,7 @@
     const newCat = String(d.newCat || '').trim();
     if (newCat) { const s = slug(newCat); if (!cats.some(k => k.slug === s)) cats.splice(Math.max(0, cats.length - 1), 0, { slug: s, name: newCat, img: (d.imgs || [])[0] || '' }); c = s; }
     const imgs = (d.imgs || []).filter(Boolean);
+    { const k = cats.find(x => x.slug === c); if (k && !k.img && imgs[0]) k.img = imgs[0]; }
     const v = variants.map(x => {
       const size = String(x.size).trim(), price = Math.round(Number(x.price)), mrp = Math.round(Number(x.mrp) || price);
       return [size, Math.round(Number(x.g) || 0), mrp, price, 0, String(x.sku || '').trim() || ('APR-' + code + '-' + size.replace(/\s/g, '').toUpperCase())];

@@ -807,7 +807,7 @@ class Component extends DCLogic {
       imgBakery: D.IM.bakery, imgPetals: D.IM.petals, story0: D.STORY[0], story2: D.STORY[2], storyParas: D.STORY,
       pillars: [['Tradition', 'Traditional Indian flavours'], ['Craft', 'Thoughtful processing and presentation'], ['Quality', 'Built around consistent product quality'], ['Range', 'Products for homes and businesses'], ['Trust', 'A brand built for long-term relationships']].map(([w, t]) => ({ w, t })),
       heroPrice: inr(g400.price), heroMrp: inr(g400.mrp),
-      cats: D.CATS.map(c => ({ ...c, pos: c.pos || '50% 50%', href: '#/shop/' + c.slug })),
+      cats: D.CATS.map(c => { const fp = !c.img && (D.PRODUCTS || []).find(x => x.cat === c.slug && x.img); return { ...c, img: c.img || (fp ? fp.img : ''), pos: c.pos || '50% 50%', href: '#/shop/' + c.slug }; }),
       signature: D.PRODUCTS.filter(p => p.featured).map(p => S.card(this, p)), comboCards: D.PRODUCTS.filter(p => p.cat === 'combos').map(p => S.card(this, p)),
       downloadCatalogue: () => S.downloadCatalogue(this),
       waCurrent: waMsg(page === 'product' && S.find(id) ? `Hello APAR, I am interested in ${S.find(id).name.replace('APAR ', '')}. Please share product details, pricing and availability.` : 'Hello APAR, I would like to know more about your products.'),
