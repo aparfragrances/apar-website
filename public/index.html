@@ -9,7 +9,7 @@
 <script src="assets/js/firebase-config.js?v=c4086787"></script>
 <script src="assets/js/apar-cloud.js?v=8c3de711"></script>
 <script src="assets/js/dc-runtime.js?v=951ae391"></script>
-<link rel="icon" href="assets/img/logo.webp">
+<link rel="icon" href="assets/img/favicon.png">
 <title>Apar Fragrances, Jaipur · APAR Gulkand, Tutti Frutti, Karonda Cherry &amp; Lacha Supari</title>
 </head>
 <body>
@@ -251,12 +251,12 @@
 </helmet>
 <div style="min-height:100vh;background:#f7f2e8;color:#1c2420;font-family:Barlow,system-ui,sans-serif;text-wrap:pretty;overflow-x:hidden">
 
-<div style="position:fixed;inset:0;z-index:200;background:#0a2a20;display:grid;place-items:center;transition:opacity .7s ease,visibility .7s;opacity:{{ bootOpacity }};visibility:{{ bootVis }}"><div style="display:flex;flex-direction:column;align-items:center;gap:18px"><span style="background:#f7f2e8;padding:8px 18px;border-radius:40px;display:flex"><img src="assets/img/logo.webp" alt="APAR" style="height:40px;mix-blend-mode:multiply"></span><span style="width:48px;height:1px;background:#b08d57"></span><span style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#e2c792">Traditional flavours</span></div></div>
+<div style="position:fixed;inset:0;z-index:200;background:#0a2a20;display:grid;place-items:center;transition:opacity .7s ease,visibility .7s;opacity:{{ bootOpacity }};visibility:{{ bootVis }}"><div style="display:flex;flex-direction:column;align-items:center;gap:18px"><img src="assets/img/logo-light.webp" alt="APAR" style="height:72px;display:block"><span style="width:48px;height:1px;background:#b08d57"></span><span style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#e2c792">Traditional flavours</span></div></div>
 
 <header style="position:fixed;top:0;left:0;right:0;z-index:50;color:#f7f2e8;transition:background .5s ease,box-shadow .5s ease;background:{{ headerBg }};box-shadow:{{ headerShadow }}">
 <div style="background:#0a2a20;text-align:center;font-size:12px;letter-spacing:.06em;padding:8px 16px;color:#e2c792">{{ announce }}</div>
 <div style="max-width:1320px;margin:0 auto;padding:12px clamp(16px,4vw,48px);display:flex;align-items:center;gap:24px">
-<a href="#/" style="display:flex;align-items:center;background:#f7f2e8;padding:5px 12px;border-radius:40px;margin-right:auto"><img src="assets/img/logo.webp" alt="APAR home" style="height:28px;mix-blend-mode:multiply;display:block"></a>
+<a href="#/" style="display:flex;align-items:center;margin-right:auto"><img src="assets/img/logo-light.webp" alt="APAR home" style="height:48px;display:block"></a>
 <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><nav style="display:flex;gap:24px;font-size:13px;letter-spacing:.12em;text-transform:uppercase"><sc-for list="{{ nav }}" as="n" hint-placeholder-count="6"><a href="{{ n.href }}" style="color:#f7f2e8" style-hover="color:#e2c792">{{ n.label }}</a></sc-for></nav></sc-if>
 <div style="display:flex;align-items:center;gap:2px">
 <a href="#/shop" aria-label="Search products" style="width:42px;height:42px;display:grid;place-items:center;color:#f7f2e8;border-radius:50%" style-hover="background:rgba(247,242,232,.1);color:#f7f2e8"><svg width="19" height="19" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></a>
@@ -304,7 +304,12 @@
 <section style="background:#efe7d6">
 <div style="max-width:1320px;margin:0 auto;padding:clamp(64px,8vw,110px) clamp(16px,4vw,48px)">
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px 64px;align-items:end;margin-bottom:36px"><h2 style="font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(38px,4.8vw,72px);line-height:1;margin:0;color:#0f3b2e">The Art of <em style="color:#8a6d3b">Gulkand</em></h2><p style="font-size:17px;line-height:1.7;font-weight:300;color:#3d4238;margin:0">A timeless Indian favourite, thoughtfully crafted for today's generation. Enjoy it with milk, desserts, ice cream or paan.</p></div>
-<div style="border-radius:12px;overflow:hidden;background:#f6ebe2"><img src="assets/img/range-lineup.webp" alt="APAR range: Gulkand, Karonda Cherry, Tutti Frutti, Lacha Tutti Frutti, Lacha Supari" loading="lazy" style="width:100%;display:block"></div>
+<div role="region" aria-roledescription="carousel" aria-label="APAR range" style="position:relative;border-radius:12px;overflow:hidden;background:#f3eadb;aspect-ratio:1776/896">
+<div style="display:flex;height:100%;transform:translateX({{ artX }});transition:transform .7s cubic-bezier(.4,0,.2,1)"><sc-for list="{{ artSlides }}" as="a" hint-placeholder-count="2"><img src="{{ a.src }}" alt="{{ a.alt }}" loading="lazy" style="flex:0 0 100%;width:100%;height:100%;object-fit:cover;display:block"></sc-for></div>
+<button type="button" sc-camel-on-click="{{ artPrev }}" aria-label="Previous slide" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(247,242,232,.9);color:#0f3b2e;font-size:22px;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px -8px rgba(0,0,0,.4)">‹</button>
+<button type="button" sc-camel-on-click="{{ artNext }}" aria-label="Next slide" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(247,242,232,.9);color:#0f3b2e;font-size:22px;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px -8px rgba(0,0,0,.4)">›</button>
+<div style="position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:8px"><sc-for list="{{ artSlides }}" as="a" hint-placeholder-count="2"><button type="button" sc-camel-on-click="{{ a.go }}" aria-label="{{ a.label }}" aria-current="{{ a.cur }}" style="width:{{ a.dotW }};height:8px;border-radius:8px;border:0;padding:0;background:{{ a.dotBg }};cursor:pointer;transition:width .3s"></button></sc-for></div>
+</div>
 <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:16px;align-items:center"><span style="font-size:12px;color:#8a6d3b">Concept packaging. Final packaging will be shown after approval.</span><a href="#/product/gulkand" style="padding:15px 28px;background:#0f3b2e;color:#f7f2e8;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-radius:40px" style-hover="background:#1a5541;color:#f7f2e8">Discover Gulkand</a></div>
 </div>
 </section>
@@ -733,7 +738,7 @@
 
 <footer style="background:#0a2a20;color:#b6c4ba">
 <div style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,88px) clamp(16px,4vw,48px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:32px">
-<div style="grid-column:span 2;min-width:0"><span style="display:inline-flex;background:#f7f2e8;padding:5px 12px;border-radius:40px"><img src="assets/img/logo.webp" alt="APAR" style="height:28px;mix-blend-mode:multiply"></span><p style="font-size:14px;line-height:1.7;margin:18px 0 0;max-width:38ch">0-33, Amber Towar, Sansar chand Road, Jaipur<br>78519 78274 · aparfragrances@gmail.com</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><button sc-camel-on-click="{{ downloadCatalogue }}" style="padding:11px 18px;border:1px solid #b08d57;background:none;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Download Catalogue</button><a href="https://www.instagram.com/" target="_blank" style="padding:11px 18px;border:1px solid rgba(247,242,232,.3);color:#f7f2e8;border-radius:40px;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Instagram</a></div></div>
+<div style="grid-column:span 2;min-width:0"><img src="assets/img/logo-light.webp" alt="APAR" style="height:56px;display:block"><p style="font-size:14px;line-height:1.7;margin:18px 0 0;max-width:38ch">0-33, Amber Towar, Sansar chand Road, Jaipur<br>78519 78274 · aparfragrances@gmail.com</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><button sc-camel-on-click="{{ downloadCatalogue }}" style="padding:11px 18px;border:1px solid #b08d57;background:none;color:#f7f2e8;border-radius:40px;cursor:pointer;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Download Catalogue</button><a href="https://www.instagram.com/" target="_blank" style="padding:11px 18px;border:1px solid rgba(247,242,232,.3);color:#f7f2e8;border-radius:40px;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Instagram</a></div></div>
 <sc-for list="{{ footCols }}" as="c" hint-placeholder-count="3"><div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#e2c792;margin-bottom:14px">{{ c.title }}</div><div style="display:flex;flex-direction:column;gap:10px"><sc-for list="{{ c.links }}" as="l" hint-placeholder-count="5"><a href="{{ l.href }}" style="color:#d6ddd6;font-size:14px" style-hover="color:#e2c792">{{ l.label }}</a></sc-for></div></div></sc-for>
 </div>
 <div style="max-width:1320px;margin:0 auto;padding:20px clamp(16px,4vw,48px) 100px;border-top:1px solid rgba(247,242,232,.1);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px"><span>{{ fssaiText }}</span><a href="/admin/" style="color:#8fa699">Admin</a></div>
@@ -748,7 +753,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="">
 class Component extends DCLogic {
-  state = { ready: false, route: this.parse(), w: 1280, scrolled: false, menuOpen: false, booting: true, fade: 1, heroIn: false, faqOpen: -1 };
+  state = { ready: false, route: this.parse(), w: 1280, scrolled: false, menuOpen: false, booting: true, fade: 1, heroIn: false, faqOpen: -1, artI: 0 };
   parse() { const h = (location.hash || '').replace(/^#\/?/, '').split('/'); return { page: h[0] || 'home', id: decodeURIComponent(h[1] || '') }; }
   componentDidMount() {
     const boot = () => {
@@ -765,6 +770,7 @@ class Component extends DCLogic {
     this.onScroll = () => { const v = window.scrollY > 40; if (v !== this.state.scrolled) this.setState({ scrolled: v }); };
     window.addEventListener('hashchange', this.onHash); window.addEventListener('resize', this.onResize); window.addEventListener('scroll', this.onScroll, { passive: true });
     this.onResize(); this.onScroll();
+    this.artT = setInterval(() => { if (!document.hidden) this.setState({ artI: (this.state.artI + 1) % 2 }); }, 6000);
   }
   componentDidUpdate(pp, ps) {
     if (!this.state.ready) return;
@@ -775,7 +781,7 @@ class Component extends DCLogic {
     const t = { home: 'APAR · Premium Indian Food Products', shop: 'Shop APAR Products', cart: 'Cart · APAR', checkout: 'Checkout · APAR', b2b: 'Bulk Supply & Distributors · APAR', story: 'Our Story · APAR', faq: 'FAQs · APAR', contact: 'Contact APAR', account: 'My Account · APAR', track: 'Track Order · APAR', wishlist: 'Wishlist · APAR', gifting: 'Festive & Corporate Gifting · APAR', admin: 'Admin · APAR' }[page];
     document.title = p ? p.name + ' · Buy Online · APAR' : (t || 'APAR');
   }
-  componentWillUnmount() { ['hashchange', 'resize', 'scroll'].forEach((e, i) => window.removeEventListener(e, [this.onHash, this.onResize, this.onScroll][i])); clearTimeout(this.bt); clearTimeout(this.tt); }
+  componentWillUnmount() { ['hashchange', 'resize', 'scroll'].forEach((e, i) => window.removeEventListener(e, [this.onHash, this.onResize, this.onScroll][i])); clearTimeout(this.bt); clearTimeout(this.tt); clearInterval(this.artT); }
   go(p) { location.hash = '#/' + p; }
   renderVals() {
     const s = this.state, w = s.w, isMobile = w < 960, { page, id } = s.route;
@@ -795,6 +801,9 @@ class Component extends DCLogic {
       menuOpen: s.menuOpen, toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }), closeMenu: () => this.setState({ menuOpen: false }),
       cartCount: s.cart.reduce((a, l) => a + l.qty, 0), hasCart: s.cart.length > 0, cartEmpty: s.cart.length === 0, wishCount: s.wish.length, hasWish: s.wish.length > 0,
       isHome: home, isShop: page === 'shop', isProduct: page === 'product', isCart: page === 'cart', isCheckout: page === 'checkout', isOrder: page === 'order', isPayFail: page === 'payfail', isTrack: page === 'track', isAccount: page === 'account', isWish: page === 'wishlist', isB2B: page === 'b2b', isGifting: page === 'gifting', isStory: page === 'story', isFaq: page === 'faq', isContact: page === 'contact', isPolicy: page === 'policy', isAdmin: page === 'admin',
+      ...(() => { const A = [['assets/img/range-apar.webp', 'APAR range: Gulkand, Karonda Cherry, Tutti Frutti, Lacha Tutti Frutti, Lacha Supari and Roasted Salted Makhana'], ['assets/img/range-mukhwas.webp', 'APAR Mukhwas range']], n = A.length, i = s.artI % n;
+        const set = k => () => { clearInterval(this.artT); this.setState({ artI: (k + n) % n }); };
+        return { artX: (-100 * i) + '%', artPrev: set(i - 1), artNext: set(i + 1), artSlides: A.map(([src, alt], k) => ({ src, alt, label: 'Show slide ' + (k + 1), cur: k === i ? 'true' : 'false', dotW: k === i ? '26px' : '8px', dotBg: k === i ? '#0f3b2e' : 'rgba(15,59,46,.35)', go: set(k) })) }; })(),
       imgBakery: D.IM.bakery, imgPetals: D.IM.petals, story0: D.STORY[0], story2: D.STORY[2], storyParas: D.STORY,
       pillars: [['Tradition', 'Traditional Indian flavours'], ['Craft', 'Thoughtful processing and presentation'], ['Quality', 'Built around consistent product quality'], ['Range', 'Products for homes and businesses'], ['Trust', 'A brand built for long-term relationships']].map(([w, t]) => ({ w, t })),
       heroPrice: inr(g400.price), heroMrp: inr(g400.mrp),

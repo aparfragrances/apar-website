@@ -61,7 +61,7 @@ const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(
 <link rel="canonical" href="${canon}">
 <meta property="og:type" content="website"><meta property="og:site_name" content="APAR"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon}"><meta property="og:image" content="${esc(abs(img))}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/assets/img/logo.webp">
+<link rel="icon" href="/assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Bodoni+Moda:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/seo.css?v=2">
@@ -69,7 +69,7 @@ ${ld(graph)}
 </head>
 <body>
 <div class="ann">Free delivery on orders above ₹499 · Cash on delivery available</div>
-<header class="hd"><a href="/" class="logo" aria-label="APAR home"><img src="/assets/img/logo.webp" alt="APAR" width="80" height="30"></a>
+<header class="hd"><a href="/" class="logo" aria-label="APAR home"><img src="/assets/img/logo-light.webp" alt="APAR" width="92" height="44"></a>
 <nav aria-label="Main">${NAV.map(([l, u]) => `<a href="${u}">${l}</a>`).join('')}</nav>
 <a class="cart" href="/#/cart">Cart</a></header>
 <main>
@@ -78,7 +78,7 @@ ${ld(graph)}
 ${body}
 </main>
 <footer class="ft"><div class="ftg">
-<div><img src="/assets/img/logo.webp" alt="APAR" width="80" height="30" class="flogo"><p>${esc(site.legalName)}<br>${esc(site.address)}<br><a href="tel:${phoneIntl}">${esc(site.phone)}</a> · <a href="mailto:${esc(site.email)}">${esc(site.email)}</a></p>${site.fssai ? `<p>FSSAI Lic. No. ${esc(site.fssai)}</p>` : ''}</div>
+<div><img src="/assets/img/logo-light.webp" alt="APAR" width="92" height="44" class="flogo"><p>${esc(site.legalName)}<br>${esc(site.address)}<br><a href="tel:${phoneIntl}">${esc(site.phone)}</a> · <a href="mailto:${esc(site.email)}">${esc(site.email)}</a></p>${site.fssai ? `<p>FSSAI Lic. No. ${esc(site.fssai)}</p>` : ''}</div>
 <div><h2>Products</h2><a href="/gulkand/">Gulkand</a><a href="/karonda-cherry/">Karonda Cherry</a><a href="/tutti-frutti/">Tutti Frutti</a><a href="/lacha-tutti-frutti/">Lacha Tutti Frutti</a><a href="/lacha-supari/">Lacha Supari</a><a href="/gift-boxes/">Gift Boxes &amp; Combos</a></div>
 <div><h2>Guides</h2>${C.guides.map(g => `<a href="/guides/${g.slug}/">${esc(g.h1.replace(/:.*$/, ''))}</a>`).join('')}</div>
 <div><h2>Company</h2><a href="/about/">About APAR</a><a href="/wholesale/">Wholesale &amp; Bulk</a><a href="/faq/">FAQs</a><a href="/#/contact">Contact</a><a href="/#/policy/shipping">Shipping Policy</a><a href="/#/policy/privacy">Privacy Policy</a></div>
