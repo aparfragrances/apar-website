@@ -9,7 +9,7 @@
 <script src="assets/js/firebase-config.js?v=c4086787"></script>
 <script src="assets/js/apar-cloud.js?v=8c3de711"></script>
 <script src="assets/js/dc-runtime.js?v=951ae391"></script>
-<link rel="icon" href="assets/img/favicon.png">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/assets/img/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Apar Fragrances, Jaipur · APAR Gulkand, Tutti Frutti, Karonda Cherry &amp; Lacha Supari</title>
 </head>
 <body>
@@ -786,7 +786,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state, w = s.w, isMobile = w < 960, { page, id } = s.route;
     const SITE = (window.APAR_DATA && window.APAR_DATA.SITE) || {};
-    const base = { bootOpacity: s.booting ? 1 : 0, bootVis: s.booting ? 'visible' : 'hidden', isMobile, isDesktop: !isMobile, announce: SITE.announce || 'Free delivery on orders above ₹499 · Code APAR10 for 10% off', fssaiText: '© APAR, Jaipur · FSSAI licence: ' + (SITE.fssai || '12217026000698') + (SITE.gstin ? ' · GSTIN ' + SITE.gstin : '') };
+    const base = { bootOpacity: s.booting ? 1 : 0, bootVis: s.booting ? 'visible' : 'hidden', isMobile, isDesktop: !isMobile, announce: SITE.announce || 'Code APAR10 for 10% off · Cash on delivery available', fssaiText: '© APAR, Jaipur · FSSAI licence: ' + (SITE.fssai || '12217026000698') + (SITE.gstin ? ' · GSTIN ' + SITE.gstin : '') };
     if (!s.ready) return { ...base, isHome: true, headerBg: 'transparent', mainPad: '0', fadeOpacity: 1, heroGrid: '1fr' };
     const S = window.AparStore, D = window.APAR_DATA, inr = S.inr, pill = S.pill;
     const home = page === 'home' || page === '', solid = !home || s.scrolled || s.menuOpen;

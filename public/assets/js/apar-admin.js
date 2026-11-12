@@ -155,7 +155,7 @@
     if (tab === 'site') {
       const cur = s.siteDraft || D.SITE || {};
       const upd = (k, v) => c.setState(st => ({ siteDraft: { ...(st.siteDraft || D.SITE || {}), [k]: v } }));
-      out.site = { fields: [['Announcement bar (top of every page)', 'announce', 'Free delivery on orders above ₹499 · Code APAR10 for 10% off'], ['FSSAI licence number', 'fssai', '14-digit FSSAI number'], ['GSTIN', 'gstin', '15-character GSTIN']]
+      out.site = { fields: [['Announcement bar (top of every page)', 'announce', 'Code APAR10 for 10% off · Cash on delivery available'], ['FSSAI licence number', 'fssai', '14-digit FSSAI number'], ['GSTIN', 'gstin', '15-character GSTIN']]
         .map(([label, k, ph]) => ({ label, ph, val: cur[k] || '', on: e => upd(k, e.target.value) })), save: () => window.AparCloud.saveSite(c, cur) };
     }
     tables.forEach(t => { t.minW = t.minW || '640px'; t.hasExp = !!t.exp; t.exp = t.exp || (() => {}); t.empty = !!t.empty; t.emptyText = t.emptyText || ''; });

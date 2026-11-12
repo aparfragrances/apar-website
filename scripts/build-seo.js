@@ -44,7 +44,7 @@ const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(
   const pages = [];
 
   const NAV = [['Shop all', '/#/shop'], ['Gulkand', '/gulkand/'], ['Tutti Frutti', '/tutti-frutti/'], ['Gift Boxes', '/gift-boxes/'], ['Wholesale', '/wholesale/'], ['About', '/about/']];
-  const ORG = { '@type': ['Organization', 'LocalBusiness'], '@id': SITE + '/#org', name: 'APAR · Apar Fragrances', legalName: site.legalName, url: SITE + '/', logo: SITE + '/assets/img/logo.webp', image: SITE + '/assets/img/lineup.jpg', telephone: phoneIntl, email: site.email, foundingDate: '2017',
+  const ORG = { '@type': ['Organization', 'LocalBusiness'], '@id': SITE + '/#org', name: 'APAR · Apar Fragrances', legalName: site.legalName, url: SITE + '/', logo: SITE + '/assets/img/logo.png', image: SITE + '/assets/img/lineup.jpg', telephone: phoneIntl, email: site.email, foundingDate: '2017',
     address: { '@type': 'PostalAddress', streetAddress: site.address, addressLocality: 'Jaipur', addressRegion: 'Rajasthan', addressCountry: 'IN' }, priceRange: '₹₹', sameAs: ['https://m.indiamart.com/aparfragrances'] };
 
   function layout({ url, title, desc, h1, sub, hindi, body, schema = [], crumbs = [], img }) {
@@ -61,14 +61,14 @@ const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(
 <link rel="canonical" href="${canon}">
 <meta property="og:type" content="website"><meta property="og:site_name" content="APAR"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon}"><meta property="og:image" content="${esc(abs(img))}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/assets/img/favicon.png">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/assets/img/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Bodoni+Moda:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/seo.css?v=2">
 ${ld(graph)}
 </head>
 <body>
-<div class="ann">Free delivery on orders above ₹499 · Cash on delivery available</div>
+<div class="ann">Cash on delivery available · Made in Jaipur</div>
 <header class="hd"><a href="/" class="logo" aria-label="APAR home"><img src="/assets/img/logo-light.webp" alt="APAR" width="92" height="44"></a>
 <nav aria-label="Main">${NAV.map(([l, u]) => `<a href="${u}">${l}</a>`).join('')}</nav>
 <a class="cart" href="/#/cart">Cart</a></header>
