@@ -13,7 +13,13 @@
   const WARM = new Set(['Interested', 'Sample sent', 'Quoted', 'Won']);
   const statusOf = l => l.status || 'New';
   const contacted = l => statusOf(l) !== 'New';
-  const PRODUCTS = ['Gulkand', 'Karonda Cherry', 'Tutti Frutti', 'Laccha Tutti Frutti', 'Laccha Supari', 'Mukhwas'];
+  const PRODUCTS = ['Gulkand', 'Karonda Cherry', 'Tutti Frutti', 'Laccha Tutti Frutti', 'Laccha Supari', 'Mukhwas', 'Makhana', 'Pocket Paan', 'Murabba', 'Dry Fruits', 'Gift box'];
+  const CHANNELS = ['Instagram', 'Facebook', 'WhatsApp', 'IndiaMART', 'JustDial', 'Google / Maps', 'Website', 'Phone call', 'Walk-in', 'Referral', 'Exhibition / event', 'Amazon / Flipkart', 'Research list', 'Other'];
+  const CH_TONE = { Instagram: ['#fbe7f0', '#a3245f'], Facebook: ['#e6eefc', '#2a55a8'], WhatsApp: ['#e3f5e9', '#1d7a43'], IndiaMART: ['#fdeee0', '#a04f08'], JustDial: ['#fdf3d8', '#8a6400'], 'Google / Maps': ['#e8f0fe', '#1a5fd0'], Website: ['#e8eff9', '#2b5fa8'], 'Phone call': ['#efe8f8', '#6a3fa0'], 'Walk-in': ['#efefea', '#55554d'], Referral: ['#e7f4f2', '#1f6f66'], 'Exhibition / event': ['#f7ecdc', '#8a5a1c'], 'Amazon / Flipkart': ['#fdf0e1', '#9a5208'] };
+  const TYPES = ['Retail customer', 'Bulk / B2B', 'Gifting / corporate', 'Distributor / reseller'];
+  // Board columns: each groups one or more statuses; dropping a card sets the first status of its column.
+  const STAGES = [['New', ['New'], 'New lead'], ['Contacted', ['WhatsApp sent', 'No answer', 'Call back', 'Contacted'], 'Contacted'], ['Interested', ['Interested', 'Sample sent'], 'Interested'], ['Quoted', ['Quoted'], 'Quote / negotiating'], ['Won', ['Won'], 'Won'], ['Lost', ['Lost', 'Wrong number'], 'Lost']];
+  const stageOf = s => (STAGES.find(x => x[1].includes(s)) || STAGES[0])[0];
   const CATS = ['Bakery', 'Sweet Shop', 'Ice Cream & Desserts', 'Hotel', 'Restaurant', 'Cafe', 'Paan & Mukhwas', 'Caterer', 'Wholesaler'];
   const DEFAULT_TPLS = [
     { id: 'intro', name: 'First intro (Hinglish)', text: 'Namaste {name} ji 🙏\n\nMain APAR, Jaipur se baat kar raha hoon. Hum gulkand, karonda cherry, tutti frutti aur mukhwas banate hain — hotels, bakeries aur sweet shops ke liye wholesale.\n\nAapke {category} ke liye hamara {products} bahut accha rahega. Kya hum aapko free sample aur wholesale rate list bhej sakte hain?\n\nhttps://aparfragrances.com/wholesale/' },
@@ -28,6 +34,8 @@
   const prio = l => l.priority || (l.type && l.type !== 'Prospect' ? 'A' : 'C');
   const prods = l => String(l.products || l.product || '').split(/[;,]\s*/).map(s => s.trim()).filter(Boolean);
   const isWeb = l => !l.type || l.type !== 'Prospect';
+  const chan = l => l.channel || (isWeb(l) ? 'Website' : 'Research list');
+  const Chan = ({ c }) => { const t = CH_TONE[c]; return html`<span className="ld-chip" style=${t ? { background: t[0], color: t[1], borderColor: 'transparent', fontWeight: 600 } : null}>${c}</span>`; };
   const digits = p => String(p || '').replace(/\D/g, '');
   const mobile10 = p => { let d = digits(p); if (d.length === 12 && d.startsWith('91')) d = d.slice(2); return /^[6-9]\d{9}$/.test(d) ? d : null; };
   const waNum = l => l.relay ? null : (mobile10(l.phone) || mobile10(l.phone2));
@@ -63,7 +71,7 @@
     ['category', 'Category', /(category|type|segment)/i], ['status', 'Status', /(status|stage|result|outcome|response|disposition)/i],
     ['notes', 'Notes / remarks', /(note|remark|comment|feedback|discussion)/i], ['follow', 'Follow-up date', /(follow|next|callback date|due)/i],
     ['products', 'Products', /(product|item|requirement)/i], ['contact', 'Contact person', /(person|owner|contact name|manager|proprietor)/i],
-    ['priority', 'Priority', /^prio/i], ['why', 'Why it fits', /(why|fit|insight)/i], ['size', 'Size', /^size/i], ['relay', 'Directory line', /(directory|relay)/i], ['source', 'Source link', /(source|url|link)/i]];
+    ['priority', 'Priority', /^prio/i], ['channel', 'Channel / platform', /(channel|platform|lead ?source|medium|came from)/i], ['why', 'Why it fits', /(why|fit|insight)/i], ['size', 'Size', /^size/i], ['relay', 'Directory line', /(directory|relay)/i], ['source', 'Source link', /(source|url|link)/i]];
   function mapStatus(s) {
     s = String(s || '').toLowerCase().trim(); if (!s) return 'New';
     const R = [[/not ?interest|no need|not required|reject|declin/, 'Lost'], [/wrong|invalid|not exist|incorrect/, 'Wrong number'], [/order|won|convert|closed|purchas|deal done/, 'Won'],
@@ -118,7 +126,7 @@
         name: g(r, 'name'), phone: g(r, 'phone'), phone2: g(r, 'phone2'), city: g(r, 'city') || 'Jaipur', area: g(r, 'area'), category: mapCat(g(r, 'category')),
         status: mapStatus(g(r, 'status')), raw: g(r, 'status'), notes: g(r, 'notes'), follow: f.map.follow ? toDate(r[f.map.follow]) : '', products: mapProducts(g(r, 'products')),
         contact: g(r, 'contact'), priority: /^[ABC]$/i.test(g(r, 'priority')) ? g(r, 'priority').toUpperCase() : 'B', why: g(r, 'why'), size: g(r, 'size'),
-        relay: /^y/i.test(g(r, 'relay')), source: g(r, 'source') || 'Upload: ' + f.name
+        relay: /^y/i.test(g(r, 'relay')), source: g(r, 'source') || 'Upload: ' + f.name, channel: CHANNELS.find(c => c.toLowerCase().split(' ')[0] === g(r, 'channel').toLowerCase().split(' ')[0]) || (g(r, 'channel') ? 'Other' : '')
       })).filter(r => r.name || r.phone);
     }, [f]);
     const known = useMemo(() => { const s = new Set(); leads.forEach(l => { if (!l.relay) [l.phone, l.phone2].forEach(p => { const k = key10(p); if (k) s.add(k); }); }); return s; }, [leads]);
@@ -148,12 +156,30 @@
   // ---------- Add one lead ----------
   async function addOne() {
     const v = await A.ask({
-      title: 'Add a business', ok: 'Add', fields: [{ k: 'name', label: 'Business name' }, { k: 'phone', label: 'Phone', type: 'tel', ph: '98290 12345' }, { k: 'city', label: 'City', value: 'Jaipur' },
-        { k: 'area', label: 'Area' }, { k: 'category', label: 'Category', options: CATS }, { k: 'priority', label: 'Priority', options: ['A', 'B', 'C'], value: 'B' }, { k: 'products', label: 'Products that fit', ph: 'Gulkand; Tutti Frutti' }, { k: 'notes', label: 'Notes' }]
+      title: 'Add a lead', ok: 'Add lead', text: 'Anyone who messaged or called you: Instagram DM, Facebook, WhatsApp, IndiaMART, a call or a walk-in.',
+      fields: [{ k: 'name', label: 'Name or business' }, { k: 'phone', label: 'Phone / WhatsApp', type: 'tel', ph: '98290 12345' },
+        { k: 'channel', label: 'Where did they come from?', options: CHANNELS.filter(c => c !== 'Research list') }, { k: 'handle', label: 'Instagram / Facebook ID (optional)', ph: '@username' },
+        { k: 'leadType', label: 'What kind of lead?', options: TYPES }, { k: 'products', label: 'Interested in', ph: 'Gulkand; Makhana' },
+        { k: 'quantity', label: 'Quantity / budget (optional)', ph: 'e.g. 50 gift boxes, ₹20,000' }, { k: 'city', label: 'City', value: 'Jaipur' },
+        { k: 'notes', label: 'What did they ask?', ph: 'e.g. Wants Diwali gift boxes for office staff' }, { k: 'follow', label: 'Follow up on', type: 'date', value: addDays(1) },
+        { k: 'priority', label: 'Priority', options: ['B', 'A', 'C'] }]
     });
     if (!v) return;
-    if (!v.name && !v.phone) return A.toast('Enter the business name or phone.', 'error');
-    await A.run(A.addLead({ ...v, products: mapProducts(v.products) || v.products }), 'Business added');
+    if (!v.name && !v.phone) return A.toast('Enter the name or phone number.', 'error');
+    const category = v.leadType === 'Retail customer' || v.leadType === 'Gifting / corporate' ? '' : '';
+    await A.run(A.addLead({ ...v, category, products: mapProducts(v.products) || v.products }), 'Lead added');
+  }
+
+  // Edit the basic details of a lead (staff can update leads directly).
+  async function editLead(l) {
+    const v = await A.ask({
+      title: 'Edit lead', ok: 'Save', fields: [{ k: 'company', label: 'Name or business', value: biz(l) }, { k: 'phone', label: 'Phone', type: 'tel', value: l.phone || '' },
+        { k: 'channel', label: 'Channel', options: [chan(l), ...CHANNELS.filter(c => c !== chan(l))] }, { k: 'handle', label: 'Instagram / Facebook ID', value: l.handle || '' },
+        { k: 'leadType', label: 'Type', options: l.leadType ? [l.leadType, ...TYPES.filter(t => t !== l.leadType)] : ['', ...TYPES] }, { k: 'products', label: 'Interested in', value: prods(l).join('; ') },
+        { k: 'quantity', label: 'Quantity / budget', value: l.quantity || '' }, { k: 'location', label: 'City', value: city(l) }]
+    });
+    if (!v) return;
+    await A.run(A.db.collection('leads').doc(l._id).update(v), 'Lead updated');
   }
 
   // ---------- Lead drawer: update status ----------
@@ -166,11 +192,11 @@
       try { await A.run(A.logLead(l, { type: 'call', status: pick, note: note.trim(), follow, value }), 'Status saved'); onClose(); } catch (e) { setBusy(false); }
     };
     return html`<${Drawer} open=${true} onClose=${onClose} title=${biz(l)} sub=${[l.category || l.type, city(l), l.area].filter(Boolean).join(' · ')}
-      footer=${html`${wa && html`<${Btn} kind="ghost" icon="wa" href=${waLink(wa, fill(tpl.text, l))} target="_blank">WhatsApp</${Btn}>`}<${Btn} kind="primary" disabled=${busy} onClick=${save}>${busy ? 'Saving…' : 'Save status'}</${Btn}>`}>
+      footer=${html`<${Btn} kind="ghost" icon="edit" onClick=${() => { onClose(); editLead(l); }}>Edit details</${Btn}>${wa && html`<${Btn} kind="ghost" icon="wa" href=${waLink(wa, fill(tpl.text, l))} target="_blank">WhatsApp</${Btn}>`}<${Btn} kind="primary" disabled=${busy} onClick=${save}>${busy ? 'Saving…' : 'Save status'}</${Btn}>`}>
       <div className="stack" style=${{ gap: 14 }}>
         <div className="row gap8 wrap">${l.phone ? html`<${Btn} small icon="phone" href=${'tel:' + digits(l.phone)}>${l.phone}</${Btn}><${Btn} small icon="copy" onClick=${() => A.copy(digits(l.phone), 'Number')}>Copy</${Btn}>` : html`<span className="sub">No phone number found</span>`}${l.phone2 && html`<${Btn} small icon="phone" href=${'tel:' + digits(l.phone2)}>${l.phone2}</${Btn}>`}${l.email && html`<${Btn} small icon="mail" href=${'mailto:' + l.email}>Email</${Btn}>`}</div>
         ${l.relay && html`<div className="alert grey">This is a directory relay line. Ask for the owner or the purchase person and save their direct number in the notes.</div>`}
-        <div className="kvs"><div><span>Status</span><${Status} s=${statusOf(l)} /></div><div><span>Priority</span><${Prio} p=${prio(l)} /></div><div><span>Products</span>${prods(l).join(', ') || '—'}</div><div><span>Source</span>${isWeb(l) ? 'Website enquiry' : l.source && /^https?:/.test(l.source) ? html`<a href=${l.source} target="_blank" rel="noopener">Where we found it</a>` : l.source || 'Research'}</div>
+        <div className="kvs"><div><span>Channel</span><${Chan} c=${chan(l)} />${l.handle ? ' ' + l.handle : ''}</div>${l.leadType && html`<div><span>Type</span>${l.leadType}</div>`}${l.quantity && !l.value && html`<div><span>Quantity / budget</span>${l.quantity}</div>`}<div><span>Status</span><${Status} s=${statusOf(l)} /></div><div><span>Priority</span><${Prio} p=${prio(l)} /></div><div><span>Products</span>${prods(l).join(', ') || '—'}</div><div><span>Source</span>${isWeb(l) ? 'Website enquiry' : l.source && /^https?:/.test(l.source) ? html`<a href=${l.source} target="_blank" rel="noopener">Where we found it</a>` : l.source || 'Research'}</div>
           ${l.quantity && html`<div><span>Quantity</span>${l.quantity}</div>`}${l.gstin && html`<div><span>GSTIN</span>${l.gstin}</div>`}${person(l) && html`<div><span>Contact</span>${person(l)}</div>`}${l.owner && html`<div><span>Owner</span>${l.owner}</div>`}</div>
         ${(l.why || l.message) && html`<p className="sub" style=${{ margin: 0, lineHeight: 1.6 }}>${l.message || l.why}</p>`}
         <${Field} label="What happened?"><div className="ld-outcomes">${OUTCOMES.map(s => html`<button key=${s} type="button" className=${cx('ld-out', pick === s && 'on')} onClick=${() => setPick(s)}>${ST_LABEL[s] || s}</button>`)}</div></${Field}>
@@ -202,19 +228,20 @@
   // ---------- Main page ----------
   A.Leads = function ({ data, role }) {
     const all = data.leads || [];
-    const [tab, setTab] = useState('list'), [q, setQ] = useState(''), [src, setSrc] = useState(''), [fc, setFc] = useState(''), [fa, setFa] = useState(''), [fk, setFk] = useState(''), [fp, setFp] = useState(''), [fs, setFs] = useState('open'), [fpr, setFpr] = useState(''), [fwa, setFwa] = useState(false), [sort, setSort] = useState('prio');
+    const [tab, setTab] = useState('board'), [q, setQ] = useState(''), [src, setSrc] = useState(''), [fc, setFc] = useState(''), [fa, setFa] = useState(''), [fk, setFk] = useState(''), [fp, setFp] = useState(''), [fs, setFs] = useState('open'), [fpr, setFpr] = useState(''), [fwa, setFwa] = useState(false), [sort, setSort] = useState('prio');
     const [open, setOpen] = useState(null), [up, setUp] = useState(false), [sel, setSel] = useState([]), [queue, setQueue] = useState(null), [tplId, setTplId] = useState('intro');
     const [tpls, setTpls] = useState(DEFAULT_TPLS);
     useEffect(() => A.db.doc('settings/leadTemplates').onSnapshot(s => { const x = s.exists && s.data().list; if (Array.isArray(x) && x.length) setTpls(x); }, () => { }), []);
     const tpl = tpls.find(t => t.id === tplId) || tpls[0];
     const today = A.todayISO();
+    const chans = useMemo(() => [...new Set([...CHANNELS.filter(c => all.some(l => chan(l) === c)), ...all.map(chan)])], [all]);
     const cities = useMemo(() => [...new Set(all.map(city).filter(Boolean))].sort(), [all]);
     const areas = useMemo(() => [...new Set(all.filter(l => !fc || city(l) === fc).map(l => l.area).filter(Boolean))].sort(), [all, fc]);
     const rows = useMemo(() => {
       const t = q.trim().toLowerCase(), po = { A: 0, B: 1, C: 2 };
-      const r = all.filter(l => (!src || (src === 'web' ? isWeb(l) : !isWeb(l))) && (!fc || city(l) === fc) && (!fa || l.area === fa) && (!fk || l.category === fk) && (!fp || prods(l).includes(fp))
+      const r = all.filter(l => (!src || (src === 'web' ? isWeb(l) : src === 'prospect' ? !isWeb(l) : chan(l) === src)) && (!fc || city(l) === fc) && (!fa || l.area === fa) && (!fk || l.category === fk) && (!fp || prods(l).includes(fp))
         && (!fs || (fs === 'open' ? !CLOSED.has(statusOf(l)) : fs === 'due' ? (l.follow && l.follow <= today && !CLOSED.has(statusOf(l))) : statusOf(l) === fs)) && (!fpr || prio(l) === fpr) && (!fwa || waNum(l))
-        && (!t || [biz(l), l.name, l.area, city(l), l.phone, l.why, l.notes, l.message].join(' ').toLowerCase().includes(t)));
+        && (!t || [biz(l), l.name, l.area, city(l), l.phone, l.why, l.notes, l.message, l.handle, chan(l)].join(' ').toLowerCase().includes(t)));
       return r.sort(sort === 'name' ? (a, b) => biz(a).localeCompare(biz(b)) : sort === 'recent' ? (a, b) => (b.lastAt || 0) - (a.lastAt || 0) : sort === 'new' ? (a, b) => (b.ts || 0) - (a.ts || 0)
         : sort === 'city' ? (a, b) => city(a).localeCompare(city(b)) || String(a.area || '').localeCompare(String(b.area || '')) : (a, b) => (isWeb(b) && statusOf(b) === 'New') - (isWeb(a) && statusOf(a) === 'New') || po[prio(a)] - po[prio(b)] || biz(a).localeCompare(biz(b)));
     }, [all, q, src, fc, fa, fk, fp, fs, fpr, fwa, sort]);
@@ -224,14 +251,14 @@
     const newWeb = all.filter(x => isWeb(x) && statusOf(x) === 'New').length;
     const toggle = id => setSel(sel.includes(id) ? sel.filter(x => x !== id) : [...sel, id]);
     const pageWa = pg.rows.filter(waNum).map(x => x._id), allPicked = pageWa.length > 0 && pageWa.every(id => sel.includes(id));
-    const exportCsv = () => A.csv('APAR-Leads-' + today + '.csv', [['Business', 'Contact', 'Phone', 'Phone 2', 'City', 'Area', 'Category', 'Priority', 'Products', 'Status', 'Follow-up', 'Last contact', 'By', 'Owner', 'Notes', 'Order value', 'Source', 'Type', 'Date'],
-      ...rows.map(x => [biz(x), person(x), x.phone, x.phone2, city(x), x.area, x.category, prio(x), prods(x).join('; '), statusOf(x), x.follow, when(x.lastAt), who(x.lastBy), x.owner, x.notes || x.message, x.value, isWeb(x) ? 'Website' : x.source, x.type, x.date])]);
+    const exportCsv = () => A.csv('APAR-Leads-' + today + '.csv', [['Business', 'Contact', 'Phone', 'Phone 2', 'City', 'Area', 'Category', 'Priority', 'Products', 'Status', 'Follow-up', 'Last contact', 'By', 'Owner', 'Notes', 'Order value', 'Source', 'Type', 'Channel', 'Lead type', 'Quantity', 'Date'],
+      ...rows.map(x => [biz(x), person(x), x.phone, x.phone2, city(x), x.area, x.category, prio(x), prods(x).join('; '), statusOf(x), x.follow, when(x.lastAt), who(x.lastBy), x.owner, x.notes || x.message, x.value, isWeb(x) ? 'Website' : x.source, x.type, chan(x), x.leadType, x.quantity, x.date])]);
 
     // ----- tab bodies -----
     let body;
     if (tab === 'list') body = html`
       <div className="filters"><div className="search"><${Icon} n="search" s=${16} /><input value=${q} onChange=${e => setQ(e.target.value)} placeholder="Search business, area, phone, notes…" aria-label="Search leads" /></div>
-        <select className="sel" value=${src} onChange=${e => setSrc(e.target.value)} aria-label="Source"><option value="">All sources</option><option value="web">Website enquiries</option><option value="prospect">Researched / uploaded</option></select>
+        <select className="sel" value=${src} onChange=${e => setSrc(e.target.value)} aria-label="Channel"><option value="">All channels</option>${chans.map(c => html`<option key=${c} value=${c}>${c}</option>`)}</select>
         <select className="sel" value=${fs} onChange=${e => setFs(e.target.value)} aria-label="Status"><option value="open">Open (not closed)</option><option value="due">Follow-up due</option><option value="">All statuses</option>${ST.map(s => html`<option key=${s} value=${s}>${ST_LABEL[s] || s}</option>`)}</select>
         <select className="sel" value=${fc} onChange=${e => { setFc(e.target.value); setFa(''); }} aria-label="City"><option value="">All cities</option>${cities.map(c => html`<option key=${c}>${c}</option>`)}</select>
         <select className="sel" value=${fa} onChange=${e => setFa(e.target.value)} aria-label="Area"><option value="">All areas</option>${areas.map(c => html`<option key=${c}>${c}</option>`)}</select>
@@ -247,7 +274,7 @@
         ${pg.rows.map(x => { const n = waNum(x); return html`<tr key=${x._id}>
           <td><input type="checkbox" checked=${sel.includes(x._id)} disabled=${!n} title=${n ? '' : 'No mobile number for WhatsApp'} onChange=${() => toggle(x._id)} aria-label=${'Select ' + biz(x)} /></td>
           <td><${Prio} p=${prio(x)} /></td>
-          <td><button type="button" className="link ld-name" onClick=${() => setOpen(x._id)}>${biz(x)}</button><div className="ld-chips">${isWeb(x) && html`<span className="ld-chip ld-chip-web">Website enquiry</span>`}${x.category && html`<span className="ld-chip">${x.category}</span>`}${x.size && html`<span className="ld-chip">${x.size}</span>`}</div>${(x.why || x.message) && html`<div className="sub ld-why">${x.message || x.why}</div>`}</td>
+          <td><button type="button" className="link ld-name" onClick=${() => setOpen(x._id)}>${biz(x)}</button><div className="ld-chips"><${Chan} c=${chan(x)} />${x.leadType && html`<span className="ld-chip">${x.leadType}</span>`}${x.category && html`<span className="ld-chip">${x.category}</span>`}${x.size && html`<span className="ld-chip">${x.size}</span>`}</div>${(x.why || x.message) && html`<div className="sub ld-why">${x.message || x.why}</div>`}</td>
           <td>${city(x)}<div className="sub">${x.area || ''}</div></td>
           <td className="nowrap">${x.phone ? html`<span className="mono">${x.phone}</span>` : html`<span className="sub">No number</span>`}${x.phone2 && html`<div className="mono">${x.phone2}</div>`}<div className="sub">${x.relay ? 'Directory line' : x.phone && !n ? 'Landline' : ''}</div></td>
           <td><div className="ld-chips">${prods(x).map(p => html`<span key=${p} className="ld-chip ld-chip-p">${p}</span>`)}</div></td>
@@ -255,6 +282,34 @@
           <td>${x.follow ? html`<span className=${x.follow <= today && !CLOSED.has(statusOf(x)) ? 'ld-due' : ''}>${x.follow}</span>` : ''}${x.notes && html`<div className="sub ld-why">${x.notes}</div>`}</td>
           <td><div className="row gap8"><${Btn} small kind="primary" onClick=${() => setOpen(x._id)}>Update status</${Btn}>${n && html`<${Btn} small icon="wa" href=${waLink(n, fill(tpl.text, x))} target="_blank">WhatsApp</${Btn}>`}</div></td></tr>`; })}
       </tbody></table></div>${pg.pager}` : html`<${Empty} icon="lead" title=${all.length ? 'No leads match these filters' : 'No leads yet'} text=${all.length ? 'Clear a filter to see more.' : 'Website enquiries appear here automatically. Use Upload to add your lead list.'} />`}</div>`;
+
+    if (tab === 'board') {
+      const t = q.trim().toLowerCase();
+      const pool = all.filter(l => (!src || chan(l) === src) && (!t || [biz(l), l.phone, l.notes, l.handle, l.message].join(' ').toLowerCase().includes(t)));
+      const move = async (id, stage) => {
+        const x = all.find(y => y._id === id); if (!x) return;
+        const st = STAGES.find(y => y[0] === stage); if (!st || stageOf(statusOf(x)) === stage) return;
+        await A.run(A.logLead(x, { type: 'move', status: st[1][0], note: 'Moved to ' + st[2] }), biz(x) + ' → ' + st[2]);
+      };
+      body = html`<div className="filters"><div className="search"><${Icon} n="search" s=${16} /><input value=${q} onChange=${e => setQ(e.target.value)} placeholder="Search name, phone, notes…" aria-label="Search leads" /></div>
+        <select className="sel" value=${src} onChange=${e => setSrc(e.target.value)} aria-label="Channel"><option value="">All channels</option>${chans.map(c => html`<option key=${c} value=${c}>${c}</option>`)}</select>
+        <span className="sub">Drag a card to another column to change its status, or click it to add notes.</span></div>
+      <div className="crm-board">${STAGES.map(([k, sts, label]) => {
+        const col = pool.filter(l => stageOf(statusOf(l)) === k).sort((a, b) => (b.lastAt || b.ts || 0) - (a.lastAt || a.ts || 0));
+        const shown = (k === 'Won' || k === 'Lost') ? col.slice(0, 30) : col.slice(0, 80);
+        const val = col.reduce((a, x) => a + (Number(x.value) || 0), 0);
+        return html`<section key=${k} className=${'crm-col crm-' + k.toLowerCase()} onDragOver=${e => { e.preventDefault(); e.currentTarget.classList.add('over'); }} onDragLeave=${e => e.currentTarget.classList.remove('over')}
+          onDrop=${e => { e.preventDefault(); e.currentTarget.classList.remove('over'); move(e.dataTransfer.getData('text/plain'), k); }} aria-label=${label}>
+          <header><b>${label}</b><span className="crm-n">${col.length}</span>${val > 0 && html`<span className="sub">${A.inr(val)}</span>`}</header>
+          <div className="crm-cards">${shown.map(x => html`<article key=${x._id} className="crm-card" draggable="true" onDragStart=${e => { e.dataTransfer.setData('text/plain', x._id); e.dataTransfer.effectAllowed = 'move'; }} onClick=${() => setOpen(x._id)} tabIndex="0" onKeyDown=${e => e.key === 'Enter' && setOpen(x._id)}>
+            <div className="crm-top"><b>${biz(x)}</b>${x.follow && !CLOSED.has(statusOf(x)) && html`<span className=${x.follow <= today ? 'ld-due' : 'sub'}>${x.follow.slice(5).split('-').reverse().join('/')}</span>`}</div>
+            <div className="ld-chips"><${Chan} c=${chan(x)} />${prods(x).slice(0, 2).map(p => html`<span key=${p} className="ld-chip ld-chip-p">${p}</span>`)}</div>
+            ${(x.notes || x.message) && html`<p className="crm-note">${x.notes || x.message}</p>`}
+            <div className="crm-foot"><span className="mono sub">${x.phone || x.handle || ''}</span>${x.value ? html`<b>${A.inr(x.value)}</b>` : ''}${!x.value && x.quantity ? html`<span className="sub">${x.quantity}</span>` : ''}</div>
+            <label className="crm-mob"><span className="sr">Move to</span><select value=${k} onClick=${e => e.stopPropagation()} onChange=${e => move(x._id, e.target.value)}>${STAGES.map(y => html`<option key=${y[0]} value=${y[0]}>${y[2]}</option>`)}</select></label>
+          </article>`)}${col.length > shown.length && html`<p className="sub" style=${{ margin: '4px 2px' }}>+${col.length - shown.length} more in the Leads list</p>`}${!col.length && html`<p className="sub crm-empty">No leads here</p>`}</div></section>`;
+      })}</div>`;
+    }
 
     if (tab === 'follow') {
       const open7 = all.filter(x => x.follow && !CLOSED.has(statusOf(x)) && x.follow > today && x.follow <= addDays(7)).sort((a, b) => a.follow.localeCompare(b.follow));
@@ -276,6 +331,7 @@
       body = html`<div className="grid-2">
         <${Card} title="Pipeline by status"><${HBars} rows=${ST.map(s => [ST_LABEL[s] || s, [cnt[s] || 0]])} colors=${['var(--green)']} /></${Card}>
         <${Card} title="Calls & WhatsApps, last 14 days"><${A.Bars} data=${perDay} height=${150} />${!logs.length && html`<p className="sub">Bars fill as the team updates statuses.</p>`}</${Card}>
+        <${Card} title="By channel (where leads come from)"><${Legend} /><${HBars} rows=${stackBy(all, chan)} colors=${STACK_COLORS} /></${Card}>
         <${Card} title="By category"><${Legend} /><${HBars} rows=${stackBy(all, x => x.category || (isWeb(x) ? 'Website enquiry' : ''))} colors=${STACK_COLORS} /></${Card}>
         <${Card} title="By city"><${Legend} /><${HBars} rows=${stackBy(all, city)} colors=${STACK_COLORS} limit=${12} /></${Card}>
         <${Card} title="Top areas"><${Legend} /><${HBars} rows=${stackBy(all.filter(x => x.area), x => x.area)} colors=${STACK_COLORS} limit=${15} /></${Card}>
@@ -288,17 +344,17 @@
     if (tab === 'messages') body = html`<${Templates} tpls=${tpls} canEdit=${A.canAdmin(role)} />`;
 
     return html`<div className="page">
-      <div className="page-h"><div><h1>B2B leads</h1><p className="muted">Website enquiries and researched hotels, restaurants, cafes, bakeries and sweet shops — call, WhatsApp and follow up.</p></div>
+      <div className="page-h"><div><h1>Leads & CRM</h1><p className="muted">Every enquiry in one place: Instagram, Facebook, WhatsApp, IndiaMART, calls, walk-ins, the website and your B2B lists. Track each one from new to won.</p></div>
         <div className="row gap8 wrap"><${Btn} icon="plus" onClick=${addOne}>Add lead</${Btn}><${Btn} icon="up" onClick=${() => setUp(true)}>Upload Excel / CSV</${Btn}><${Btn} icon="dl" onClick=${exportCsv}>Export</${Btn}></div></div>
       <div className="stats ld-stats">
-        <${Stat} label="Leads" value=${all.length.toLocaleString('en-IN')} sub=${newWeb ? newWeb + ' new website enquir' + (newWeb === 1 ? 'y' : 'ies') : 'website + researched'} tone=${newWeb ? 'blue' : ''} onClick=${() => { setTab('list'); setSrc(newWeb ? 'web' : ''); setFs(newWeb ? 'New' : 'open'); }} />
+        <${Stat} label="Leads" value=${all.length.toLocaleString('en-IN')} sub=${newWeb ? newWeb + ' new website enquir' + (newWeb === 1 ? 'y' : 'ies') : 'from all channels'} tone=${newWeb ? 'blue' : ''} onClick=${() => { setTab('list'); setSrc(newWeb ? 'web' : ''); setFs(newWeb ? 'New' : 'open'); }} />
         <${Stat} label="On WhatsApp" value=${all.filter(waNum).length.toLocaleString('en-IN')} sub="mobile numbers" onClick=${() => { setTab('list'); setFwa(true); }} />
         <${Stat} label="Contacted" value=${all.filter(contacted).length} onClick=${() => { setTab('list'); setFs(''); setSort('recent'); }} />
         <${Stat} label="Interested / sampling" value=${all.filter(x => ['Interested', 'Sample sent', 'Quoted'].includes(statusOf(x))).length} onClick=${() => { setTab('list'); setFs('Interested'); }} />
         <${Stat} label="Orders won" value=${all.filter(x => statusOf(x) === 'Won').length} onClick=${() => { setTab('list'); setFs('Won'); }} />
         <${Stat} label="Follow-ups due" value=${due.length} tone=${due.length ? 'red' : ''} onClick=${() => setTab('follow')} />
       </div>
-      <${Tabs} value=${tab} onChange=${setTab} items=${[['list', 'Leads', rows.length], ['follow', 'Follow-ups', due.length], ['insights', 'Insights'], ['messages', 'Message templates']]} />
+      <${Tabs} value=${tab} onChange=${setTab} items=${[['board', 'Board'], ['list', 'Leads', rows.length], ['follow', 'Follow-ups', due.length], ['insights', 'Insights'], ['messages', 'Message templates']]} />
       ${body}
       ${l && html`<${LeadDrawer} key=${l._id} l=${l} tpl=${tpl} onClose=${() => setOpen(null)} />`}
       ${up && html`<${Upload} leads=${all} onClose=${() => setUp(false)} />`}

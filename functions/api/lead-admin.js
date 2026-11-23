@@ -4,6 +4,8 @@ import * as C from '../../cf/lib/core.js';
 
 const STATUSES = ['New', 'WhatsApp sent', 'No answer', 'Call back', 'Contacted', 'Interested', 'Sample sent', 'Quoted', 'Won', 'Lost', 'Wrong number'];
 const CATS = ['Bakery', 'Sweet Shop', 'Ice Cream & Desserts', 'Hotel', 'Restaurant', 'Cafe', 'Paan & Mukhwas', 'Caterer', 'Wholesaler'];
+const CHANNELS = ['Instagram', 'Facebook', 'WhatsApp', 'IndiaMART', 'JustDial', 'Google / Maps', 'Website', 'Phone call', 'Walk-in', 'Referral', 'Exhibition / event', 'Amazon / Flipkart', 'Research list', 'Other'];
+const TYPES = ['Retail customer', 'Bulk / B2B', 'Gifting / corporate', 'Distributor / reseller'];
 const key10 = p => { const d = String(p || '').replace(/\D/g, ''); return d.length >= 10 ? d.slice(-10) : ''; };
 const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(String(s || ''));
 
@@ -19,6 +21,8 @@ function toLead(r, by, now) {
     priority: ['A', 'B', 'C'].includes(r.priority) ? r.priority : 'B',
     products: C.clean(r.products, 160), why: C.clean(r.why, 300), size: C.clean(r.size, 20),
     relay: !!r.relay, source: C.clean(r.source, 300),
+    channel: CHANNELS.includes(r.channel) ? r.channel : (r.channel ? 'Other' : 'Research list'), leadType: TYPES.includes(r.leadType) ? r.leadType : '',
+    quantity: C.clean(r.quantity, 120), value: Number(r.value) > 0 ? Math.round(Number(r.value)) : 0, handle: C.clean(r.handle, 120),
     status, notes: C.clean(r.notes, 1000), follow: isDate(r.follow) ? r.follow : '', owner: C.clean(r.owner, 60),
     date: C.today(), ts: now, addedBy: by, log: []
   };

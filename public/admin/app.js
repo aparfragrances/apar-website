@@ -7,7 +7,7 @@
   const NAV = [
     ['dashboard', 'Dashboard', 'dash', 'staff'], ['orders', 'Orders', 'orders', 'staff'], ['products', 'Products', 'box', 'admin'], ['inventory', 'Inventory', 'stock', 'staff'],
     ['customers', 'Customers', 'users', 'staff'], ['payments', 'Payments', 'pay', 'staff'], ['coupons', 'Coupons', 'tag', 'admin'], ['reviews', 'Reviews', 'star', 'staff'],
-    ['leads', 'B2B leads', 'lead', 'staff'], ['shipping', 'Shipping', 'truck', 'admin'], ['settings', 'Settings', 'gear', 'admin']
+    ['leads', 'Leads & CRM', 'lead', 'staff'], ['shipping', 'Shipping', 'truck', 'admin'], ['settings', 'Settings', 'gear', 'admin']
   ];
   const ROLE_LABEL = { owner: 'Owner', admin: 'Admin', staff: 'Staff' };
 
