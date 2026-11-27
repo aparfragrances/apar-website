@@ -32,6 +32,9 @@ export const onRequestPost = async ctx => {
     else if (b.e === 'call') add('calls');
     else return ok;
     await C.db().collection('stats').doc(C.todayISO()).set(up, { merge: true });
-  } catch (e) { console.error('track', e && e.message); }
+  } catch (e) {
+    console.error('track', e && e.message);
+    if (ctx.request.headers.get('x-apar-check') === '1') return new Response('track failed: ' + String(e && e.message).slice(0, 200), { status: 500 });
+  }
   return ok;
 };
