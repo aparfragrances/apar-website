@@ -85,6 +85,7 @@ ${body}
 </div><p class="copy">© ${new Date().getFullYear()} ${esc(site.legalName)}, Jaipur</p></footer>
 <a class="wa" href="${WA}" target="_blank" rel="noopener" aria-label="Order on WhatsApp"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.4-4.3a8.5 8.5 0 1 1 15.6-4.5z"/></svg></a>
 <script src="/assets/js/seo-live.js?v=2" defer></script>
+<script src="/assets/js/apar-track.js?v=1" data-page="seo"></script>
 </body>
 </html>
 `;

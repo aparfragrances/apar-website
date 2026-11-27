@@ -44,7 +44,8 @@ const SENT = '__apar_sentinel';
 export const FieldValue = {
   serverTimestamp: () => ({ [SENT]: 'ts' }),
   arrayUnion: (...values) => ({ [SENT]: 'au', values }),
-  bytes: b64 => ({ [SENT]: 'bytes', b64 })
+  bytes: b64 => ({ [SENT]: 'bytes', b64 }),
+  increment: n => ({ [SENT]: 'inc', n })
 };
 const isSent = v => v && typeof v === 'object' && v[SENT];
 const isPlain = v => v && typeof v === 'object' && !Array.isArray(v) && !(v instanceof Date) && !isSent(v);
@@ -86,6 +87,7 @@ function prepare(data, leafs) {
       const v = obj[k], p = pre.concat(k), fp = p.map(seg).join('.');
       if (v === undefined) continue;
       if (isSent(v) && v[SENT] === 'ts') { transforms.push({ fieldPath: fp, setToServerValue: 'REQUEST_TIME' }); continue; }
+      if (isSent(v) && v[SENT] === 'inc') { transforms.push({ fieldPath: fp, increment: enc(v.n) }); continue; }
       if (isSent(v) && v[SENT] === 'au') { transforms.push({ fieldPath: fp, appendMissingElements: { values: v.values.map(enc) } }); continue; }
       if (leafs && isPlain(v) && Object.keys(v).length) { out[k] = {}; walk(v, p, out[k]); continue; }
       out[k] = v; paths.push(fp);

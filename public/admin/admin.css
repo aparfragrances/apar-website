@@ -222,3 +222,12 @@ main{flex:1}.page{padding:24px 28px 60px;max-width:1360px}.page.narrow{max-width
 .crm-mob{display:none}.crm-mob select{width:100%;min-height:34px;border:1px solid var(--line);border-radius:8px;background:var(--paper);font-size:13px}
 .crm-empty{text-align:center;margin:18px 0}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (max-width:820px){.crm-board{grid-auto-columns:minmax(240px,86vw)}.crm-mob{display:block}}
+
+/* Website visitors */
+.vz-rows{display:flex;flex-direction:column;gap:9px}
+.vz-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(60px,1fr) auto auto;gap:10px;align-items:center;font-size:14px}
+.vz-l{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vz-c{font-size:12px;white-space:nowrap}
+.vz-bar{height:8px;border-radius:6px;background:var(--line-2);overflow:hidden}.vz-bar i{display:block;height:100%;background:var(--gold);border-radius:6px}
+.vz-funnel{display:flex;flex-direction:column;gap:14px}
+.vz-step-h{display:flex;justify-content:space-between;gap:10px;margin-bottom:5px}
+.vz-step-bar{height:14px;border-radius:8px;background:var(--line-2);overflow:hidden;margin-bottom:4px}.vz-step-bar i{display:block;height:100%;background:var(--green);border-radius:8px}

@@ -5,7 +5,7 @@
   const { html, Btn, Icon, cx } = A;
 
   const NAV = [
-    ['dashboard', 'Dashboard', 'dash', 'staff'], ['orders', 'Orders', 'orders', 'staff'], ['products', 'Products', 'box', 'admin'], ['inventory', 'Inventory', 'stock', 'staff'],
+    ['dashboard', 'Dashboard', 'dash', 'staff'], ['visitors', 'Website visitors', 'eye', 'staff'], ['orders', 'Orders', 'orders', 'staff'], ['products', 'Products', 'box', 'admin'], ['inventory', 'Inventory', 'stock', 'staff'],
     ['customers', 'Customers', 'users', 'staff'], ['payments', 'Payments', 'pay', 'staff'], ['coupons', 'Coupons', 'tag', 'admin'], ['reviews', 'Reviews', 'star', 'staff'],
     ['leads', 'Leads & CRM', 'lead', 'staff'], ['shipping', 'Shipping', 'truck', 'admin'], ['settings', 'Settings', 'gear', 'admin']
   ];
@@ -97,7 +97,7 @@
       dashboard: html`<${A.Dashboard} ...${props} />`, orders: html`<${A.Orders} ...${props} tab=${sub || 'all'} query=${ordersQuery.trim()} />`,
       products: sub ? html`<${A.ProductEditor} ...${props} id=${sub} />` : html`<${A.Products} ...${props} />`, inventory: html`<${A.Inventory} ...${props} />`,
       customers: html`<${A.Customers} ...${props} />`, payments: html`<${A.Payments} ...${props} />`, coupons: html`<${A.Coupons} ...${props} />`, reviews: html`<${A.Reviews} ...${props} />`,
-      leads: html`<${A.Leads} ...${props} />`, shipping: html`<${A.Shipping} ...${props} />`, settings: html`<${A.Settings} ...${props} />`
+      leads: html`<${A.Leads} ...${props} />`, visitors: html`<${A.Visitors} ...${props} />`, shipping: html`<${A.Shipping} ...${props} />`, settings: html`<${A.Settings} ...${props} />`
     }[page];
 
     return html`<div className=${cx('shell', menu && 'menu-open')}>
